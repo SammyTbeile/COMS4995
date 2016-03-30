@@ -41,7 +41,7 @@ Adjacency_Matrix::Adjacency_Matrix(std::vector<std::vector<double>> vector) {
     }
   }
   if(check_nxn(matrix) == false) {
-    throw;
+    throw; // TODO add custom exception
   }
   num_vertices = matrix.size();
 }
