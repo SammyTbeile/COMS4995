@@ -14,7 +14,7 @@ public:
   Adjacency_Matrix(std::vector<std::vector<double>> vector);
   Adjacency_Matrix(const Adjacency_Matrix& am);
   Adjacency_Matrix& operator=(const Adjacency_Matrix& am);
-  int get_num_vertices();
+  int get_num_vertices() const;
   double get_weight(int row, int col);
   std::vector<double> get_neighbors(int vertex);
   friend std::ostream& operator<<(std::ostream& os, const Adjacency_Matrix& am);
