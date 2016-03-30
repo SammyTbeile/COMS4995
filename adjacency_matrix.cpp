@@ -61,7 +61,7 @@ Adjacency_Matrix& Adjacency_Matrix::operator=(const Adjacency_Matrix& am) {
   return *this;
 }
 
-int Adjacency_Matrix::get_num_vertices() {
+int Adjacency_Matrix::get_num_vertices() const {
   return num_vertices;
 }
 
