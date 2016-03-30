@@ -46,6 +46,21 @@ Adjacency_Matrix::Adjacency_Matrix(std::vector<std::vector<double>> vector) {
   num_vertices = matrix.size();
 }
 
+Adjacency_Matrix& operator=(const Adjacency_Matrix& am) {
+  if(this == am) {
+    return *this;
+  }
+  for(auto i =0; i<am.get_n();i++) {
+    for(auto j =0;j<am.get_n();j++) {
+      this.matrix[i][j]= am.matrix[i][j];
+    }
+  }
+  this.num_vertices = am.get_n();
+  return *this;
+}
+
+
+
 int Adjacency_Matrix::get_num_vertices() {
   return num_vertices;
 }
