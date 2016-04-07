@@ -6,9 +6,7 @@
  * UNIs:     sjg2174,     st2918,       mt3077
  */
 
-#include <array>
 #include <exception>
-#include <list>
 #include <vector>
 #include <iostream>
 
@@ -31,6 +29,8 @@ private:
 
   /* Methods */
   bool is_square();
+  bool has_non_negative_edges();
+  void count_edges();
 
 public:
   /* Constructors */
@@ -49,7 +49,7 @@ public:
   friend std::ostream& operator<<(std::ostream& os, const Adjacency_Matrix& am);
 };
 
-/* valid */
+/* is_square */
 bool Adjacency_Matrix::is_square() {
   unsigned int rowSize = matrix.size();
   for(auto &row : matrix) {
@@ -58,6 +58,29 @@ bool Adjacency_Matrix::is_square() {
     }
   }
   return true;
+}
+
+/* has_non_negative_edges */
+bool Adjacency_Matrix::has_non_negative_edges() {
+  for(auto &row : matrix) {
+    for(auto &col : row) {
+      if(col < 0) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+/* count_edges */
+void Adjacency_Matrix::count_edges() {
+  for(auto &row : matrix) {
+    for(auto &col : row) {
+      if(col > 0) {
+        ++num_edges;
+      }
+    }
+  }
 }
 
 /* Constructor */
@@ -69,6 +92,11 @@ Adjacency_Matrix::Adjacency_Matrix(Container container) {
   }
   if(!is_square()) {
     throw Adjacency_Matrix_Exception("Graph representation is not square\n");
+  } else if(!has_non_negative_edges()) {
+    throw Adjacency_Matrix_Exception("Graph representation has non-negative edges\n");
+  } else {
+    count_edges();
+    num_vertices = matrix.size();
   }
 }
 
