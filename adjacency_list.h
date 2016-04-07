@@ -56,14 +56,12 @@ template <typename Container>
 Adjacency_List<Container>::Adjacency_List(Container cont){
 
 	matrix = std::vector<std::vector<double>>();
-	std::cout << cont.size() << std::endl;
 	int edgecount = 0;
 	int rowcount = 0;
 
 	for(auto i = cont.begin(); i != cont.end(); ++i){
 
 		auto rowvector = *i ;
-		edgecount += rowvector.size();
 		std::vector<double> temprow = std::vector<double>(cont.size());
 
 		for(auto j = i->begin(); j != i->end(); ++j){
@@ -71,7 +69,8 @@ Adjacency_List<Container>::Adjacency_List(Container cont){
 			std::pair<int,double> tempPair = *j;
 			if(tempPair.first==rowcount){
 					temprow[tempPair.first] = 0;
-			}else{
+			}/*else if (tempPair.second < 0 throw exception)*/else{
+				edgecount++;
 				temprow[tempPair.first] = tempPair.second;
 			}
 		}
