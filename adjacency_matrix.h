@@ -6,173 +6,64 @@
  * UNIs:     sjg2174,     st2918,       mt3077
  */
 
+#include <array>
+#include <exception>
+#include <list>
 #include <vector>
 #include <iostream>
-#include <list>
-#include <array>
 
-template <typename Container>
-class Adjacency_Matrix;
-template <typename Container>
-std::ostream& operator<<(std::ostream& os, const Adjacency_Matrix<Container>& am);
-
-template <typename Container>
-class Adjacency_Matrix {
-public:
-	Adjacency_Matrix();
-  Adjacency_Matrix(Container cont);
-  Adjacency_Matrix(const Adjacency_Matrix& am);
-  Adjacency_Matrix& operator=(const Adjacency_Matrix& am);
-  int get_num_vertices() const;
-	int get_num_edges() const;
-  double get_weight(int row, int col);
-	bool check_nxn(Container cont);
-  std::vector<double> get_neighbors(int vertex);
- friend std::ostream& operator<< <Container>(std::ostream& os, const Adjacency_Matrix<Container>& am);
-  
+/* Exception */
+class Adjacency_Matrix_Exception : public std::exception {
 private:
-  std::vector<std::vector<double>> matrix;
-  std::vector<std::vector<bool>>   visited;
-  int num_edges;
-  int num_vertices;
+  const char* message;
+
+public:
+  Adjacency_Matrix_Exception(const char* msg) { message = msg; }
+
+  virtual const char* what() const throw() { return message; }
 };
 
-template<typename Container>
-Adjacency_Matrix<Container>::Adjacency_Matrix(){
-	matrix = std::vector<std::vector<double>>();
-	num_vertices = 0;
-	num_edges = 0;
-}
+class Adjacency_Matrix {
+private:
+  /* Variables */
+  std::vector<std::vector<double>> matrix;
+  std::vector<std::vector<bool>> visited;
+  unsigned long num_edges;
+  unsigned long num_vertices;
 
-template<typename Container>
-Adjacency_Matrix<Container>::Adjacency_Matrix(const Adjacency_Matrix& src){
-	matrix = std::vector<std::vector<double>>();
+  /* Methods */
+  template<class Iterator>
+  void init(Iterator begin, Iterator end);
+  bool is_square();
 
-	for(auto i = 0; i< src.matrix.size(); i++){
-		std::vector<double> row = src.matrix[i];
-		matrix.push_back(row);
-	}
-	num_vertices = src.get_num_vertices();
-	num_edges = src.get_num_edges();
-}
-/*
-template<>
-Adjacency_Matrix<std::vector<std::list<double>>>::Adjacency_Matrix(std::vector<std::list<double>> cont){
-	matrix = std::vector<std::vector<double>>();
-	num_vertices = 0;
-	num_edges = 0;
+public:
+  /* Constructors */
+  Adjacency_Matrix(std::vector<std::vector<double>> user_rep);
+  template<unsigned LENGTH>
+  Adjacency_Matrix(std::vector<std::array<double, LENGTH>> user_rep);
+  Adjacency_Matrix(std::vector<std::list<double>> user_rep);
+  template<unsigned LENGTH>
+  Adjacency_Matrix(std::array<std::vector<double>, LENGTH> user_rep);
+  template<unsigned LENGTH>
+  Adjacency_Matrix(std::array<std::array<double, LENGTH>, LENGTH> user_rep);
+  template<unsigned LENGTH>
+  Adjacency_Matrix(std::array<std::list<double>, LENGTH> user_rep);
+  Adjacency_Matrix(std::list<std::vector<double>> user_rep);
+  template<unsigned LENGTH>
+  Adjacency_Matrix(std::list<std::array<double, LENGTH>> user_rep);
+  Adjacency_Matrix(std::list<std::list<double>> user_rep);
 
-}
+  Adjacency_Matrix(const Adjacency_Matrix& am);
 
-template<>
-Adjacency_Matrix<std::array<std::list<std::pair<int,double>>>>::Adjacency_Matrix(std::array<std::list<std::pair<int,double>>> cont){
-	matrix = std::vector<std::vector<double>>();
-	int rowcount = 0;
+  /* Methods */
+  unsigned long get_num_edges();
+  unsigned long get_num_vertices();
+  double get_weight(unsigned long row, unsigned long col);
+  std::vector<double>& get_neighbors(unsigned long row);
 
-	for(auto i = cont.begin(); i!= cont.end(); ++i){
-		auto rowvector = *i;
-		std::vector<double> temprow;
-		int colcount = 0;
-
-		for(auto j = rowvector.begin(); j != rowvector.end(); ++j){
-			std::pair <int,double> temppair = *j;
-		}
-
-	}
-
-}
-*/
-
-template <typename Container>
-Adjacency_Matrix<Container>::Adjacency_Matrix(Container cont){
-
-	matrix = std::vector<std::vector<double>>();
-	int edgecount = 0;
-	int rowcount = 0;
-
-	if(check_nxn(cont)){
-		for(auto i = cont.begin(); i != cont.end(); ++i){
-
-			auto rowvector = *i ;
-			std::vector<double> temprow;
-			int colcount = 0;
-			for(auto j = i->begin(); j != i->end(); ++j){
-
-				double weight = *j;
-				if( (weight == 0) || (rowcount == colcount) ){
-					temprow.push_back(0);
-				/*else if  weight < 0 throw bad weight exception*/}else{
-					temprow.push_back(weight);
-					edgecount++;
-				}
-				colcount++;
-			}
-			rowcount++;
-			matrix.push_back(temprow);
-		}
-	}
-
-	num_vertices = matrix.size();
-	num_edges = edgecount;
-}
-
-template <typename Container>
-Adjacency_Matrix<Container>& Adjacency_Matrix<Container>::operator=(const Adjacency_Matrix& am) {
-  if(this == &am) {
-    return *this;
-  }
-  int n = am.get_num_vertices();
-  for(auto i = 0; i < n; ++i) {
-    matrix[i] = std::vector<double>(n);
-    for(auto j = 0; j < n; ++j) {
-      matrix[i][j] = am.matrix[i][j];
-    }
-  }
-  num_vertices = n;
-  return *this;
-}
-
-template <typename Container>
-bool Adjacency_Matrix<Container>::check_nxn(Container cont){
-	int size = cont.size();
-  for(auto &row : cont) {
-    if(row.size() != size) {
-      return false;
-    }
-  }
-  return true;
-}
-
-template <typename Container>
-int Adjacency_Matrix<Container>::get_num_vertices() const {
-  return num_vertices;
-}
-
-template <typename Container>
-int Adjacency_Matrix<Container>::get_num_edges() const {
-  return num_edges;
-}
-
-template <typename Container>
-std::vector<double> Adjacency_Matrix<Container>::get_neighbors(int vertex){
-  return matrix[vertex];
-}
-
-template <typename Container>
-double Adjacency_Matrix<Container>::get_weight(int row, int col) {
-  return matrix[row][col];
-}
-
-template<typename Container>
-std::ostream& operator<<(std::ostream& os, const Adjacency_Matrix<Container>& am) {
-  for(auto &row : am.matrix) {
-    for(auto &col : row) {
-      os << col << " ";
-    }
-    os << '\n';
-  }
-  return os;
-}
-
+  /* Operators */
+  Adjacency_Matrix& operator=(const Adjacency_Matrix& am);
+  friend std::ostream& operator<<(std::ostream& os, const Adjacency_Matrix& am);
+};
 
 #endif
