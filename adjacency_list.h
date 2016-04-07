@@ -6,6 +6,15 @@
  * UNIs:     sjg2174,     st2918,       mt3077
  */
 
+ /* Exception */
+class Adjacency_List_Exception : public std::exception {
+private:
+  const char* message;
+public:
+  Adjacency_List_Exception(const char* msg) { message = msg; }
+  virtual const char* what() const throw() { return message; }
+};
+
 template <typename Container>
 class Adjacency_List;
 template <typename Container>
@@ -69,7 +78,9 @@ Adjacency_List<Container>::Adjacency_List(Container cont){
 			std::pair<int,double> tempPair = *j;
 			if(tempPair.first==rowcount){
 					temprow[tempPair.first] = 0;
-			}/*else if (tempPair.second < 0 throw exception)*/else{
+			}else if (tempPair.second < 0){
+				throw Adjacency_List_Exception("Undefined edge weight\n");
+			}else{
 				edgecount++;
 				temprow[tempPair.first] = tempPair.second;
 			}
