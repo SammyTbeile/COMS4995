@@ -14,8 +14,6 @@ void Adjacency_Matrix::init(Iterator begin, Iterator end) {
     matrix.push_back(std::vector<double>(it->begin(), it->end()));
   }
   if(!is_square()) {
-    //struct Adjacency_Matrix_Exception ame;
-    //throw ame;// throw exception
     throw Adjacency_Matrix_Exception("Graph representation is not square\n");
   }
 }

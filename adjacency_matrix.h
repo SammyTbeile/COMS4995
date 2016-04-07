@@ -16,10 +16,8 @@
 class Adjacency_Matrix_Exception : public std::exception {
 private:
   const char* message;
-
 public:
   Adjacency_Matrix_Exception(const char* msg) { message = msg; }
-
   virtual const char* what() const throw() { return message; }
 };
 
