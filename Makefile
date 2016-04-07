@@ -4,22 +4,32 @@ CXX = clang++
 CFLAGS   = -g -Wall -Werror
 CXXFLAGS = -g -Wall -Werror -std=c++14
 
-EXES = test_am
-OBJS = test_am.o adjacency_matrix.o
+EXES = matrix_test   list_test
+OBJS = matrix_test.o list_test.o
 
 build: $(EXES)
 
-$(EXES): adjacency_matrix.o
+$(EXES):
 
-$(OBJS): adjacency_matrix.h
+$(OBJS): adjacency_matrix.h adjacency_list.h
 
 clean:
 	rm -f *~ a.out core $(EXES) $(OBJS)
 
-run: build
-	clear; nice -20 ./$(EXES)
+all: clean build
 
-all: clean build run
+matrix: matrix_test
 
-test: build
-	reset; nice -20 valgrind --leak-check=full --show-leak-kinds=all ./$(EXES)
+list: list_test
+
+run_matrix: matrix
+	clear; nice -20 ./matrix_test
+
+run_list: list
+	clear; nice -20 ./list_test
+
+valgrind_matrix: matrix
+	reset; nice -20 valgrind --leak-check=full --show-leak-kinds=all ./matrix_test
+
+valgrind_test: list
+	reset; nice -20 valgrind --leak-check=full --show-leak-kinds=all ./list_test
