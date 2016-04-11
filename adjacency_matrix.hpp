@@ -1,14 +1,15 @@
-#ifndef __ADJACENCY_MATRIX_H__
-#define __ADJACENCY_MATRIX_H__
+#ifndef __ADJACENCY_MATRIX_HPP__
+#define __ADJACENCY_MATRIX_HPP__
 /*
- * Filename: adjacency_matrix.h
- * Authors:  Sean Garvey, Sammy Tbeile, Minh Truong
- * UNIs:     sjg2174,     st2918,       mt3077
+ * Filename: adjacency_matrix.hpp
+ * Authors:  Sean Garvey
+ * UNIs:     sjg2174
  */
 
 #include <exception>
 #include <vector>
 #include <iostream>
+#include "algorithms.hpp"
 
 /* Exception */
 class Adjacency_Matrix_Exception : public std::exception {
@@ -20,44 +21,47 @@ public:
 };
 
 class Adjacency_Matrix {
-private:
-  /* Variables */
-  std::vector<std::vector<double>> matrix;
-  std::vector<std::vector<bool>> visited;
-  unsigned long num_edges;
-  unsigned long num_vertices;
+  friend class Algorithms;
+  private:
+    /* Variables */
+    std::vector<std::vector<double>> matrix;
+    std::vector<std::vector<bool>> visited;
+    unsigned long num_edges;
+    unsigned long num_vertices;
 
-  /* Methods */
-  bool is_square();
-  bool has_non_negative_edges();
-  void count_edges();
+    /* Methods */
+    void count_edges();
+    bool has_non_negative_edges();
+    bool is_square();
+    void set_visited(unsigned long row, unsigned long col, bool b);
 
-public:
-  /* Constructors */
-  template<typename Container>
-  Adjacency_Matrix(Container container);
-  Adjacency_Matrix(const Adjacency_Matrix& am);
+  public:
+    /* Constructors */
+    template<typename Container>
+    Adjacency_Matrix(Container container);
+    Adjacency_Matrix(const Adjacency_Matrix& am);
 
-  /* Methods */
-  unsigned long get_num_edges();
-  unsigned long get_num_vertices();
-  double get_weight(unsigned long row, unsigned long col);
-  std::vector<double>& get_neighbors(unsigned long row);
+    /* Methods */
+    std::vector<double>& get_neighbors(unsigned long row);
+    unsigned long get_num_edges();
+    unsigned long get_num_vertices();
+    bool get_visited(unsigned long row, unsigned long col);
+    double get_weight(unsigned long row, unsigned long col);
 
-  /* Operators */
-  Adjacency_Matrix& operator=(const Adjacency_Matrix& am);
-  friend std::ostream& operator<<(std::ostream& os, const Adjacency_Matrix& am);
+    /* Operators */
+    Adjacency_Matrix& operator=(const Adjacency_Matrix& am);
+    friend std::ostream& operator<<(std::ostream& os, const Adjacency_Matrix& am);
 };
 
-/* is_square */
-bool Adjacency_Matrix::is_square() {
-  unsigned int rowSize = matrix.size();
+/* count_edges */
+void Adjacency_Matrix::count_edges() {
   for(auto &row : matrix) {
-    if(row.size() != rowSize) {
-      return false;
+    for(auto &col : row) {
+      if(col > 0) {
+        ++num_edges;
+      }
     }
   }
-  return true;
 }
 
 /* has_non_negative_edges */
@@ -72,21 +76,22 @@ bool Adjacency_Matrix::has_non_negative_edges() {
   return true;
 }
 
-/* count_edges */
-void Adjacency_Matrix::count_edges() {
+/* is_square */
+bool Adjacency_Matrix::is_square() {
+  unsigned int rowSize = matrix.size();
   for(auto &row : matrix) {
-    for(auto &col : row) {
-      if(col > 0) {
-        ++num_edges;
-      }
+    if(row.size() != rowSize) {
+      return false;
     }
   }
+  return true;
 }
 
 /* Constructor */
 template<typename Container>
 Adjacency_Matrix::Adjacency_Matrix(Container container) {
   matrix = std::vector<std::vector<double>>();
+  matrix.reserve(container.size());
   for(auto it = container.begin(); it != container.end(); ++it) {
     matrix.push_back(std::vector<double>(it->begin(), it->end()));
   }
@@ -97,6 +102,10 @@ Adjacency_Matrix::Adjacency_Matrix(Container container) {
   } else {
     count_edges();
     num_vertices = matrix.size();
+    visited = std::vector<std::vector<bool>>();
+    for(int i = 0; i < num_edges; ++i) {
+      visited.push_back(std::vector<bool>());
+    }
   }
 }
 
@@ -106,6 +115,11 @@ Adjacency_Matrix::Adjacency_Matrix(const Adjacency_Matrix& am) {
   num_edges = am.num_edges;
   num_vertices = am.num_vertices;
 
+}
+
+/* get neighbors */
+std::vector<double>& Adjacency_Matrix::get_neighbors(unsigned long row) {
+  return matrix[row];
 }
 
 /* get_num_edges */
@@ -118,14 +132,19 @@ unsigned long Adjacency_Matrix::get_num_vertices() {
   return num_vertices;
 }
 
+/* get_visited */
+bool Adjacency_Matrix::get_visited(unsigned long row, unsigned long col) {
+  return visited[row][col];
+}
+
 /* get weight */
 double Adjacency_Matrix::get_weight(unsigned long row, unsigned long col) {
   return matrix[row][col];
 }
 
-/* get neighbors */
-std::vector<double>& Adjacency_Matrix::get_neighbors(unsigned long row) {
-  return matrix[row];
+/* set visited */
+void Adjacency_Matrix::set_visited(unsigned long row, unsigned long col, bool b) {
+  visited[row][col] = b;
 }
 
 /* = */

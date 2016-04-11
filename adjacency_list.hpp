@@ -1,5 +1,5 @@
-#ifndef __ADJACENCY_LIST_H__
-#define __ADJACENCY_LIST_H__
+#ifndef __ADJACENCY_LIST_HPP__
+#define __ADJACENCY_LIST_HPP__
 /*
  * Filename: adjacency_list.h
  * Authors:  Sean Garvey, Sammy Tbeile, Minh Truong
