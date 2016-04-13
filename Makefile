@@ -11,7 +11,7 @@ build: $(EXES)
 
 $(EXES):
 
-$(OBJS): algorithms.hpp adjacency_matrix.hpp adjacency_list.hpp
+$(OBJS): algorithms.hpp adjacency_matrix_exception.hpp adjacency_matrix.hpp adjacency_list_exception.hpp adjacency_list.hpp
 
 clean:
 	rm -f *~ a.out core $(EXES) $(OBJS)
