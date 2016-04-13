@@ -18,14 +18,14 @@ class Adjacency_List {
   friend class Algorithms;
   private:
     /* Variables */
-    std::vector<std::list<double>> list;
+    std::vector<std::vector<std::pair<unsigned long, double>>> list;
     std::vector<std::vector<bool>> visited;
     unsigned long num_edges;
     unsigned long num_vertices;
 
     /* Private Member Functions */
     void count_edges();
-    std::list<double>& get_neighbors(unsigned long row);
+    std::list<std::vector<std::pair<unsigned long, double>>& get_neighbors(unsigned long row);
     bool has_negative_edges();
     void set_visited(unsigned long row, unsigned long col, bool b);
 
@@ -58,7 +58,7 @@ void Adjacency_List::count_edges() {
 }
 
 // get_neighbors
-std::list<double>& Adjacency_List::get_neighbors(unsigned long row) {
+std::vector<std::pair<unsigned long, double>>& Adjacency_List::get_neighbors(unsigned long row) {
   return list[row];
 }
 
@@ -84,9 +84,9 @@ void Adjacency_List::set_visited(unsigned long row, unsigned long col, bool b) {
 // Constructor
 template<typename Container>
 Adjacency_List::Adjacency_List(Container container) {
-  list = std::vector<std::list<double>>();
+  list = std::vector<std::vector<std::pair<unsigned long, double>>();
   for(auto it = container.begin(); it != container.end(); ++it) {
-    list.push_back(std::list<double>(it->begin(), it->end()));
+    list.push_back(std::vector<std::pair<unsigned long, double>(it->begin(), it->end()));
   }
   if(has_negative_edges()) {
     throw Adjacency_List_Exception("Graph representation has negative edges\n");
