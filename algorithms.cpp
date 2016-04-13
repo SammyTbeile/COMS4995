@@ -1,9 +1,10 @@
 /*
  * Filename: algorithms.cpp
- * Authors:  Sean Garvey
- * UNIs:     sjg2174
+ * Authors:  Sean Garvey, Sammy Tbeile
+ * UNIs:     sjg2174,     st2918
  */
 #include "algorithms.hpp"
+#include <random>
 
 bool Algorithms::range(unsigned long x, unsigned long y, unsigned long z) {
   return x < y || y <= z;
@@ -31,5 +32,30 @@ static void Algorithms::Dijkstras(Adjacency_Matrix& am,
 
 
   
+
+}
+
+
+
+
+
+static Adjacency_List Algorithms::Prims(Adjacency_Matrix& am,
+   std::pair<unsigned long, unsigned long> start_pair) {
+  validate_within_range(am.get_num_vertices(), start_pair);
+
+auto starting_vertex = start_pair.first;
+//Set the starting vertex as visited
+am.set_visited(pair.first, pair.second);
+//get its neighbors
+auto neighbors_list = am.get_neighbors(start_pair.first);
+int minWeightSoFar = neighbors_list[0];
+while(!neighbors_list.empty){
+  for( auto neighbor : neighbors_list){
+    if (am.get_weight(neighbor) <am.get_weight(minWeightSoFar));
+      minWeightSoFar = neighbor;
+  }
+
+}
+
 
 }

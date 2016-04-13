@@ -2,8 +2,8 @@
 #define __ALGORITHMS_HPP__
 /*
  * Filename: algorithms.h
- * Authors:  Sean Garvey
- * UNIs:     sjg2174
+ * Authors:  Sean Garvey, Sammy Tbeile
+ * UNIs:     sjg2174,	  st2918
  */
 #include <utility>
 #include <vector>
@@ -19,7 +19,7 @@ class Algorithms {
     
   public:
     static void Dijkstras(Adjacency_Matrix& am, std::pair<unsigned long, unsigned long> start_pair);
-    static std::vector<std::pair<unsigned long, unsigned long>> Prims(Adjacency_Matrix& am, std::pair<unsigned long, unsigned long> start_pair);
+    static Adjacency_List Prims(Adjacency_Matrix& am, std::pair<unsigned long, unsigned long> start_pair);
 };
 
 /* Exception */
