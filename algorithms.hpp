@@ -6,6 +6,7 @@
  * UNIs:     sjg2174
  */
 #include <utility>
+#include <vector>
 
 /* Instead of #include's, to handle circular dependencies */
 class Adjacency_Matrix;
@@ -18,6 +19,7 @@ class Algorithms {
     
   public:
     static void Dijkstras(Adjacency_Matrix& am, std::pair<unsigned long, unsigned long> start_pair);
+    static std::vector<std::pair<unsigned long, unsigned long>> Prims(Adjacency_Matrix& am, std::pair<unsigned long, unsigned long> start_pair);
 };
 
 /* Exception */
