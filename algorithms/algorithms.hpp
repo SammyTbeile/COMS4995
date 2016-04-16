@@ -22,13 +22,4 @@ class Algorithms {
     static Adjacency_List Prims(Adjacency_Matrix& am, std::pair<unsigned long, unsigned long> start_pair);
 };
 
-/* Exception */
-class Algorithm_Exception : public std::exception {
-private:
-  const char* message;
-public:
-  Algorithm_Exception(const char* msg) { message = msg; }
-  virtual const char* what() const throw() { return message; }
-};
-
 #endif

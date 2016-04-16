@@ -4,6 +4,7 @@
  * UNIs:     sjg2174,     st2918
  */
 #include "algorithms.hpp"
+#include "algorithms_exception.hpp"
 #include <random>
 
 bool Algorithms::range(unsigned long x, unsigned long y, unsigned long z) {
