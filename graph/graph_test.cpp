@@ -1,10 +1,10 @@
 #include <array>
 #include <iostream>
 #include <vector>
-#include "adjacency_matrix.hpp"
+#include "graph.hpp"
 
 using namespace std;
-
+/*
 vector<vector<double>> make_user_rep(int n, int k) {
   auto user_rep = vector<vector<double>>();
   for(int i = 0; i < n; ++i) {
@@ -15,8 +15,9 @@ vector<vector<double>> make_user_rep(int n, int k) {
   }
   return user_rep;
 }
-
+*/
 int main() {
+  /*
   auto user_rep_0 = make_user_rep(3, 0);
   auto am0 = Adjacency_Matrix(user_rep_0);
   cout << "am0:\n" << am0 << endl;
@@ -53,6 +54,6 @@ int main() {
   } catch (Adjacency_Matrix_Exception& e) {
     cout << e.what();
   }
-  
+  */
   return 0;
 }
