@@ -45,9 +45,9 @@ class Graph_Helper {
     /* Public Member Functions */
     void add_edge(Node origin, Node destin, double dist);
     std::tuple<std::vector<std::vector<double>>,
-      std::vector<std::pair<unsigned long, Node>>> get_matrix_tuple();
+      std::vector<Node>> get_adjacency_matrix_associative_vector_tuple();
     std::tuple<std::vector<std::vector<std::pair<unsigned long, double>>>,
-      std::vector<std::pair<unsigned long, Node>>> get_list_tuple();
+      std::vector<Node>> get_adjacency_list_associative_vector_tuple();
 
     /* Operators */
     Graph_Helper& operator=(const Graph_Helper& gh);
@@ -126,13 +126,12 @@ void Graph_Helper<Node>::add_edge(Node origin, Node destin, double dist) {
   }
 }
 
-// get_matrix_tuple
+// get_adjacency_matrix_associative_vector_tuple
 template<typename Node>
-std::tuple<std::vector<std::vector<double>>,
-std::vector<std::pair<unsigned long, Node>>>
-Graph_Helper<Node>::get_matrix_tuple() {
+std::tuple<std::vector<std::vector<double>>, std::vector<Node>>
+Graph_Helper<Node>::get_adjacency_matrix_associative_vector_tuple() {
   unsigned long num_vertices = matrix.size();
-  for(unsigned long i; i < num_vertices; ++i) {
+  for(unsigned long i = 0; i < num_vertices; ++i) {
     if(matrix[i].size() < num_vertices) {
       matrix[i].resize(num_vertices);
     } else if(matrix[i].size() > num_vertices) {
@@ -142,10 +141,10 @@ Graph_Helper<Node>::get_matrix_tuple() {
   return std::make_tuple(matrix, vertex_node_vector);
 }
 
-// get_list_tuple
+// get_adjacency_list_associative_vector_tuple
 template<typename Node>
-std::tuple<std::vector<std::vector<std::pair<unsigned long, double>>>, std::
-vector<std::pair<unsigned long, Node>>> Graph_Helper<Node>::get_list_tuple() {
+std::tuple<std::vector<std::vector<std::pair<unsigned long, double>>>, std::vector<Node>>
+Graph_Helper<Node>::get_adjacency_list_associative_vector_tuple() {
   return std::make_tuple(list, vertex_node_vector);
 }
 
