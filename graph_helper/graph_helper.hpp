@@ -119,17 +119,24 @@ void Graph_Helper<Node>::add_edge(Node origin, Node destin, double dist) {
 // get_matrix_tuple
 template<typename Node>
 std::tuple<std::vector<std::vector<double>>,
-  std::vector<std::pair<unsigned long, Node>>>
-  Graph_Helper<Node>::get_matrix_tuple() {
-    return std::make_tuple(matrix, vertex_node_vector);
+std::vector<std::pair<unsigned long, Node>>>
+Graph_Helper<Node>::get_matrix_tuple() {
+  unsigned long num_vertices = matrix.size();
+  for(unsigned long i; i < num_vertices; ++i) {
+    if(matrix[i].size() < num_vertices) {
+      matrix[i].resize(num_vertices);
+    } else if(matrix[i].size() > num_vertices) {
+      throw Graph_Helper_Exception("Internal Error");
+    }
+  }
+  return std::make_tuple(matrix, vertex_node_vector);
 }
 
 // get_list_tuple
 template<typename Node>
-std::tuple<std::vector<std::vector<std::pair<unsigned long, double>>>,
-  std::vector<std::pair<unsigned long, Node>>>
-  Graph_Helper<Node>::get_list_tuple() {
-    return std::make_tuple(list, vertex_node_vector);
+std::tuple<std::vector<std::vector<std::pair<unsigned long, double>>>, std::
+vector<std::pair<unsigned long, Node>>> Graph_Helper<Node>::get_list_tuple() {
+  return std::make_tuple(list, vertex_node_vector);
 }
 
 /* Operators ---------------------------------------------------------------- */

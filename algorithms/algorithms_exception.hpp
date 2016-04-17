@@ -8,7 +8,7 @@
 
 #include <exception>
 
-/* Algorithms_Exception ------------------------------------------------- */
+/* Algorithms_Exception ----------------------------------------------------- */
 
 class Algorithms_Exception : public std::exception {
 private:

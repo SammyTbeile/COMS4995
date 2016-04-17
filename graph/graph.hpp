@@ -9,9 +9,9 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
-#include "algorithms.hpp"
 #include "graph_exception.hpp"
 
+class Algorithms;
 enum graph_t { LIST, MATRIX };
 
 /* Graph -------------------------------------------------------------------- */

@@ -9,11 +9,9 @@ OBJS = algorithms_test.o
 
 build: $(EXES)
 
-$(EXES): algorithms.o
+$(EXES):
 
-$(OBJS): algorithms.hpp \
-         adjacency_matrix.hpp           adjacency_list.hpp \
-         adjacency_matrix_exception.hpp adjacency_list_exception.hpp
+$(OBJS): graph.hpp graph_exception.hpp algorithms.hpp algorithms_exception.hpp
 
 clean:
 	rm -f *~ a.out core $(EXES) $(OBJS)

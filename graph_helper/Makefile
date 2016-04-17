@@ -11,7 +11,7 @@ build: $(EXES)
 
 $(EXES):
 
-$(OBJS): algorithms.hpp graph_helper_exception.hpp graph_helper.hpp
+$(OBJS): graph_helper.hpp graph_helper_exception.hpp 
 
 clean:
 	rm -f *~ a.out core $(EXES) $(OBJS)

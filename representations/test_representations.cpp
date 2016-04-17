@@ -6,6 +6,7 @@
 
 #include <iostream>
 
+#include "graph_helper.hpp"
 #include "create_representations.hpp"
 
 using namespace std;

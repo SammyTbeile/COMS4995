@@ -17,6 +17,7 @@
 #include <cppconn/warning.h>
 
 #include "create_representations.hpp"
+#include "graph_helper.hpp"
 
 const static char *url_env_var      = "DATABASE_CONNECTOR_URL";
 const static char *username_env_var = "DATABASE_CONNECTOR_USERNAME";
@@ -52,7 +53,7 @@ std::vector<std::string> load_env_vars() {
   return env_vars;
 }
 
-
+/*
 std::tuple<
   std::vector<std::vector<double>>,
   std::unordered_map<unsigned long, std::string>,
@@ -144,4 +145,89 @@ create_matrix_representation() {
     std::unordered_map<std::string, std::pair<double, double>>
   > rtn_tuple (matrix, vertex_code_map, code_gps_map);
   return rtn_tuple;
+}
+*/
+
+
+
+
+
+
+
+
+
+
+// create_tuple
+std::tuple<Graph_Helper<std::string>, std::unordered_map<std::string,
+  std::pair<double, double>>> create_tuple(graph_t g) {
+
+  // Load Environment Variables
+  auto env_vars = load_env_vars();
+  auto url      = env_vars[0];
+  auto username = env_vars[1];
+  auto password = env_vars[2];
+  auto database = env_vars[3];
+
+  // Return Variables
+  auto graph_helper = Graph_Helper<std::string>(g);
+  auto code_gps_map = std::unordered_map<std::string, std::pair<double, double>>();
+
+  try {
+    // Setup Database Connection
+    auto driver = get_driver_instance();
+    auto connection = driver->connect(url, username, password);
+    connection->setAutoCommit(0);
+    connection->setSchema(database);
+    auto statement = connection->createStatement();
+
+    // Query - Construct code_gps_map
+    auto result_set = statement->executeQuery("SELECT * FROM Airports");
+    while(result_set->next()) {
+      std::string code = result_set->getString("code");
+      double lat = result_set->getDouble("lat");
+      double lng = result_set->getDouble("lng");
+      try {
+        code_gps_map.at(code);
+        throw std::logic_error("Airport code: " + code + " already exists in code_gps_map");
+      } catch (std::out_of_range& e) {
+        code_gps_map[code] = std::make_pair(lat, lng);
+      }
+    }
+
+    // Clean Up
+    delete result_set;
+  
+    // Query - Construct graph_helper
+    result_set = statement->executeQuery("SELECT * FROM Paths");
+    while(result_set->next()) {
+             auto origin = result_set->getString("origin"); // TODO
+      std::string destin = result_set->getString("destin");
+      double dist = result_set->getInt("dist");
+      graph_helper.add_edge(origin, destin, dist);
+    }
+
+    // Clean Up
+    delete result_set;
+    delete statement;
+    connection->close();
+    delete connection;
+
+  } catch (sql::SQLException &e) {
+    std::cout << "SQL Exception: " << e.what() << '\n' << e.getErrorCode() <<
+      '\n' << e.getSQLState() << std::endl;
+  }
+
+  return std::make_tuple(graph_helper, code_gps_map);
+}
+
+// create_list_tuple
+std::tuple<Graph_Helper<std::string>, std::unordered_map<std::string,
+  std::pair<double, double>>> create_list_tuple() {
+  return create_tuple(LIST);
+}
+
+// create_matrix_tuple
+std::tuple<Graph_Helper<std::string>, std::unordered_map<std::string,
+  std::pair<double, double>>> create_matrix_tuple() {
+  return create_tuple(MATRIX);
 }
