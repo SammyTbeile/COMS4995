@@ -1,13 +1,12 @@
 /*
- * Filename: test_representations.cpp
+ * Filename: create_tuple_test.cpp
  * Author:   Sean Garvey
  * UNI:      sjg2174
  */
 
 #include <iostream>
 
-#include "graph_helper.hpp"
-#include "create_representations.hpp"
+#include "create_tuple.hpp"
 
 using namespace std;
 
@@ -32,6 +31,7 @@ int main() {
 
   cout << rows << " rows" << endl;
   */
+  auto my_tuple = create_matrix_tuple();
   cout << "hello world" << endl;
   return 0;
 }

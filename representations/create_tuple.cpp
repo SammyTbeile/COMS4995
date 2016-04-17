@@ -1,13 +1,14 @@
 /*
- * Filename: create_representations.cpp
+ * Filename: create_tuple.cpp
  * Author:   Sean Garvey
  * UNI:      sjg2174
  */
 
-#include <iostream>
 #include <string>
-#include <unordered_map>
+#include <tuple>
 #include <vector>
+#include <unordered_map>
+#include <utility>
 
 #include <cppconn/driver.h>
 #include <cppconn/connection.h>
@@ -16,8 +17,7 @@
 #include <cppconn/exception.h>
 #include <cppconn/warning.h>
 
-#include "create_representations.hpp"
-#include "graph_helper.hpp"
+#include "create_tuple.hpp"
 
 const static char *url_env_var      = "DATABASE_CONNECTOR_URL";
 const static char *username_env_var = "DATABASE_CONNECTOR_USERNAME";
@@ -200,7 +200,7 @@ std::tuple<Graph_Helper<std::string>, std::unordered_map<std::string,
     // Query - Construct graph_helper
     result_set = statement->executeQuery("SELECT * FROM Paths");
     while(result_set->next()) {
-             auto origin = result_set->getString("origin"); // TODO
+      std::string origin = result_set->getString("origin"); // TODO
       std::string destin = result_set->getString("destin");
       double dist = result_set->getInt("dist");
       graph_helper.add_edge(origin, destin, dist);

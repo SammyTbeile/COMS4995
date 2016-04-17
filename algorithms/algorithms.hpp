@@ -6,9 +6,21 @@
  * UNIs:     sjg2174,     st2918
  */
 
+#include <exception>
 #include <utility>
 #include <vector>
+
 #include "graph.hpp"
+
+/* Algorithms_Exception ----------------------------------------------------- */
+
+class Algorithms_Exception : public std::exception {
+private:
+  const char* message;
+public:
+  Algorithms_Exception(const char* msg) { message = msg; }
+  virtual const char* what() const throw() { return message; }
+};
 
 /* Algorithms --------------------------------------------------------------- */
 

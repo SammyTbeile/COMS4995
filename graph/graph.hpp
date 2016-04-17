@@ -6,13 +6,23 @@
  * UNI:      sjg2174
  */
 
+#include <exception>
 #include <iostream>
 #include <vector>
 #include <unordered_set>
-#include "graph_exception.hpp"
+#include "graph_enum.hpp"
 
 class Algorithms;
-enum graph_t { LIST, MATRIX };
+
+/* Graph_Exception ---------------------------------------------------------- */
+
+class Graph_Exception : public std::exception {
+private:
+  const char* message;
+public:
+  Graph_Exception(const char* msg) { message = msg; }
+  virtual const char* what() const throw() { return message; }
+};
 
 /* Graph -------------------------------------------------------------------- */
 

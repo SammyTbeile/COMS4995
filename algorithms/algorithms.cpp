@@ -4,7 +4,6 @@
  * UNIs:     sjg2174,     st2918
  */
 #include "algorithms.hpp"
-#include "algorithms_exception.hpp"
 
 // validate_start_vertex
 void Algorithms::validate_start_vertex(Graph graph, unsigned long

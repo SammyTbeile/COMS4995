@@ -6,10 +6,20 @@
  * UNI:      sjg2174
  */
 
+#include <exception>
 #include <vector>
 #include <unordered_map>
-#include "graph.hpp"
-#include "graph_helper_exception.hpp"
+#include "graph_enum.hpp"
+
+/* Graph_Helper_Exception --------------------------------------------------- */
+
+class Graph_Helper_Exception : public std::exception {
+private:
+  const char* message;
+public:
+  Graph_Helper_Exception(const char* msg) { message = msg; }
+  virtual const char* what() const throw() { return message; }
+};
 
 /* Graph_Helper ------------------------------------------------------------- */
 
@@ -56,7 +66,7 @@ void Graph_Helper<Node>::try_add_node(Node n) {
     if(graph == LIST) {
       list.push_back(std::vector<std::pair<unsigned long, double>>());
     } else if(graph == MATRIX) {
-      matrix.push_back(std::vector<std::vector<double>>());
+      matrix.push_back(std::vector<double>());
     } else {
       throw Graph_Helper_Exception("Undefined representation\n");
     }
