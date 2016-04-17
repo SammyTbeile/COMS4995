@@ -12,6 +12,7 @@
 using namespace std;
 
 int main() {
+  /*
   auto my_tuple = create_matrix_representation();
 
   vector<vector<double>> matrix = get<0>(my_tuple);
@@ -30,4 +31,7 @@ int main() {
   }
 
   cout << rows << " rows" << endl;
+  */
+  cout << "hello world" << endl;
+  return 0;
 }

@@ -7,13 +7,13 @@ CXXFLAGS = -g -Wall -Werror -std=c++14
 LDLIBS = -lmysqlcppconn
 
 EXES = test_representations
-OBJS = test_representations.o create_representations.o graph_helper.o graph_helper_exception.o
+OBJS = test_representations.o
 
 build: $(EXES)
 
-$(EXES): graph_helper.o graph_helper_exception.o create_representations.o
+$(EXES):
 
-$(OBJS): graph_helper.hpp graph_helper_exception.hpp create_representations.hpp
+$(OBJS):
 
 clean:
 	rm -f *~ a.out core $(EXES) $(OBJS)
