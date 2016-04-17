@@ -8,7 +8,7 @@
 
 #include <exception>
 
-/* Graph_Exception ------------------------------------------------- */
+/* Graph_Exception ---------------------------------------------------------- */
 
 class Graph_Exception : public std::exception {
 private:

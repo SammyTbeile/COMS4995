@@ -14,7 +14,7 @@
 
 enum graph_t { LIST, MATRIX };
 
-/* Graph --------------------------------------------------------- */
+/* Graph -------------------------------------------------------------------- */
 
 class Graph {
   friend class Algorithms;
@@ -33,7 +33,8 @@ class Graph {
     void copy_list(Container container);
     template<typename Container>
     void copy_matrix(Container container);
-    std::vector<std::pair<unsigned long, double>>& get_neighbors(unsigned long row);
+    std::vector<std::pair<unsigned long, double>>& get_neighbors(unsigned long
+      row);
     void set_visited(unsigned long row, unsigned long col, bool b);
 
   public:
