@@ -56,6 +56,7 @@ class Graph {
     /* Public Member Functions */
     unsigned long get_num_edges();
     unsigned long get_num_vertices();
+		bool has_negative_weights();
     bool get_visited(unsigned long row, unsigned long col);
     double get_weight(unsigned long row, unsigned long col);
 
@@ -65,6 +66,18 @@ class Graph {
 };
 
 /* Private Member Functions ------------------------------------------------- */
+
+//has_neg_weightes
+bool Graph::has_negative_weighted(){
+	for(auto i = matrix.begin(); i != matrix.end(); i++){
+		for(auto j = i.begin(); j != i.end(); j++){
+			if(j*<0){
+				return false;
+			}
+		}
+	}
+	return true;
+}
 
 // construct_list
 void Graph::construct_list() {
@@ -112,8 +125,6 @@ void Graph::copy_list(Container container) {
       if(set.insert(e.first).second == false) {
         throw Graph_Exception("List representation has more than one edge in "
             "the same direction between two nodes");
-      } else if(e.second <= 0) {
-        throw Graph_Exception("List representation has non positive edges\n");
       }
       ++num_edges;
     }

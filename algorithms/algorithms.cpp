@@ -41,4 +41,10 @@ graph, unsigned long start_vertex) {
   }
   */
   return std::vector<std::pair<unsigned long, unsigned long>>(); // TODO remove
+
+	std::vector<std::pair<unsigned long, unsigned long>> Algorithms::BellFord(Graph graph,
+	unsigned long start_vertex, unsigned long end_vertex){
+	
+	}
+
 }

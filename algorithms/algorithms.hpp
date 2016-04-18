@@ -34,6 +34,10 @@ class Algorithms {
       Dijkstras(Graph graph, unsigned long start_vertex);
     static std::vector<std::pair<unsigned long, unsigned long>>
       Prims(Graph graph, unsigned long start_vertex);
+
+		static std::std::vector<std::pair<unsigned long, unsigned long>>
+			BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
+
 };
 
 #endif
