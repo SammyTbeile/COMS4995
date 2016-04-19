@@ -50,7 +50,7 @@ int main () {
 	h.push_back(pair<unsigned long, double>(5,6));
 	tempg.push_back(h);
 
-	auto graph =  Graph(tempg);
+	auto graph =  Graph(tempg,LIST);
 
 
 
