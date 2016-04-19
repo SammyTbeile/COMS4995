@@ -38,6 +38,6 @@ class Algorithms {
 		static std::vector<std::pair<unsigned long, double>>
 			BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
 
-};
+} ;
 
 #endif

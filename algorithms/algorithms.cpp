@@ -63,21 +63,20 @@ graph, unsigned long start_vertex) {
 		distance[start_vertex] = 0;
 
 		//compute optimal path
-		for(int index = 1; index < num; index++){
+		for(int index = 0; index < num; index++){
 			for(int i = 0; i< num; i++){
 			std::vector<std::pair<unsigned long, double>> row = graph.list[i]; 
 				for(auto& pair: row){
-					std::pair<unsigned long, double> p = pair;
-					if(distance[i] + p.second < distance[p.first]){
-						distance[p.first] = distance[index] + p.second;
-						predecessor[p.first] = i;
+					if(distance[i] + pair.second < distance[pair.first]){
+						distance[pair.first] = distance[index] + pair.second;
+						predecessor[pair.first] = i;
 					}
 				}
 			}
 		}
 		//check for negative cycles
 		for(int i = 0; i < num; i++){
-			std::vector<std::pair<unsigned long, double>> rows = graph.get_neighbors(i);
+			std::vector<std::pair<unsigned long, double>> rows = graph.list[i];
 			for(auto& pairs: rows){
 				if(distance[i] + pairs.second < distance[pairs.first]){
 					throw Algorithms_Exception("Contains Negative Cycles");

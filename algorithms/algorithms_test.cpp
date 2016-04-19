@@ -1,6 +1,7 @@
 
 
 #include "algorithms.hpp"
+#include "algorithms.cpp"
 #include <iostream>
 #include <vector>
 #include <list>
@@ -10,7 +11,7 @@ using namespace std;
 
 int main () {
 
-	//constructed graph from this http://algs4.cs.princeton.edu/lectures/44DemoBellmanFord.pdf. has answers
+	//constructed graph from this http://algs4.cs.princeton.edu/lectures/44DemoBellmanFord.pdf. has answers to shortest path
 
 	vector<list<pair<unsigned long, double>>> tempg = vector<list<pair<unsigned long, double>>>();
 	list<pair<unsigned long, double>> a = list<pair<unsigned long, double>>();
@@ -53,9 +54,18 @@ int main () {
 	h.push_back(pair<unsigned long, double>(5,6));
 	tempg.push_back(h);
 
+	cout << tempg << endl;
+
 	auto graph = Graph(tempg);
 
   cout << "hello world" << endl;
+
+
+	auto values = Algorithms::BellFord(graph,0,6);
+	cout << "here" << endl;
+	for(auto& edge: values){
+		cout << edge.first << " " << edge.second << endl;
+	}
 
   return 0;
 }
