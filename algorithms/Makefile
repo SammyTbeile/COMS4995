@@ -5,13 +5,13 @@ CFLAGS   = -g -Wall -Werror
 CXXFLAGS = -g -Wall -Werror -std=c++14
 
 EXES = algorithms_test
-OBJS = algorithms_test.o algorithms.o
+OBJS = algorithms_test.o
 
 build: $(EXES)
 
-$(EXES): algorithms.o
+$(EXES):
 
-$(OBJS): algorithms.hpp graph.hpp
+$(OBJS): algorithms.cpp algorithms.hpp algorithms_test.cpp graph.hpp
 
 clean:
 	rm -f *~ a.out core $(EXES) $(OBJS)

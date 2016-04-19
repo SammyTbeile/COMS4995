@@ -1,4 +1,7 @@
+
+
 #include "algorithms.hpp"
+#include <iostream>
 #include <vector>
 #include <list>
 #include "graph.hpp"
@@ -51,6 +54,8 @@ int main () {
 	tempg.push_back(h);
 
 	auto graph = Graph(tempg);
+
+  cout << "hello world" << endl;
 
   return 0;
 }
