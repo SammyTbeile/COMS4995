@@ -44,7 +44,7 @@ graph, unsigned long start_vertex) {
   }
   */
   return std::vector<std::pair<unsigned long, double>>(); // TODO remove
-
+}
 	std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
 	unsigned long start_vertex, unsigned long end_vertex){
 		validate_start_vertex(graph, start_vertex);
@@ -65,7 +65,7 @@ graph, unsigned long start_vertex) {
 			for(int i = 0; i< num; i++){
 			std::vector<std::pair<unsigned long, double>> row = graph.list[i]; 
 				for(auto& pair: row){
-					std::pair<unsigned long, double>> p = pair;
+					std::pair<unsigned long, double> p = pair;
 					if(distance[i] + p.second < distance[p.first]){
 						distance[p.first] = distance[index] + p.second;
 						predecessor[p.first] = i;
@@ -74,10 +74,10 @@ graph, unsigned long start_vertex) {
 			}
 		}
 		//check for negative cycles
-		for(int i = 0; index < num; i++){
-			std::vector::<std::pair<unsigned long, double>> rows = graph.get_neighbors(i);
+		for(int i = 0; i < num; i++){
+			std::vector<std::pair<unsigned long, double>> rows = graph.get_neighbors(i);
 			for(auto& pairs: rows){
-				if(distance[i] + p.second < distance[p.first]){
+				if(distance[i] + pairs.second < distance[pairs.first]){
 					throw Algorithms_Exception("Contains Negative Cycles");
 			}
 		}

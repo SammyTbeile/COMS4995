@@ -68,10 +68,10 @@ class Graph {
 /* Private Member Functions ------------------------------------------------- */
 
 //has_neg_weightes
-bool Graph::has_negative_weighted(){
+bool Graph::has_negative_weights(){
 	for(auto i = matrix.begin(); i != matrix.end(); i++){
-		for(auto j = i.begin(); j != i.end(); j++){
-			if(j*<0){
+		for(auto j = i->begin(); j != i->end(); j++){
+			if(*j<0){
 				return false;
 			}
 		}

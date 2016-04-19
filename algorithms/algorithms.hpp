@@ -35,7 +35,7 @@ class Algorithms {
     static std::vector<std::pair<unsigned long, double>>
       Prims(Graph graph, unsigned long start_vertex);
 
-		static std::std::vector<std::pair<unsigned long, double>>
+		static std::vector<std::pair<unsigned long, double>>
 			BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
 
 };
