@@ -30,12 +30,12 @@ class Algorithms {
     static void validate_start_vertex(Graph graph, unsigned long start_vertex);
   public:
     /* Public Member Functions */
-    static std::vector<std::pair<unsigned long, unsigned long>>
+    static std::vector<std::pair<unsigned long, double>>
       Dijkstras(Graph graph, unsigned long start_vertex);
-    static std::vector<std::pair<unsigned long, unsigned long>>
+    static std::vector<std::pair<unsigned long, double>>
       Prims(Graph graph, unsigned long start_vertex);
 
-		static std::std::vector<std::pair<unsigned long, unsigned long>>
+		static std::std::vector<std::pair<unsigned long, double>>
 			BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
 
 };
