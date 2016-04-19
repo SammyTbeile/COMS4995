@@ -11,7 +11,7 @@ build: $(EXES)
 
 $(EXES):
 
-$(OBJS): graph.hpp graph_enum.hpp
+$(OBJS): graph.hpp
 
 clean:
 	rm -f *~ a.out core $(EXES) $(OBJS)

@@ -3,10 +3,12 @@
  * Authors:  Sean Garvey, Sammy Tbeile
  * UNIs:     sjg2174,     st2918
  */
-#include "algorithms.hpp"
+
+#include <algorithm>
 #include <limits>
 #include <vector>
-#include <algorithm>
+
+#include "algorithms.hpp"
 
 // validate_start_vertex
 void Algorithms::validate_start_vertex(Graph graph, unsigned long
@@ -56,7 +58,7 @@ graph, unsigned long start_vertex) {
 		//initalize values
 		for(int i = 0; i< num; i++){
 			distance[i] = std::numeric_limits<double>::infinity();
-			predecessor[i] = NULL;
+			predecessor[i] = 0; // TODO, NULL was giving a compiler error
 		}
 		distance[start_vertex] = 0;
 

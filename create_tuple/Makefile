@@ -13,7 +13,7 @@ build: $(EXES)
 
 $(EXES): create_tuple.o
 
-$(OBJS): create_tuple.hpp graph_helper.hpp graph.hpp graph_enum.hpp
+$(OBJS): create_tuple.hpp graph_helper.hpp graph.hpp
 
 clean:
 	rm -f *~ a.out core $(EXES) $(OBJS)

@@ -12,7 +12,6 @@
 #include <cppconn/warning.h>
 
 #include "create_tuple.hpp"
-#include "graph_enum.hpp"
 
 // Globals
 const static char *url_env_var      = "DATABASE_CONNECTOR_URL";

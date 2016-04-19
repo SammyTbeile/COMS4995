@@ -10,7 +10,6 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
-#include "graph_enum.hpp"
 
 class Algorithms;
 
@@ -35,14 +34,15 @@ class Graph {
     std::vector<std::vector<bool>> visited;
     unsigned long num_edges;
     unsigned long num_vertices;
-
+    bool has_positive_weights;
+    
     /* Private Member Functions */
     void construct_list();
-    void construct_matrix();  
+    void construct_matrix();
     template<typename Container>
-    void copy_list(Container container);
+    void copy_rep(Container container, std::pair<unsigned long, double> unused);
     template<typename Container>
-    void copy_matrix(Container container);
+    void copy_rep(Container container, double unused);
     std::vector<std::pair<unsigned long, double>>& get_neighbors(unsigned long
       row);
     void set_visited(unsigned long row, unsigned long col, bool b);
@@ -50,15 +50,15 @@ class Graph {
   public:
     /* Constructors */
     template<typename Container>
-    Graph(Container container, graph_t g);
+    Graph(Container container);
     Graph(const Graph& g);
 
     /* Public Member Functions */
     unsigned long get_num_edges();
     unsigned long get_num_vertices();
-		bool has_negative_weights();
     bool get_visited(unsigned long row, unsigned long col);
     double get_weight(unsigned long row, unsigned long col);
+		bool has_negative_weights();
 
     /* Operators */
     Graph& operator=(const Graph& g);
@@ -66,18 +66,6 @@ class Graph {
 };
 
 /* Private Member Functions ------------------------------------------------- */
-
-//has_neg_weightes
-bool Graph::has_negative_weights(){
-	for(auto i = matrix.begin(); i != matrix.end(); i++){
-		for(auto j = i->begin(); j != i->end(); j++){
-			if(*j<0){
-				return false;
-			}
-		}
-	}
-	return true;
-}
 
 // construct_list
 void Graph::construct_list() {
@@ -109,9 +97,10 @@ void Graph::construct_matrix() {
   }
 }
 
-// copy_list
+// copy_rep (list)
 template<typename Container>
-void Graph::copy_list(Container container) {
+void Graph::copy_rep(Container container, std::pair<unsigned long,
+double> unused) {
   list = std::vector<std::vector<std::pair<unsigned long, double>>>();
   num_vertices = container.size();
   list.reserve(num_vertices);
@@ -126,14 +115,18 @@ void Graph::copy_list(Container container) {
         throw Graph_Exception("List representation has more than one edge in "
             "the same direction between two nodes");
       }
+      if(has_positive_weights && e.second < 0) {
+        has_positive_weights = false;
+      }
       ++num_edges;
     }
   }
+  construct_matrix();
 }
 
-// copy_matrix
+// copy_rep (matrix)
 template<typename Container>
-void Graph::copy_matrix(Container container) {
+void Graph::copy_rep(Container container, double unused) {
   matrix = std::vector<std::vector<double>>();
   num_vertices = container.size();
   matrix.reserve(num_vertices);
@@ -147,11 +140,12 @@ void Graph::copy_matrix(Container container) {
     for(auto& e : row) {
       if(e > 0) {
         ++num_edges;
-      } else if(e < 0) {
-        throw Graph_Exception("Matrix representation has negative edges\n");
+      } else if(has_positive_weights && e < 0) {
+        has_positive_weights = false;
       }
     }
   }
+  construct_list();
 }
 
 // get_neighbors
@@ -175,16 +169,9 @@ void Graph::set_visited(unsigned long row, unsigned long col, bool b) {
 
 // Constructor
 template<typename Container>
-Graph::Graph(Container container, graph_t g) {
-  if(g == LIST) {
-    copy_list(container);
-    construct_matrix();
-  } else if(g == MATRIX) {
-    copy_matrix(container);
-    construct_list();
-  } else {
-    throw Graph_Exception("Undefined representation\n");
-  }
+Graph::Graph(Container container) {
+  has_positive_weights = true; // positive edges until otherwise;
+  copy_rep(container, *(container.begin()->begin()));
   visited = std::vector<std::vector<bool>>();
   visited.reserve(num_vertices);
   for(auto it = visited.begin(); it != visited.end(); ++it) {
@@ -226,6 +213,11 @@ double Graph::get_weight(unsigned long row, unsigned long col) {
     throw Graph_Exception("get_weight out of range access\n");
   }
   return matrix[row][col];
+}
+
+// has_negative_weights
+bool Graph::has_negative_weights() {
+  return !has_positive_weights;
 }
 
 /* Operators ---------------------------------------------------------------- */

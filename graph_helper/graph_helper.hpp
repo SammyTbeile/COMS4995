@@ -9,7 +9,9 @@
 #include <exception>
 #include <vector>
 #include <unordered_map>
-#include "graph_enum.hpp"
+
+/* Graph_Helper_Enum -------------------------------------------------------- */
+enum graph_t { LIST, MATRIX };
 
 /* Graph_Helper_Exception --------------------------------------------------- */
 
