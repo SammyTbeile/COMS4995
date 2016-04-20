@@ -2,8 +2,8 @@
 #define __ALGORITHMS_HPP__
 /*
  * Filename: algorithms.h
- * Authors:  Sean Garvey, Sammy Tbeile
- * UNIs:     sjg2174,     st2918
+ * Authors:  Sean Garvey, Minh Truong, Sammy Tbeile
+ * UNIs:     sjg2174,     mt3077,      st2918
  */
 
 #include <exception>
@@ -29,12 +29,19 @@ class Algorithms {
     /* Private Member Functions */
     static void validate_start_vertex(Graph graph, unsigned long start_vertex);
 
-		static void dfs(Graph& graph, int& count, unsigned long vertex, std::vector<bool>& visited, 
-	std::vector<std::pair<unsigned long,std::vector<unsigned long>>>& tree, std::vector<std::vector<unsigned long>>& backedge);
+    template<typename Node>
+    static std::vector<std::pair<Node, double>> associate_vertex_node(
+      std::vector<std::pair<unsigned long, double>> path,
+      std::vector<Node> associative_vector);
 
-	static unsigned long lo(unsigned long vertex, 
-	std::vector<std::pair<unsigned long,std::vector<unsigned long>>> tree, 
-	std::vector<std::vector<unsigned long>> backedge);
+		static void dfs(Graph& graph, int& count, unsigned long vertex,
+      std::vector<bool>& visited, std::vector<std::pair<unsigned long,
+      std::vector<unsigned long>>>& tree,
+      std::vector<std::vector<unsigned long>>& backedge);
+
+    static unsigned long lo(unsigned long vertex, 
+      std::vector<std::pair<unsigned long,std::vector<unsigned long>>> tree, 
+      std::vector<std::vector<unsigned long>> backedge);
 
   public:
     /* Public Member Functions */
@@ -47,9 +54,7 @@ class Algorithms {
 			BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
 
 		static std::vector<std::pair<unsigned long, unsigned long>>
-			Tarjan(Graph graph);
-
-		
-} ;
+			Tarjan(Graph graph);	
+};
 
 #endif

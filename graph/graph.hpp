@@ -31,7 +31,6 @@ class Graph {
     /* Variables */
     std::vector<std::vector<std::pair<unsigned long, double>>> list;
     std::vector<std::vector<double>> matrix;
-    std::vector<std::vector<bool>> visited;
     unsigned long num_edges;
     unsigned long num_vertices;
     bool has_positive_weights;
@@ -45,7 +44,6 @@ class Graph {
     void copy_rep(Container container, double unused);
     std::vector<std::pair<unsigned long, double>>& get_neighbors(unsigned long
       row);
-    void set_visited(unsigned long row, unsigned long col, bool b);
 
   public:
     /* Constructors */
@@ -56,7 +54,6 @@ class Graph {
     /* Public Member Functions */
     unsigned long get_num_edges();
     unsigned long get_num_vertices();
-    bool get_visited(unsigned long row, unsigned long col);
     double get_weight(unsigned long row, unsigned long col);
 		bool has_negative_weights();
 
@@ -157,14 +154,6 @@ std::vector<std::pair<unsigned long, double>>& Graph::get_neighbors(unsigned
   return list[row];
 }
 
-// set_visited
-void Graph::set_visited(unsigned long row, unsigned long col, bool b) {
-  if(row >= num_vertices || col >= num_vertices) {
-    throw Graph_Exception("set_visited out of range access\n");
-  }
-  visited[row][col] = b;
-}
-
 /* Constructors ------------------------------------------------------------- */
 
 // Constructor
@@ -172,11 +161,6 @@ template<typename Container>
 Graph::Graph(Container container) {
   has_positive_weights = true; // positive edges until otherwise;
   copy_rep(container, *(container.begin()->begin()));
-  visited = std::vector<std::vector<bool>>();
-  visited.reserve(num_vertices);
-  for(auto it = visited.begin(); it != visited.end(); ++it) {
-    *it = std::vector<bool>(num_vertices);
-  }
 }
 
 // Copy Constructor
@@ -197,14 +181,6 @@ unsigned long Graph::get_num_edges() {
 // get_num_vertices
 unsigned long Graph::get_num_vertices() {
   return num_vertices;
-}
-
-// get_visited
-bool Graph::get_visited(unsigned long row, unsigned long col) {
-  if(row >= num_vertices || col >= num_vertices) {
-    throw Graph_Exception("get_visited out of range access\n");
-  }
-  return visited[row][col];
 }
 
 // get_weight
