@@ -54,18 +54,55 @@ int main () {
 	h.push_back(pair<unsigned long, double>(5,6));
 	tempg.push_back(h);
 
-	cout << tempg << endl;
+	//cout << tempg << endl;
 
 	auto graph = Graph(tempg);
 
-  cout << "hello world" << endl;
-
-
 	auto values = Algorithms::BellFord(graph,0,6);
-	cout << "here" << endl;
 	for(auto& edge: values){
 		cout << edge.first << " " << edge.second << endl;
 	}
+	/*
+	auto tempx = vector<list<pair<unsigned long, double>>>();
+	auto x = list<pair<unsigned long, double>>();
+	x.push_back(pair<unsigned long, double>(1,15));
+	x.push_back(pair<unsigned long, double>(3,12));
+	tempx.push_back(x);
+
+	auto q = list<pair<unsigned long, double>>();
+	q.push_back(pair<unsigned long, double>(3,15));
+	q.push_back(pair<unsigned long, double>(4,12));
+	tempx.push_back(q);
+
+	auto w = list<pair<unsigned long, double>>();
+	w.push_back(pair<unsigned long, double>(0,15));
+	w.push_back(pair<unsigned long, double>(5,12));
+	tempx.push_back(w);
+
+	auto t = list<pair<unsigned long, double>>();
+	t.push_back(pair<unsigned long, double>(4,15));
+	t.push_back(pair<unsigned long, double>(2,12));
+	t.push_back(pair<unsigned long, double>(5,12));
+	t.push_back(pair<unsigned long, double>(6,12));
+	tempx.push_back(t);
+
+
+	auto y = list<pair<unsigned long, double>>();
+	y.push_back(pair<unsigned long, double>(6,15));
+	tempx.push_back(y);
+
+	auto v = list<pair<unsigned long,double>>();
+	tempx.push_back(v);
+
+	auto r = list<pair<unsigned long, double>>();
+	r.push_back(pair<unsigned long, double>(5,15));
+	tempx.push_back(r);
+
+	
+
+	auto graphx = Graph(tempx);
+
+	auto values = Algorithms::Tarjan(graphx);*/
 
   return 0;
 }

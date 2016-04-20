@@ -28,6 +28,14 @@ class Algorithms {
   private:
     /* Private Member Functions */
     static void validate_start_vertex(Graph graph, unsigned long start_vertex);
+
+		static void dfs(Graph& graph, int& count, unsigned long vertex, std::vector<bool>& visited, 
+	std::vector<std::pair<unsigned long,std::vector<unsigned long>>>& tree, std::vector<std::vector<unsigned long>>& backedge);
+
+	static unsigned long lo(unsigned long vertex, 
+	std::vector<std::pair<unsigned long,std::vector<unsigned long>>> tree, 
+	std::vector<std::vector<unsigned long>> backedge);
+
   public:
     /* Public Member Functions */
     static std::vector<std::pair<unsigned long, double>>
@@ -38,6 +46,10 @@ class Algorithms {
 		static std::vector<std::pair<unsigned long, double>>
 			BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
 
+		static std::vector<std::pair<unsigned long, unsigned long>>
+			Tarjan(Graph graph);
+
+		
 } ;
 
 #endif
