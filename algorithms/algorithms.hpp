@@ -50,8 +50,10 @@ class Algorithms {
     static std::vector<std::pair<unsigned long, double>>
       Prims(Graph graph, unsigned long start_vertex);
 
-		static std::vector<std::pair<unsigned long, double>>
-			BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
+		static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
+
+    template<typename Node, typename Container>
+    static std::vector<std::pair<Node, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex, Container container);
 
 		static std::vector<std::pair<unsigned long, unsigned long>>
 			Tarjan(Graph graph);	

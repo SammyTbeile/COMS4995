@@ -21,10 +21,11 @@ start_vertex) {
   }
 }
 
+/*
 // associate_vertex_node
-template<typename Node>
+template<typename Node, typename Container>
 std::vector<std::pair<Node, double>> associate_vertex_node(std::vector<
-std::pair<unsigned long, double>> path, std::vector<Node> associative_vector) {
+std::pair<unsigned long, double>> path, Container associative_vector) {
   auto mapped_vector = std::vector<std::pair<Node, double>>();
   mapped_vector.reserve(path.size());
   for(auto& long_double_pair : path) {
@@ -37,7 +38,7 @@ std::pair<unsigned long, double>> path, std::vector<Node> associative_vector) {
   }
   return mapped_vector;
 }
-
+*/
 // Dijkstras
 std::vector<std::pair<unsigned long, double>> Algorithms::Dijkstras(Graph
 graph, unsigned long start_vertex) {
@@ -117,6 +118,16 @@ unsigned long start_vertex, unsigned long end_vertex) {
 
   return path;
 }
+/*
+// Bellford, map
+template<typename Node, typename Container>
+std::vector<std::pair<Node, double>> Algorithms::BellFord(Graph& graph,
+unsigned long start_vertex, unsigned long end_vertex, Container container) {
+  Node n = container[0].first;
+  return associate_vertex_node(BellFord(graph, start_vertex, end_vertex),
+    container);
+}
+*/
 
 // dfs
 void Algorithms::dfs(Graph& graph, int& count, unsigned long vertex, std::
