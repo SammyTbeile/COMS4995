@@ -7,10 +7,13 @@ import csv
             st2918
 '''
 
-def prims():
+
+
+
+def prims(input_file= "input.csv"):
     vertexes = []
 
-    with open("input.csv") as input_csv:
+    with open(input_file) as input_csv:
         csv_reader = csv.reader(input_csv)
         next(csv_reader,None)
         for row in csv_reader:
@@ -18,14 +21,15 @@ def prims():
             vertexes.append(x)
 
     # background map
-    m = Basemap(llcrnrlon(-118), llcrnrlat(23.5), urcrnrlon(-60.85), urcrnrlat(48.85), lat_ts=20, resolution='c',
-                projection='merc')
+    m = Basemap(width=12000000,height=9000000,projection='merc',
+            resolution='l',lat_1=45.,lat_2=55,lat_0=50,lon_0=-107)
     m.drawcoastlines()
     m.drawmapboundary(color='aqua')
     m.fillcontinents(color='coral', lake_color='aqua')
     m.drawstates()
+    m.drawcountries()
 
-    for i in range[0:len(vertexes)-1]:
+    for i in rang([0,len(vertexes)-1):
 
         xpt, ypt = m(vertexes[i].get("lat"), vertexes[i].get["long"])
         m.plot(xpt, ypt, "bo")
@@ -42,36 +46,38 @@ def prims():
     plt.show()
 
 
-def general():
+def general(input_file="input.csv"):
     # create arrays to hold
     lats = []
     longs = []
     weights = []
     names = []
 
-    with open("input.csv") as input_csv:
+    with open(input_file) as input_csv:
         csv_reader = csv.reader(input_csv)
-        next(csv_reader, None)
+        #next(csv_reader, None)
         for row in csv_reader:
-            x, y, w, n = float(row[0]),  -1*float([row[1]]), float(row[2]), row[3]
+            #print (float(row[0]))
+            
+            x, y, w, n = float(row[0]),  -1*float(row[1]), float(row[2]), row[3]
             lats.append(x)
             longs.append(y)
             weights.append(w)
             names.append(n)
 
     # create background map
-    m = Basemap(llcrnrlon(-118), llcrnrlat(23.5), urcrnrlon(-60.85), urcrnrlat(48.85), lat_ts=20, resolution='c',
-                projection='merc')
+    m = Basemap(width=12000000,height=9000000,projection='merc',
+            resolution='l',lat_1=45.,lat_2=55,lat_0=50,lon_0=-107)
     m.drawcoastlines()
     m.drawmapboundary(color='aqua')
+    m.drawcounties()
     m.fillcontinents(color='coral', lake_color='aqua')
     m.drawstates()
-
     x1, y1 = m(lats[0], longs[0])
     m.plot(x1, y1, 'bo')
     plt.text(x1+1000, y1+1000, names[0])
 
-    for i in range[1:len(weights)-1]:
+    for i in range(1,(len(weights)-1)):
         xpt, ypt = m(lats[i], longs[i])
         m.plot(xpt, ypt, 'bo')
         plt.text(xpt+1000, ypt+1000, names[i])
@@ -80,11 +86,11 @@ def general():
         plt.text((xpt+ypt)/2+1000, (xptn+yptn)/2+1000, weights[i])
 
     plt.show()
+    
 
-
-def main():
-    decision = input("Are you using Prim's Algorithm? Enter y for yes, n for no")
-    if decision == 'y':
-        prims()
-    else:
-        general()
+decision = input('Are you using Prim\'s Algorithm? Enter y for yes, n for no: ')
+inputFile = input("Where is your data stored? Please input the file name: ")
+if decision == 'y':
+    prims(inputFile)
+else:
+    general(inputFile)
