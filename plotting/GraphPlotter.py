@@ -17,26 +17,26 @@ def prims(input_file= "input.csv"):
         csv_reader = csv.reader(input_csv)
         next(csv_reader,None)
         for row in csv_reader:
-            x = dict(lat=float(row[0]), long=-1*float(row[1]), weight=row[2], name=row[3], neighbors=row[4].split(" "))
+            x = dict(lat=float(row[0]), long=-1*float(row[1]), weight=row[2], name=row[3], neighbors=row[4].split(";"))
             vertexes.append(x)
 
     # background map
     m = Basemap(width=12000000,height=9000000,projection='merc',
-            resolution='l',lat_1=45.,lat_2=55,lat_0=50,lon_0=-107)
+            resolution='f',lat_1=45.,lat_2=55,lat_0=50,lon_0=-107)
     m.drawcoastlines()
     m.drawmapboundary(color='aqua')
     m.fillcontinents(color='coral', lake_color='aqua')
     m.drawstates()
     m.drawcountries()
 
-    for i in rang([0,len(vertexes)-1):
+    for i in range(0,(len(vertexes)-1)):
 
         xpt, ypt = m(vertexes[i].get("lat"), vertexes[i].get["long"])
         m.plot(xpt, ypt, "bo")
         plt.text(xpt + 1000, ypt + 1000)
         # while len(vertexes[0].get("neighbors")) != "":
         for neighbor in vertexes[i].get("neighbors"):
-            neighbor_element = neighbor.split(";")
+            neighbor_element = neighbor.split("_")
             for vertex in vertexes:
                 if vertex.get("name") != neighbor_element[i]:
                     xptn, yptn = m(vertex.get("lat"), vertex.get("long"))
