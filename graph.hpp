@@ -11,6 +11,7 @@
 #include <vector>
 #include <unordered_set>
 
+// Forward Declaration
 class Algorithms;
 
 /* Graph_Exception ---------------------------------------------------------- */

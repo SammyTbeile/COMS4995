@@ -1,17 +1,17 @@
 /*
  * Filename: algorithms.cpp
- * Authors:  Sean Garvey, Sammy Tbeile
- * UNIs:     sjg2174,     st2918
+ * Authors:  Sean Garvey, Minh Truong, Sammy Tbeile
+ * UNIs:     sjg2174,     mt3077,      st2918
  */
 
 #include <algorithm>
 #include <limits>
-#include <vector>
 #include <stack>
 #include <iostream>
 #include <queue>
 
 #include "algorithms.hpp"
+#include "graph.hpp"
 
 // validate_start_vertex
 void Algorithms::validate_start_vertex(Graph graph, unsigned long

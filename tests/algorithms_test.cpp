@@ -1,15 +1,17 @@
+/*
+ * Filename: algorithms_test.cpp
+ * Authors:  Minh Truong
+ * UNIs:     mt3077
+ */
 
+#include <iostream>
+#include <list>
 
 #include "algorithms.hpp"
-#include "algorithms.cpp"
-#include <iostream>
-#include <vector>
-#include <list>
-#include "graph.hpp"
 
 using namespace std;
 
-int main () {
+int main() {
 
 	//constructed graph from this http://algs4.cs.princeton.edu/lectures/44DemoBellmanFord.pdf. has answers to shortest path
 

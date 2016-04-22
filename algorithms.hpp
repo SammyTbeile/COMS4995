@@ -1,7 +1,7 @@
 #ifndef __ALGORITHMS_HPP__
 #define __ALGORITHMS_HPP__
 /*
- * Filename: algorithms.h
+ * Filename: algorithms.hpp
  * Authors:  Sean Garvey, Minh Truong, Sammy Tbeile
  * UNIs:     sjg2174,     mt3077,      st2918
  */
@@ -29,11 +29,6 @@ class Algorithms {
     /* Private Member Functions */
     static void validate_start_vertex(Graph graph, unsigned long start_vertex);
 
-    template<typename Node>
-    static std::vector<std::pair<Node, double>> associate_vertex_node(
-      std::vector<std::pair<unsigned long, double>> path,
-      std::vector<Node> associative_vector);
-
 		static void dfs(Graph& graph, int& count, unsigned long vertex,
       std::vector<bool>& visited, std::vector<std::pair<unsigned long,
       std::vector<unsigned long>>>& tree,
@@ -51,9 +46,6 @@ class Algorithms {
       Prims(Graph graph, unsigned long start_vertex);
 
 		static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
-
-    template<typename Node, typename Container>
-    static std::vector<std::pair<Node, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex, Container container);
 
 		static std::vector<std::pair<unsigned long, unsigned long>>
 			Tarjan(Graph graph);	
