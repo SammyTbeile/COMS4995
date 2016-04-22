@@ -164,7 +164,7 @@ unsigned long>> backedge) {
   auto visited = std::vector<bool>(tree.size());
   visited[vertex] = true;
   que.push(vertex);
-  bool back = false;
+  //bool back = false; // TODO commented out because compiler said it was unused
   while(!que.empty()) {
     unsigned long vert = que.front();
     que.pop();
