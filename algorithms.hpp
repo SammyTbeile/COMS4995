@@ -47,8 +47,16 @@ class Algorithms {
 
 		static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
 
-		static std::vector<std::pair<unsigned long, unsigned long>>
-			Tarjan(Graph graph);	
+			static std::vector<unsigned long> Tarjan(Graph graph);	
+/*
+		static std::vector<std::pair<unsigned long, double>> 
+			traveling_salesman(Graph graph);*/
+
+		static bool is_undirected(Graph graph);
+
+		static std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
+ johnson(Graph graph);
+
 };
 
 #endif
