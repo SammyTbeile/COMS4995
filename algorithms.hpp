@@ -15,6 +15,7 @@
 #include <stack>
 #include <utility>
 #include <vector>
+#include <list>
 
 #include "graph.hpp"
 
@@ -48,7 +49,7 @@ class Algorithms {
     /* Public Member Functions */
     static std::vector<std::pair<unsigned long, double>>
       Dijkstras(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
-    static std::vector<std::pair<unsigned long, double>>
+    static std::vector<std::list<std::pair<unsigned long, double>>>
       Prims(Graph graph, unsigned long start_vertex);
 
 		static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
