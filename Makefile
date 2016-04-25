@@ -3,23 +3,22 @@ CXX      = clang++
 CFLAGS   = -g -Wall -Werror
 CXXFLAGS = -g -Wall -Werror -std=c++14
 LDLIBS   = -lmysqlcppconn
-EXES     = tester
-OBJS     = create_tuple.o tester.o
+EXES     = test_bellmanford   test_dijkstras
+OBJS     = test_bellmanford.o test_dijkstras.o test_helper.o
 
-build: $(EXES)
+main:               test_bellmanford     test_dijkstras 
 
-$(EXES): create_tuple.o tester.o
+test_bellmanford:   test_bellmanford.o   test_helper.o
 
-$(OBJS): algorithms.hpp create_tuple.cpp create_tuple.hpp graph.hpp \
-         graph_helper.hpp tester.cpp
+test_dijkstras:     test_dijkstras.o     test_helper.o
+
+test_bellmanford.o: test_bellmanford.cpp test_helper.hpp  algorithms.hpp graph.hpp
+
+test_dijkstras.o:   test_dijkstras.cpp   test_helper.hpp  algorithms.hpp graph.hpp
+
+test_helper.o:      test_helper.hpp      graph_helper.hpp
 
 clean:
 	rm -f *~ a.out core $(EXES) $(OBJS)
 
-all: clean build
-
-run: build
-	clear; nice -20 ./tester
-
-valgrind: build
-	reset; nice -20 valgrind --leak-check=full --show-leak-kinds=all ./tester
+all: clean main

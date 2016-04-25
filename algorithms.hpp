@@ -192,7 +192,7 @@ graph, unsigned long start_vertex) {
 
   for(int index =0; index<num-1;index++){
     //get the minimum key
-    double min = std::numeric_limits::infinity();
+    double min = std::numeric_limits<double>::infinity();
     int minIndex;
     for(int i=0;i< num;i++){
       if(mstVector[i] ==false && keys[i] < min){
@@ -211,7 +211,7 @@ graph, unsigned long start_vertex) {
       //mstVector is false only for vertexes not yet in the MST
       if(graph.matrix[minIndex][j] !=0 && mstVector[j] ==false && graph.matrix[minIndex][j] < keys[j]){
         parents[j] = minIndex;
-        keys[j] = matrix.graph[minIndex][j];
+        keys[j] = graph.matrix[minIndex][j];
       }
     }
   }
@@ -222,9 +222,9 @@ graph, unsigned long start_vertex) {
   for( unsigned long i=0;i< num;i++){
     auto newpair = std::pair<unsigned long, double>(i,keys[i]);
     innerList.push_back(newpair);
-    auto current = i;
+    //auto current = i;
     for(auto j = 1; j< num; j++){
-      if(parent[j] == newpair.first){
+      if(parents[j] == newpair.first){
         innerList.push_back(std::pair<unsigned long, double>(j, keys[j]));
       }
     }
