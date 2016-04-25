@@ -8,6 +8,7 @@
 #include <list>
 
 #include "algorithms.hpp"
+#include "algorithms.cpp"
 
 using namespace std;
 

@@ -1,18 +1,17 @@
-CC  = clang++
-CXX = clang++
-
+CC       = clang++
+CXX      = clang++
 CFLAGS   = -g -Wall -Werror
 CXXFLAGS = -g -Wall -Werror -std=c++14
-
-EXES = tester
-OBJS = tester.o algorithms.o create_tuple.o
+LDLIBS   = -lmysqlcppconn
+EXES     = tester
+OBJS     = create_tuple.o tester.o
 
 build: $(EXES)
 
-$(EXES): algorithms.o create_tuple.o tester.o
+$(EXES): create_tuple.o tester.o
 
-$(OBJS): algorithms.hpp algorithms.cpp create_tuple.hpp create_tuple.cpp \
-         graph.hpp graph_helper.hpp tester.cpp
+$(OBJS): algorithms.hpp create_tuple.cpp create_tuple.hpp graph.hpp \
+         graph_helper.hpp tester.cpp
 
 clean:
 	rm -f *~ a.out core $(EXES) $(OBJS)
