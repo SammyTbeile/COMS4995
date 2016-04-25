@@ -171,26 +171,66 @@ graph, unsigned long start_vertex, unsigned long end_vertex) {
 
 
 // Prim's
-std::vector<std::pair<unsigned long, double>> Algorithms::Prims(Graph
+std::vector<std::list<std::pair<unsigned long, double>>> Algorithms::Prims(Graph
 graph, unsigned long start_vertex) {
+  
   validate_start_vertex(graph, start_vertex);
-  /*
-  // Commenting this out so I can compile the algorithms header
+  int num = graph.get_num_vertices();
+  std::vector<unsigned long> parents = std::vector<unsigned long>(num); //store MST
+  std::vector<double> keys = std::vector<double>(num) ; //store minWeights
+  std::vector<bool> mstVector = std::vector<bool>(num);  //represent vertexes not yet in the MST
 
-  auto starting_vertex = start_pair.first;
-  //Set the starting vertex as visited
-  am.set_visited(pair.first, pair.second);
-  //get its neighbors
-  auto neighbors_list = am.get_neighbors(start_pair.first);
-  int minWeightSoFar = neighbors_list[0];
-  while(!neighbors_list.empty) {
-    for( auto neighbor : neighbors_list) {
-      if (am.get_weight(neighbor) <am.get_weight(minWeightSoFar));
-        minWeightSoFar = neighbor;
+  //initalize values
+  for(int i=0;i<num;i++){
+    keys[i] = std::numeric_limits<double>::infinity();
+    mstVector[i] = false;
+  }
+
+  keys[0] = 0;
+  parents[0] = start_vertex;
+
+  for(int index =0; index<num-1;index++){
+    //get the minimum key
+    double min = std::numeric_limits::infinity();
+    int minIndex;
+    for(int i=0;i< num;i++){
+      if(mstVector[i] ==false && keys[i] < min){
+        min = keys[i];
+        minIndex = i;
+      }
+    }
+
+    //add the min to the MST
+    mstVector[minIndex] = true;
+
+    //update key and parent of adjacent vertexes not included in the MST
+    for(int j = 0; j< num;j++){
+
+      //graph.matrix[minIndex][j] is not zero only for adjacent vertexes of minIndex
+      //mstVector is false only for vertexes not yet in the MST
+      if(graph.matrix[minIndex][j] !=0 && mstVector[j] ==false && graph.matrix[minIndex][j] < keys[j]){
+        parents[j] = minIndex;
+        keys[j] = matrix.graph[minIndex][j];
+      }
     }
   }
-  */
-  return std::vector<std::pair<unsigned long, double>>(); // TODO remove
+
+  //print the tree
+  std::vector<std::list<std::pair<unsigned long, double>>> returnVector;
+  std::list<std::pair<unsigned long, double>> innerList;
+  for( unsigned long i=0;i< num;i++){
+    auto newpair = std::pair<unsigned long, double>(i,keys[i]);
+    innerList.push_back(newpair);
+    auto current = i;
+    for(auto j = 1; j< num; j++){
+      if(parent[j] == newpair.first){
+        innerList.push_back(std::pair<unsigned long, double>(j, keys[j]));
+      }
+    }
+  }
+  returnVector.push_back(innerList);
+  return returnVector;
+
 }
 
 // BellFord

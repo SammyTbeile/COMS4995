@@ -66,13 +66,15 @@ def general(input_file="input.csv"):
             names.append(n)
 
     # create background map
-    m = Basemap(width=12000000,height=9000000,projection='merc',
-            resolution='l',lat_1=45.,lat_2=55,lat_0=50,lon_0=-107)
+    m= Basemap(llcrnrlon=-119, llcrnrlat=22, urcrnrlon=-64,
+                               urcrnrlat=49, projection='lcc', lat_1=33, lat_2=45,
+                               lon_0=-95, resolution='f', area_thresh=10000)
     m.drawcoastlines()
     m.drawmapboundary(color='aqua')
     m.drawcounties()
     m.fillcontinents(color='coral', lake_color='aqua')
     m.drawstates()
+
     x1, y1 = m(lats[0], longs[0])
     m.plot(x1, y1, 'bo')
     plt.text(x1+1000, y1+1000, names[0])
