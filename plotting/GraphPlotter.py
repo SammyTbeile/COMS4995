@@ -11,7 +11,7 @@ import csv
 
 
 def prims(input_file= "input.csv"):
-    vertexes = []
+    vertexes=[]
 
     with open(input_file) as input_csv:
         csv_reader = csv.reader(input_csv)
@@ -21,14 +21,20 @@ def prims(input_file= "input.csv"):
             vertexes.append(x)
 
     # background map
-    m = Basemap(width=12000000,height=9000000,projection='merc',
-            resolution='f',lat_1=45.,lat_2=55,lat_0=50,lon_0=-107)
+    m= Basemap(llcrnrlon=-119, llcrnrlat=22, urcrnrlon=-64,
+                               urcrnrlat=49, projection='lcc', lat_1=33, lat_2=45,
+                               lon_0=-95, resolution='c', area_thresh=10000)
     m.drawcoastlines()
-    m.drawmapboundary(color='aqua')
-    m.fillcontinents(color='coral', lake_color='aqua')
+    m.drawmapboundary(fill_color='aqua')
+    m.fillcontinents(color='green', lake_color='aqua')
     m.drawstates()
     m.drawcountries()
 
+    xpt, ypt = m(longs, lats)
+    m.plot(xpt, ypt, 'bo', markersize=10)
+    for x, y, name in zip(xpt,ypt,names):
+        plt.text(x+1000,y+1000,name)    
+        
     for i in range(0,(len(vertexes)-1)):
 
         xpt, ypt = m(vertexes[i].get("long"), vertexes[i].get["lat"])
@@ -71,9 +77,9 @@ def general(input_file="input.csv"):
                                urcrnrlat=49, projection='lcc', lat_1=33, lat_2=45,
                                lon_0=-95, resolution='c', area_thresh=10000)
     m.drawcoastlines()
-    m.drawmapboundary(color='aqua')
+    m.drawmapboundary(fill_color='aqua')
     m.drawcounties()
-    m.fillcontinents(color='coral', lake_color='aqua')
+    m.fillcontinents(color='green', lake_color='aqua')
     m.drawstates()
     xpt, ypt = m(longs, lats)
     m.plot(xpt, ypt, 'bo', markersize=10)
