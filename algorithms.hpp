@@ -15,7 +15,6 @@
 #include <stack>
 #include <utility>
 #include <vector>
-#include <list>
 
 #include "graph.hpp"
 
@@ -49,7 +48,7 @@ class Algorithms {
     /* Public Member Functions */
     static std::vector<std::pair<unsigned long, double>>
       Dijkstras(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
-    static std::vector<std::list<std::pair<unsigned long, double>>>
+    static std::vector<std::pair<unsigned long, double>>
       Prims(Graph graph, unsigned long start_vertex);
 
 		static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
@@ -114,7 +113,7 @@ graph, unsigned long start_vertex, unsigned long end_vertex) {
   //initalize values
   for(int i = 0; i< num; i++) {
     distance[i] = std::numeric_limits<double>::infinity();
-    predecessor[i] = 0; 
+    predecessor[i] = -1; 
 		visited[i] = false;
   }
 	distance[start_vertex] = 0;
@@ -122,6 +121,8 @@ graph, unsigned long start_vertex, unsigned long end_vertex) {
 	using pdl = std::pair<double,unsigned long>;
 	std::priority_queue<pdl,std::vector<pdl>,CompareDist> que;
 	que.push(std::pair<double,unsigned long>(0,start_vertex));
+
+	//compute optimal path
 	while(!que.empty()){
 		std::pair<double,unsigned long> temp = que.top();
 		que.pop();
@@ -142,19 +143,19 @@ graph, unsigned long start_vertex, unsigned long end_vertex) {
 		}
 	}
 
+	if(predecessor[end_vertex] == -1){
+		throw Algorithms_Exception("No Path");
+	}
+
+	//construct path
+
 	std::vector<std::pair<unsigned long, double>> path;
   unsigned long current = end_vertex;
   path.push_back(std::pair<unsigned long, double>(current, distance[current]));
-	auto visited_check = std::vector<bool>(num); //make sure this is correct
-	visited_check[current] = true;
   do {
     current = predecessor[current];
-		if(visited_check[current] == true){
-			 throw Algorithms_Exception("No Path");
-		}
     auto newpair = std::pair<unsigned long, double>(current, distance[current]);
     path.push_back(newpair);
-		visited_check[current] = true;
   } while(current != start_vertex);
 
   std::reverse(path.begin(), path.end());
@@ -172,89 +173,52 @@ graph, unsigned long start_vertex, unsigned long end_vertex) {
 
 
 // Prim's
-std::vector<std::list<std::pair<unsigned long, double>>> Algorithms::Prims(Graph
+std::vector<std::pair<unsigned long, double>> Algorithms::Prims(Graph
 graph, unsigned long start_vertex) {
-  
   validate_start_vertex(graph, start_vertex);
-  int num = graph.get_num_vertices();
-  std::vector<unsigned long> parents = std::vector<unsigned long>(num); //store MST
-  std::vector<double> keys = std::vector<double>(num) ; //store minWeights
-  std::vector<bool> mstVector = std::vector<bool>(num);  //represent vertexes not yet in the MST
+  /*
+  // Commenting this out so I can compile the algorithms header
 
-  //initalize values
-  for(int i=0;i<num;i++){
-    keys[i] = std::numeric_limits<double>::infinity();
-    mstVector[i] = false;
-  }
-
-  keys[0] = 0;
-  parents[0] = start_vertex;
-
-  for(int index =0; index<num-1;index++){
-    //get the minimum key
-    double min = std::numeric_limits<double>::infinity();
-    int minIndex;
-    for(int i=0;i< num;i++){
-      if(mstVector[i] ==false && keys[i] < min){
-        min = keys[i];
-        minIndex = i;
-      }
-    }
-
-    //add the min to the MST
-    mstVector[minIndex] = true;
-
-    //update key and parent of adjacent vertexes not included in the MST
-    for(int j = 0; j< num;j++){
-
-      //graph.matrix[minIndex][j] is not zero only for adjacent vertexes of minIndex
-      //mstVector is false only for vertexes not yet in the MST
-      if(graph.matrix[minIndex][j] !=0 && mstVector[j] ==false && graph.matrix[minIndex][j] < keys[j]){
-        parents[j] = minIndex;
-        keys[j] = graph.matrix[minIndex][j];
-      }
+  auto starting_vertex = start_pair.first;
+  //Set the starting vertex as visited
+  am.set_visited(pair.first, pair.second);
+  //get its neighbors
+  auto neighbors_list = am.get_neighbors(start_pair.first);
+  int minWeightSoFar = neighbors_list[0];
+  while(!neighbors_list.empty) {
+    for( auto neighbor : neighbors_list) {
+      if (am.get_weight(neighbor) <am.get_weight(minWeightSoFar));
+        minWeightSoFar = neighbor;
     }
   }
-
-  //print the tree
-  std::vector<std::list<std::pair<unsigned long, double>>> returnVector;
-  std::list<std::pair<unsigned long, double>> innerList;
-  for( unsigned long i=0;i< num;i++){
-    auto newpair = std::pair<unsigned long, double>(i,keys[i]);
-    innerList.push_back(newpair);
-    //auto current = i;
-    for(auto j = 1; j< num; j++){
-      if(parents[j] == newpair.first){
-        innerList.push_back(std::pair<unsigned long, double>(j, keys[j]));
-      }
-    }
-  }
-  returnVector.push_back(innerList);
-  return returnVector;
-
+  */
+  return std::vector<std::pair<unsigned long, double>>(); // TODO remove
 }
 
 // BellFord
 std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
 unsigned long start_vertex, unsigned long end_vertex) {
   validate_start_vertex(graph, start_vertex);
-  
+
+
   int num = graph.get_num_vertices();
   std::vector<double> distance = std::vector<double>(num);
   std::vector<unsigned long> predecessor = std::vector<unsigned long>(num);
+
   //initalize values
-  for(int i = 0; i< num; i++) {
+  for(int i = 1; i< num; i++) {
     distance[i] = std::numeric_limits<double>::infinity();
-    predecessor[i] = 0; // TODO: vertify 0 is correct, as NULL was giving a compiler error
+    predecessor[i] = -1; 
   }
   distance[start_vertex] = 0;
+
   //compute optimal path
   for(int index = 0; index < num; index++) {
     for(int i = 0; i< num; i++) {
-    std::vector<std::pair<unsigned long, double>> row = graph.list[i]; 
+    	std::vector<std::pair<unsigned long, double>> row = graph.list[i]; 
       for(auto& pair: row) {
         if(distance[i] + pair.second < distance[pair.first]) {
-          distance[pair.first] = distance[index] + pair.second;
+          distance[pair.first] = distance[i] + pair.second;
           predecessor[pair.first] = i;
         }
       }
@@ -269,14 +233,26 @@ unsigned long start_vertex, unsigned long end_vertex) {
       }
     }
   }
+
+	if(predecessor[end_vertex] == -1){
+		throw Algorithms_Exception("NOO PATH");
+	}
+
   //construct path
   std::vector<std::pair<unsigned long, double>> path;
   unsigned long current = end_vertex;
   path.push_back(std::pair<unsigned long, double>(current, distance[current]));
-  do {
+  auto visited_check = std::vector<bool>(num); //make sure this is correct
+	visited_check[current] = true;
+	do {
     current = predecessor[current];
+		if(visited_check[current] == true){
+			 throw Algorithms_Exception("No Path");
+		}
+
     auto newpair = std::pair<unsigned long, double>(current, distance[current]);
     path.push_back(newpair);
+		visited_check[current] = true;
   } while(current != start_vertex);
 
   std::reverse(path.begin(), path.end());
@@ -284,7 +260,7 @@ unsigned long start_vertex, unsigned long end_vertex) {
   return path;
 }
 
-// dfs
+// dfs - create spaning tree
 void Algorithms::dfs(Graph& graph, int& count, unsigned long vertex, std::
 vector<bool>& visited, std::vector<std::pair<unsigned long, std::vector<unsigned
 long>>>& tree, std::vector<std::vector<unsigned long>>& backedge) {
@@ -310,7 +286,7 @@ long>>>& tree, std::vector<std::vector<unsigned long>>& backedge) {
   }
 }
 
-// lo
+// lo - compute low numbers for BellmanFord
 unsigned long Algorithms::lo(unsigned long vertex, std::vector<std::pair<
 unsigned long, std::vector<unsigned long>>> tree, std::vector<std::vector<
 unsigned long>> backedge) {
@@ -342,14 +318,14 @@ unsigned long>> backedge) {
 	
 // Tarjan
 std::vector<unsigned long> Algorithms::Tarjan(Graph graph) {
-/*	if(is_undirected(graph)==false){
+	if(is_undirected(graph)==false){
 		 throw Algorithms_Exception("Graph is not undirected");
-	}*/
+	}
 
+	//initlize values
   int size = graph.get_num_vertices();
   auto visited = std::vector<bool>(size);
-  auto tree = std::vector<std::pair<unsigned long,std::vector<unsigned long>>>
-    (size);
+  auto tree = std::vector<std::pair<unsigned long,std::vector<unsigned long>>>(size);
   auto backedge = std::vector<std::vector<unsigned long>>(size);
 
   int count = 0;
@@ -386,13 +362,7 @@ bool Algorithms::is_undirected(Graph graph){
 		}
 	}
 	return true;
-}/*
-
-static std::vector<std::pair<unsigned long, double>> 
-traveling_salesman(Graph graph){
-		return std::vector<std::pair<unsigned long, double>>();
-
-}*/
+}
 
 std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
  Algorithms::johnson(Graph graph){
@@ -427,7 +397,7 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
     std::vector<std::pair<unsigned long, double>> row = tempg.list[i]; 
       for(auto& pair: row) {
         if(distance[i] + pair.second < distance[pair.first]) {
-          distance[pair.first] = distance[index] + pair.second;
+          distance[pair.first] = distance[i] + pair.second;
           predecessor[pair.first] = i;
         }
       }
@@ -457,7 +427,6 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
   	} while(current != num-1);
 
   	std::reverse(path.begin(), path.end());
-
 		double total = 0;
 		for(auto& edge: path){
 			total += edge.second;
@@ -465,41 +434,46 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 		h[i] = total;
 	}
 
+	//construct graph with with new weights
 	auto newgraph = graph.list;
 	for(int i = 0 ; i< newgraph.size(); i++){
 		auto temp = newgraph[i];
-	//	std::vector<std::pair<unsigned long, double>>
-		auto z = std::vector<std::pair<unsigned long, double>>(); 
+		auto newedges = std::vector<std::pair<unsigned long, double>>(); 
 		for(int j = 0; j < temp.size(); j++){
 			std::pair<unsigned long, double> temppair = temp[j];
 			double value = (temppair.second + h[i] - h[temppair.first]);
-			z.push_back(std::pair<unsigned long, double>(temppair.first,value));
+			newedges.push_back(std::pair<unsigned long, double>(temppair.first,value));
 		}
-		newgraph[i] = z;
+		newgraph[i] = newedges;
 	}
 
-	auto xyz = Graph(newgraph);
-	auto length = xyz.get_num_vertices();
+	auto finalgraph = Graph(newgraph);
+	auto length = finalgraph.get_num_vertices();
 	auto final_weight = std::vector<std::vector<std::vector<std::pair<unsigned long, double>>
 >>(length);
 	for(int i = 0; i < length ; i++){
 		final_weight[i] = std::vector<std::vector<std::pair<unsigned long, double>>>(length);
 	}
-	
+
+	//compute paths between all nodes
 	for(int i = 0; i< length; i++){
 		for(int j = 0 ; j< length; j++){
-			//final_weight[i][j] = Dijkstras(xyz,i,j);
+			if(i == j){
+				auto tem = std::vector<std::pair<unsigned long, double>>();
+				tem.push_back(std::pair<unsigned long, double>(0,0));
+				final_weight[i][j] = tem;
+			}else if(i>j){
+				final_weight[i][j] = final_weight[j][i];
+			}else{
+				try{
+					final_weight[i][j] = Dijkstras(finalgraph,i,j);
+				}catch(Algorithms_Exception){
+					final_weight[i][j] = std::vector<std::pair<unsigned long, double>>();
+				}
+			}
 		}
 	}
 
 	return final_weight;
-
-
 }
-
-
-
-
-
-
 #endif
