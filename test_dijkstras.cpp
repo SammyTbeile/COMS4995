@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "algorithms.hpp"
+#include "stopwatch.hpp"
 #include "test_helper.hpp"
 
 using namespace std;
@@ -77,8 +78,13 @@ int main(int argc, char **argv) {
 
   cerr << "Running Dijkstras..." << endl;
 
+  // Stopwatch
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+
   // Algorithm
   auto res = Algorithms::Dijkstras(graph, origin_index, destin_index); 
+  stopwatch.stop();
 
   // Printing
   cout << setprecision(8);
@@ -91,6 +97,8 @@ int main(int argc, char **argv) {
     cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
       << defaultfloat << setw(4) << weight << ", " << code << '\n';
   }
+
+  cerr << "\nElapsed Time: " << stopwatch.elapsed() << endl;
 
   return 0; 
 }

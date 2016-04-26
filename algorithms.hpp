@@ -62,7 +62,7 @@ class Algorithms {
 		static bool is_undirected(Graph graph);
 
 		static std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
- johnson(Graph graph);
+ Johnsons(Graph graph);
 
 };
 
@@ -406,7 +406,7 @@ bool Algorithms::is_undirected(Graph graph){
 }
 
 std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
- Algorithms::johnson(Graph graph){
+ Algorithms::Johnsons(Graph graph){
 	auto graphx = std::vector<std::vector<std::pair<unsigned long, double>>>();
 	auto num = graph.get_num_vertices();
 	auto vert = std::vector<std::pair<unsigned long, double>>();
