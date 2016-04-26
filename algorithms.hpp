@@ -15,7 +15,6 @@
 #include <stack>
 #include <utility>
 #include <vector>
-#include <list>
 
 #include "graph.hpp"
 
@@ -49,7 +48,7 @@ class Algorithms {
     /* Public Member Functions */
     static std::vector<std::pair<unsigned long, double>>
       Dijkstras(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
-    static std::vector<std::list<std::pair<unsigned long, double>>>
+    static std::vector<std::pair<unsigned long, double>>
       Prims(Graph graph, unsigned long start_vertex);
 
 		static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
@@ -174,10 +173,23 @@ graph, unsigned long start_vertex, unsigned long end_vertex) {
 
 
 // Prim's
-std::vector<std::list<std::pair<unsigned long, double>>> Algorithms::Prims(Graph
+std::vector<std::pair<unsigned long, double>> Algorithms::Prims(Graph
 graph, unsigned long start_vertex) {
-  
   validate_start_vertex(graph, start_vertex);
+  /*
+  // Commenting this out so I can compile the algorithms header
+
+  auto starting_vertex = start_pair.first;
+  //Set the starting vertex as visited
+  am.set_visited(pair.first, pair.second);
+  //get its neighbors
+  auto neighbors_list = am.get_neighbors(start_pair.first);
+  int minWeightSoFar = neighbors_list[0];
+  while(!neighbors_list.empty) {
+    for( auto neighbor : neighbors_list) {
+      if (am.get_weight(neighbor) <am.get_weight(minWeightSoFar));
+        minWeightSoFar = neighbor;
+=======
   int num = graph.get_num_vertices();
   std::vector<unsigned long> parents = std::vector<unsigned long>(num); //store MST
   std::vector<double> keys = std::vector<double>(num) ; //store minWeights
@@ -229,11 +241,13 @@ graph, unsigned long start_vertex) {
       if(parents[j] == newpair.first){
         innerList.push_back(std::pair<unsigned long, double>(j, keys[j]));
       }
+>>>>>>> 2170e8545ba12855ee904d3686d93039afa04da9
     }
     returnVector.push_back(innerList);
   }
-  return returnVector;
-
+<<<<<<< HEAD
+  */
+  return std::vector<std::pair<unsigned long, double>>(); // TODO remove
 }
 
 // BellFord
@@ -300,7 +314,6 @@ unsigned long start_vertex, unsigned long end_vertex) {
 
   return path;
 }
-
 // dfs - create spaning tree for bellmanford
 void Algorithms::dfs(Graph& graph, int& count, unsigned long vertex, std::
 vector<bool>& visited, std::vector<std::pair<unsigned long, std::vector<unsigned
@@ -504,7 +517,11 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 				tem.push_back(std::pair<unsigned long, double>(0,0));
 				final_weight[i][j] = tem;
 			}else if(i>j){
-				final_weight[i][j] = final_weight[j][i];
+				
+				auto xyz = final_weight[j][i];
+				std::reverse(xyz.begin(), xyz.end());
+				final_weight[i][j] = xyz;
+
 			}else{
 				try{
 					final_weight[i][j] = Dijkstras(finalgraph,i,j);
@@ -517,5 +534,4 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 
 	return final_weight;
 }
-
 #endif
