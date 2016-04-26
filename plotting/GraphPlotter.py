@@ -11,14 +11,22 @@ import csv
 
 
 def prims(input_file= "input.csv"):
-    vertexes=[]
+    lats = []
+    longs = []
+    weights = []
+    names = []
+    neighbors = []
 
     with open(input_file) as input_csv:
         csv_reader = csv.reader(input_csv)
         next(csv_reader,None)
         for row in csv_reader:
-            x = dict(lat=float(row[0]), long=-1*float(row[1]), weight=row[2], name=row[3], neighbors=row[4].split(";"))
-            vertexes.append(x)
+            x,y,w,n,ne = float(row[0]), float(row[1]), float(row[2]), row[3], row[4]
+            lats.append(x)
+            longs.append(y)
+            weights.append(w)
+            names.append(n)
+            neighbors.append(ne)
 
     # background map
     m= Basemap(llcrnrlon=-119, llcrnrlat=22, urcrnrlon=-64,
@@ -35,19 +43,20 @@ def prims(input_file= "input.csv"):
     for x, y, name in zip(xpt,ypt,names):
         plt.text(x+1000,y+1000,name)    
         
-    for i in range(0,(len(vertexes)-1)):
+    for i in range(0,(len(neighbors)-1)):
+        neighbors_list = neighbors[i].split("_");
+        inner_lats = []
+        inner_longs = []
+        inner_weight = []
+        for neighbor in neighbors_list:
+            value_list = neighbor.split(";")
+            inner_lats.append(float(value_list[0]))
+            inner_longs.append(float(value_list[1]))
+            inner_weight.append(float(value_list[2]))
+        
+        for j in range(0,len(inner_lats)-1):
+            m.drawgreatcircle(longs[i],lats[i],inner_longs[j],inner_lats[j], linewidth=1,color="r")
 
-        xpt, ypt = m(vertexes[i].get("long"), vertexes[i].get["lat"])
-        m.plot(xpt, ypt, "bo")
-        plt.text(xpt + 1000, ypt + 1000)
-        # while len(vertexes[0].get("neighbors")) != "":
-        for neighbor in vertexes[i].get("neighbors"):
-            neighbor_element = neighbor.split("_")
-            for vertex in vertexes:
-                if vertex.get("name") != neighbor_element[i]:
-                    xptn, yptn = m(vertex.get("long"), vertex.get("lat"))
-                    m.drawgreatcircle(xpt, ypt, xptn, yptn, linewidth=1, color="r")
-                    plt.text((xpt+ypt)/2+1000, (xptn+yptn)/2+1000, neighbor_element[1])
 
     plt.show()
 

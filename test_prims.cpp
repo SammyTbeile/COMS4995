@@ -82,15 +82,23 @@ int main(int argc, char **argv) {
   // Printing
   cout << setprecision(8);
   for(auto& list : res) {
-    for(auto& pair : list){
-      auto code     = index_code_vector[pair.first];
+      auto code     = index_code_vector[list[0].first];
       auto gps_pair = code_gps_map[code];
       auto lat      = gps_pair.first;
       auto lng      = gps_pair.second;
-      auto weight   = pair.second;
+      auto weight   = list[0].second;
 
       cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
-        << defaultfloat << setw(4) << weight << ", " << code << '_'; //underscore delimits different neighbors
+        << defaultfloat << setw(4) << weight << ", " << code << ', '; //underscore delimits different neighbors
+      for(auto i =1; i<list.size();i++){
+          auto in_code     = index_code_vector[list[i].first];
+          auto in_gps_pair = code_gps_map[code];
+          auto in_lat      = in_gps_pair.first;
+          auto in_lng      = in_gps_pair.second;
+          auto weight      = list[i].second;
+
+          cout << fixed << setw(11) << in_lat << "; " <<setw(11) << in_lng << ";"
+            << defaultfloat << setw(4) << weight << "; " << code << "; " << "_ ";
       }
     cout << "/n";
   }
