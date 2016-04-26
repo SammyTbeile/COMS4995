@@ -1,7 +1,7 @@
-CC       = clang++
-CXX      = clang++
+CC       = clang++-3.6
+CXX      = clang++-3.6
 CFLAGS   = -g -Wall -Werror
-CXXFLAGS = -g -Wall -Werror -std=c++14
+CXXFLAGS = -g -Wall -Werror -std=c++11
 LDLIBS   = -lmysqlcppconn
 EXES     = test_bellmanford   test_dijkstras
 OBJS     = test_bellmanford.o test_dijkstras.o test_helper.o

@@ -189,8 +189,63 @@ graph, unsigned long start_vertex) {
     for( auto neighbor : neighbors_list) {
       if (am.get_weight(neighbor) <am.get_weight(minWeightSoFar));
         minWeightSoFar = neighbor;
+=======
+  int num = graph.get_num_vertices();
+  std::vector<unsigned long> parents = std::vector<unsigned long>(num); //store MST
+  std::vector<double> keys = std::vector<double>(num) ; //store minWeights
+  std::vector<bool> mstVector = std::vector<bool>(num);  //represent vertexes not yet in the MST
+
+  //initalize values
+  for(int i=0;i<num;i++){
+    keys[i] = std::numeric_limits<double>::infinity();
+    mstVector[i] = false;
+  }
+
+  keys[0] = 0;
+  parents[0] = start_vertex;
+
+  for(int index =0; index<num-1;index++){
+    //get the minimum key
+    double min = std::numeric_limits<double>::infinity();
+    int minIndex;
+    for(int i=0;i< num;i++){
+      if(mstVector[i] ==false && keys[i] < min){
+        min = keys[i];
+        minIndex = i;
+      }
+    }
+
+    //add the min to the MST
+    mstVector[minIndex] = true;
+
+    //update key and parent of adjacent vertexes not included in the MST
+    for(int j = 0; j< num;j++){
+
+      //graph.matrix[minIndex][j] is not zero only for adjacent vertexes of minIndex
+      //mstVector is false only for vertexes not yet in the MST
+      if(graph.matrix[minIndex][j] !=0 && mstVector[j] ==false && graph.matrix[minIndex][j] < keys[j]){
+        parents[j] = minIndex;
+        keys[j] = graph.matrix[minIndex][j];
+      }
     }
   }
+
+  //print the tree
+  std::vector<std::list<std::pair<unsigned long, double>>> returnVector;
+  for( unsigned long i=0;i< num;i++){
+    std::list<std::pair<unsigned long, double>> innerList;
+    auto newpair = std::pair<unsigned long, double>(i,keys[i]);
+    innerList.push_back(newpair);
+    //auto current = i;
+    for(auto j = 1; j< num; j++){
+      if(parents[j] == newpair.first){
+        innerList.push_back(std::pair<unsigned long, double>(j, keys[j]));
+      }
+>>>>>>> 2170e8545ba12855ee904d3686d93039afa04da9
+    }
+    returnVector.push_back(innerList);
+  }
+<<<<<<< HEAD
   */
   return std::vector<std::pair<unsigned long, double>>(); // TODO remove
 }
@@ -259,8 +314,8 @@ unsigned long start_vertex, unsigned long end_vertex) {
 
   return path;
 }
-
-// dfs - create spaning tree
+// dfs - create spaning tree for bellmanford
+>>>>>>> 2170e8545ba12855ee904d3686d93039afa04da9
 void Algorithms::dfs(Graph& graph, int& count, unsigned long vertex, std::
 vector<bool>& visited, std::vector<std::pair<unsigned long, std::vector<unsigned
 long>>>& tree, std::vector<std::vector<unsigned long>>& backedge) {
