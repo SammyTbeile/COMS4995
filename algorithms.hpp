@@ -519,7 +519,7 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 			}else if(i>j){
 				
 				auto xyz = final_weight[j][i];
-				std::reverse(xyz, xyz);
+				std::reverse(xyz.begin(), xyz.end());
 				final_weight[i][j] = xyz;
 
 			}else{
