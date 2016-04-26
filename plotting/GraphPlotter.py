@@ -19,7 +19,6 @@ def prims(input_file= "input.csv"):
 
     with open(input_file) as input_csv:
         csv_reader = csv.reader(input_csv)
-        next(csv_reader,None)
         for row in csv_reader:
             x,y,w,n,ne = float(row[0]), float(row[1]), float(row[2]), row[3], row[4]
             lats.append(x)
@@ -27,6 +26,8 @@ def prims(input_file= "input.csv"):
             weights.append(w)
             names.append(n)
             neighbors.append(ne)
+    
+  
 
     # background map
     m= Basemap(llcrnrlon=-119, llcrnrlat=22, urcrnrlon=-64,
@@ -38,10 +39,10 @@ def prims(input_file= "input.csv"):
     m.drawstates()
     m.drawcountries()
 
-    xpt, ypt = m(longs, lats)
-    m.plot(xpt, ypt, 'bo', markersize=10)
-    for x, y, name in zip(xpt,ypt,names):
-        plt.text(x+1000,y+1000,name)    
+    ypt, xpt = m(longs, lats)
+    m.plot(ypt, xpt, 'bo', markersize=10)
+    for y, x, name in zip(ypt,xpt,names):
+        plt.text(y+1000,x+1000,name)    
         
     for i in range(0,(len(neighbors)-1)):
         neighbors_list = neighbors[i].split("_");
@@ -49,13 +50,19 @@ def prims(input_file= "input.csv"):
         inner_longs = []
         inner_weight = []
         for neighbor in neighbors_list:
+            if(neighbor==''):
+                continue
             value_list = neighbor.split(";")
-            inner_lats.append(float(value_list[0]))
-            inner_longs.append(float(value_list[1]))
-            inner_weight.append(float(value_list[2]))
-        
-        for j in range(0,len(inner_lats)-1):
+            lat = float(value_list[0])
+            long = float(value_list[1])
+            w = float(value_list[2])
+            inner_lats.append(lat)
+            inner_longs.append(long)
+            inner_weight.append(w)
+        inner_y, inner_x = m(inner_longs,inner_lats)
+        for j in range(0,len(inner_lats)):
             m.drawgreatcircle(longs[i],lats[i],inner_longs[j],inner_lats[j], linewidth=1,color="r")
+            plt.text((ypt[i]+inner_y[j])/2,(xpt[i]+inner_x[j])/2,inner_weight[j])
 
 
     plt.show()
@@ -74,7 +81,7 @@ def general(input_file="input.csv"):
         for row in csv_reader:
             #print (float(row[0]))
             
-            x, y, w, n = float(row[0]),  float(row[1]), float(row[2]), row[3]
+            x, y, w, n = float(row[0]),  float(row[1]), row[2], row[3]
             lats.append(x)
             longs.append(y)
             weights.append(w)
@@ -90,13 +97,16 @@ def general(input_file="input.csv"):
     m.drawcounties()
     m.fillcontinents(color='green', lake_color='aqua')
     m.drawstates()
-    xpt, ypt = m(longs, lats)
-    m.plot(xpt, ypt, 'bo', markersize=10)
-    for x, y, name in zip(xpt,ypt,names):
-        plt.text(x+1000,y+1000,name)
+    ypt, xpt = m(longs, lats)
+    m.plot(ypt, xpt, 'bo', markersize=10)
+    for y, x, name in zip(ypt,xpt,names):
+        plt.text(y+1000,x+1000,name)
 
-    for i in range(0,len(xpt)-1):
+    for i in range(0,len(ypt)-1):
         m.drawgreatcircle(longs[i], lats[i], longs[i+1], lats[i+1], linewidth=1, color='r')
+    
+    for i in range(0,len(weights)-1):
+        plt.text(((ypt[i]+ypt[i+1])/2),((xpt[i]+xpt[i+1])/2),weights[i+1])
     
     plt.show()
     
