@@ -315,7 +315,6 @@ unsigned long start_vertex, unsigned long end_vertex) {
   return path;
 }
 // dfs - create spaning tree for bellmanford
->>>>>>> 2170e8545ba12855ee904d3686d93039afa04da9
 void Algorithms::dfs(Graph& graph, int& count, unsigned long vertex, std::
 vector<bool>& visited, std::vector<std::pair<unsigned long, std::vector<unsigned
 long>>>& tree, std::vector<std::vector<unsigned long>>& backedge) {
@@ -518,7 +517,11 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 				tem.push_back(std::pair<unsigned long, double>(0,0));
 				final_weight[i][j] = tem;
 			}else if(i>j){
-				final_weight[i][j] = final_weight[j][i];
+				
+				auto xyz = final_weight[j][i];
+				std::reverse(xyz, xyz);
+				final_weight[i][j] = xyz;
+
 			}else{
 				try{
 					final_weight[i][j] = Dijkstras(finalgraph,i,j);
