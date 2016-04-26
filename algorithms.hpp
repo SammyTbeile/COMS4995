@@ -220,8 +220,8 @@ graph, unsigned long start_vertex) {
 
   //print the tree
   std::vector<std::list<std::pair<unsigned long, double>>> returnVector;
-  std::list<std::pair<unsigned long, double>> innerList;
   for( unsigned long i=0;i< num;i++){
+    std::list<std::pair<unsigned long, double>> innerList;
     auto newpair = std::pair<unsigned long, double>(i,keys[i]);
     innerList.push_back(newpair);
     //auto current = i;
@@ -230,8 +230,8 @@ graph, unsigned long start_vertex) {
         innerList.push_back(std::pair<unsigned long, double>(j, keys[j]));
       }
     }
+    returnVector.push_back(innerList);
   }
-  returnVector.push_back(innerList);
   return returnVector;
 
 }
