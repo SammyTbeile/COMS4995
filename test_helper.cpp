@@ -86,11 +86,11 @@ unordered_map<string, pair<double, double>> make_code_gps_map() {
   auto code_gps_map = unordered_map<string, pair<double, double>>();
   try {
     // Query
-    auto result_set = statement->executeQuery("SELECT * FROM WorldAirports");
+    auto result_set = statement->executeQuery("SELECT * FROM Airports");
     while(result_set->next()) {
-      auto code  = result_set->getString("IATA_FAA");
-      double lat = result_set->getDouble("Lat");
-      double lng = result_set->getDouble("Lng");
+      auto code  = result_set->getString("code");
+      double lat = result_set->getDouble("lat");
+      double lng = result_set->getDouble("lng");
       try {
         code_gps_map.at(code);
         throw logic_error("Airport code: " + code + " already exists in code_gps_map");
@@ -113,11 +113,11 @@ Graph_Helper<string> make_graph_helper(graph_t g) {
   auto graph_helper = Graph_Helper<string>(g);
   try {
     // Query
-    auto result_set = statement->executeQuery("SELECT * FROM WorldPaths");
+    auto result_set = statement->executeQuery("SELECT * FROM Paths");
     while(result_set->next()) {
-      auto origin = result_set->getString("Origin");
-      auto destin = result_set->getString("Destin");
-      double dist = result_set->getInt("Distance");
+      auto origin = result_set->getString("origin");
+      auto destin = result_set->getString("destin");
+      double dist = result_set->getInt("dist");
       graph_helper.add_edge(origin, destin, dist);
     }
     delete result_set;
