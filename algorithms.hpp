@@ -53,7 +53,7 @@ class Algorithms {
 
 		static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
 
-			static std::vector<unsigned long> Tarjan(Graph graph);	
+			static std::vector<unsigned long> Tarjans(Graph graph);	
 /*
 		static std::vector<std::pair<unsigned long, double>> 
 			traveling_salesman(Graph graph);*/
@@ -379,6 +379,15 @@ unsigned long start_vertex, unsigned long end_vertex) {
 
   std::reverse(path.begin(), path.end());
 
+	double track = 0;
+	for(int i = 0 ; i < path.size(); i++){
+		auto pair = path[i];
+		auto editvalue = pair.second - track;
+		track = pair.second;
+		path[i] = std::pair<unsigned long, double>(pair.first,editvalue);
+	}
+
+
   return path;
 }
 
@@ -439,11 +448,24 @@ unsigned long>> backedge) {
 }
 	
 // Tarjan
-std::vector<unsigned long> Algorithms::Tarjan(Graph graph) {
-	if(is_undirected(graph)==false){
-		 throw Algorithms_Exception("Graph is not undirected");
+std::vector<unsigned long> Algorithms::Tarjans(Graph graph) {
+	for(int i = 0; i< graph.get_num_vertices(); i++){
+		for(int j = 0; j< graph.get_num_vertices(); j++){
+			if(graph.matrix[i][j] != graph.matrix[j][i]){
+				if(graph.matrix[i][j] == 0){
+					graph.matrix[i][j] = graph.matrix[j][i];
+				}else if (graph.matrix[j][i]==0){
+					graph.matrix[j][i] = graph.matrix[i][j];
+				
+				}
+			}
+		}
 	}
 
+	if(is_undirected(graph)==false){
+        throw Algorithms_Exception("Graph is not undirected");
+	
+	}
 	//initlize values
   int size = graph.get_num_vertices();
   auto visited = std::vector<bool>(size);
@@ -584,10 +606,6 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 				auto tem = std::vector<std::pair<unsigned long, double>>();
 				tem.push_back(std::pair<unsigned long, double>(0,0));
 				final_weight[i][j] = tem;
-			}else if(i>j){
-				auto xyz = final_weight[j][i];
-				std::reverse(xyz.begin(), xyz.end());
-				final_weight[i][j] = xyz;
 			}else{
 				try{
 					final_weight[i][j] = Dijkstras(finalgraph,i,j);
