@@ -251,7 +251,7 @@ graph, unsigned long start_vertex) {
 }
 
 // BellFord
-std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
+/*std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
 unsigned long start_vertex, unsigned long end_vertex) {
   validate_start_vertex(graph, start_vertex);
 
@@ -302,7 +302,74 @@ unsigned long start_vertex, unsigned long end_vertex) {
 	do {
     current = predecessor[current];
 		if(visited_check[current] == true){
-			 throw Algorithms_Exception("No Path");
+			 throw Algorithms_Exception("No Pathx");
+		}
+
+    auto newpair = std::pair<unsigned long, double>(current, distance[current]);
+    path.push_back(newpair);
+	//	visited_check[current] = true;
+  } while(current != start_vertex);
+
+  std::reverse(path.begin(), path.end());
+
+  return path;
+}*/
+
+// BellFord
+std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
+unsigned long start_vertex, unsigned long end_vertex) {
+  validate_start_vertex(graph, start_vertex);
+
+
+  int num = graph.get_num_vertices();
+  std::vector<double> distance = std::vector<double>(num);
+  std::vector<unsigned long> predecessor = std::vector<unsigned long>(num);
+
+  //initalize values
+  for(int i = 0; i< num; i++) {
+    distance[i] = std::numeric_limits<double>::infinity();
+    predecessor[i] = -1; 
+  }
+  distance[start_vertex] = 0;
+
+  //compute optimal path
+  for(int index = 1; index < num; index++) {
+    for(int i = 0; i< num; i++) {
+    	std::vector<std::pair<unsigned long, double>> row = graph.list[i]; 
+      for(auto& pair: row) {
+        if(distance[i] + pair.second < distance[pair.first]) {
+          distance[pair.first] = distance[i] + pair.second;
+          predecessor[pair.first] = i;
+        }
+      }
+    }
+  }
+  //check for negative cycles
+  for(int i = 0; i < num; i++){
+    std::vector<std::pair<unsigned long, double>> rows = graph.list[i];
+    for(auto& pairs: rows) {
+      if(distance[i] + pairs.second < distance[pairs.first]) {
+        throw Algorithms_Exception("Contains Negative Cycles");
+      }
+    }
+  }
+
+	if(predecessor[end_vertex] == -1){
+		throw Algorithms_Exception("NOO PATH");
+	}
+
+  //construct path
+  std::vector<std::pair<unsigned long, double>> path;
+  unsigned long current = end_vertex;
+  path.push_back(std::pair<unsigned long, double>(current, distance[current]));
+  auto visited_check = std::vector<bool>(num); //make sure this is correct
+	visited_check[current] = true;
+
+	
+	do {
+    current = predecessor[current];
+		if(visited_check[current] == true){
+			 throw Algorithms_Exception("No Path y");
 		}
 
     auto newpair = std::pair<unsigned long, double>(current, distance[current]);
@@ -314,7 +381,8 @@ unsigned long start_vertex, unsigned long end_vertex) {
 
   return path;
 }
-// dfs - create spaning tree for bellmanford
+
+// dfs - create spaning tree for tarjans
 void Algorithms::dfs(Graph& graph, int& count, unsigned long vertex, std::
 vector<bool>& visited, std::vector<std::pair<unsigned long, std::vector<unsigned
 long>>>& tree, std::vector<std::vector<unsigned long>>& backedge) {
@@ -517,11 +585,9 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 				tem.push_back(std::pair<unsigned long, double>(0,0));
 				final_weight[i][j] = tem;
 			}else if(i>j){
-				
 				auto xyz = final_weight[j][i];
 				std::reverse(xyz.begin(), xyz.end());
 				final_weight[i][j] = xyz;
-
 			}else{
 				try{
 					final_weight[i][j] = Dijkstras(finalgraph,i,j);
