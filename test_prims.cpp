@@ -1,13 +1,14 @@
 /*
  * Filename: test_prims.cpp
- * Author:   Sammy Tbeile
- * UNI:      st2918
+ * Authors:  Sean Garvey, Sammy Tbeile
+ * UNIs:     sjg2174,     st2918
  */
 
 #include <iomanip>
 #include <iostream>
 
 #include "algorithms.hpp"
+#include "stopwatch.hpp"
 #include "test_helper.hpp"
 
 using namespace std;
@@ -76,8 +77,13 @@ int main(int argc, char **argv) {
 
   cerr << "Running Prim's..." << endl;
 
+  // Stopwatch
+  Stopwatch stopwatch = Stopwatch();
+  stopwatch.start();
+
   // Algorithm
-  auto res = Algorithms::Prims(graph, origin_index); 
+  auto res = Algorithms::Prims(graph, origin_index);
+  stopwatch.stop();
 
   // Printing
   cout << setprecision(8);
@@ -89,8 +95,8 @@ int main(int argc, char **argv) {
       auto weight   = list[0].second;
 
       cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
-        << defaultfloat << setw(4) << weight << ", " << code << ', '; //underscore delimits different neighbors
-      for(auto i =1; i<list.size();i++){
+        << defaultfloat << setw(4) << weight << ", " << code << ", "; //underscore delimits different neighbors
+      for(auto i =1; i < list.size(); ++i) {
           auto in_code     = index_code_vector[list[i].first];
           auto in_gps_pair = code_gps_map[code];
           auto in_lat      = in_gps_pair.first;
@@ -102,6 +108,8 @@ int main(int argc, char **argv) {
       }
     cout << "/n";
   }
+
+  cerr << "\nElapsed Time: " << stopwatch.elapsed() << endl;
 
   return 0; 
 }
