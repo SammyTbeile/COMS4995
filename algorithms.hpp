@@ -101,7 +101,9 @@ public:
     }
 };
 
-// Dijkstras
+/*Dijkstras  - O(|E| + |V|log|V|)
+	Finds the shortest path between two vertices in a graph. The graph cannot have negative weights. This is asymtotically the fastest single source shortest-path finding algorithm
+*/
 std::vector<std::pair<unsigned long, double>> Algorithms::Dijkstras(Graph
 graph, unsigned long start_vertex, unsigned long end_vertex) {
 
