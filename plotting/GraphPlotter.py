@@ -8,7 +8,42 @@ import csv
 '''
 
 
+def tarjans(input_file= "input.csv"):
+    lats = []
+    longs = []
+    names = []
+    colors = ['bo','ro','co','mo','yo','ko','wo']
+    used_colors = []
+    counter = 0
 
+    with open(input_file) as input_csv:
+        csv_reader = csv.reader(input_csv)
+        for row in csv_reader:
+            x,y,n = float(row[0]), float(row[1]), row[2]
+            lats.append(x)
+            longs.append(y)
+            names.append(n)
+    
+    m= Basemap(llcrnrlon=-119, llcrnrlat=22, urcrnrlon=-64,
+                               urcrnrlat=49, projection='lcc', lat_1=33, lat_2=45,
+                               lon_0=-95, resolution='c', area_thresh=10000)
+    m.drawcoastlines()
+    m.drawmapboundary(fill_color='aqua')
+    m.fillcontinents(color='green', lake_color='aqua')
+    m.drawstates()
+    m.drawcountries()
+    
+    ypt, xpt = m(longs, lats)
+    for i in range(0,len(xpt)):
+        if counter > len(xpt):
+            counter = 0
+        used_colors.append(colors[counter])
+        counter = counter +1
+    for y,x,c in zip(ypt,xpt,used_colors):
+        m.plot(y,x, c, markersize=10)
+    for y,x,name in zip(ypt,xpt,names):
+        plt.text(y+1000,x+1000,name)
+    
 
 def prims(input_file= "input.csv"):
     lats = []
@@ -110,10 +145,16 @@ def general(input_file="input.csv"):
     
     plt.show()
     
-
-decision = input('Are you using Prim\'s Algorithm? Enter y for yes, n for no: ')
+print("Menu: ")
+print("1. Shortest Path Algorithm ")
+print("2. Prim's Algorithm")
+print("3. Tarjan's Algorithm")
+decision = int(input('Please input the number of your option: '))
 inputFile = input("Where is your data stored? Please input the file name: ")
-if decision == 'y':
-    prims(inputFile)
-else:
+if decision == 1:
     general(inputFile)
+elif decision == 2:
+    prims(inputFile)
+elif decision == 3:
+    tarjans(inputFile)
+
