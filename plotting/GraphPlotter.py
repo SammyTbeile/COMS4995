@@ -11,37 +11,59 @@ import csv
 
 
 def prims(input_file= "input.csv"):
-    vertexes = []
+    lats = []
+    longs = []
+    weights = []
+    names = []
+    neighbors = []
 
     with open(input_file) as input_csv:
         csv_reader = csv.reader(input_csv)
-        next(csv_reader,None)
         for row in csv_reader:
-            x = dict(lat=float(row[0]), long=-1*float(row[1]), weight=row[2], name=row[3], neighbors=row[4].split(";"))
-            vertexes.append(x)
+            x,y,w,n,ne = float(row[0]), float(row[1]), float(row[2]), row[3], row[4]
+            lats.append(x)
+            longs.append(y)
+            weights.append(w)
+            names.append(n)
+            neighbors.append(ne)
+    
+  
 
     # background map
-    m = Basemap(width=12000000,height=9000000,projection='merc',
-            resolution='f',lat_1=45.,lat_2=55,lat_0=50,lon_0=-107)
+    m= Basemap(llcrnrlon=-119, llcrnrlat=22, urcrnrlon=-64,
+                               urcrnrlat=49, projection='lcc', lat_1=33, lat_2=45,
+                               lon_0=-95, resolution='c', area_thresh=10000)
     m.drawcoastlines()
-    m.drawmapboundary(color='aqua')
-    m.fillcontinents(color='coral', lake_color='aqua')
+    m.drawmapboundary(fill_color='aqua')
+    m.fillcontinents(color='green', lake_color='aqua')
     m.drawstates()
     m.drawcountries()
 
-    for i in range(0,(len(vertexes)-1)):
+    ypt, xpt = m(longs, lats)
+    m.plot(ypt, xpt, 'bo', markersize=10)
+    for y, x, name in zip(ypt,xpt,names):
+        plt.text(y+1000,x+1000,name)    
+        
+    for i in range(0,(len(neighbors)-1)):
+        neighbors_list = neighbors[i].split("_");
+        inner_lats = []
+        inner_longs = []
+        inner_weight = []
+        for neighbor in neighbors_list:
+            if(neighbor==''):
+                continue
+            value_list = neighbor.split(";")
+            lat = float(value_list[0])
+            long = float(value_list[1])
+            w = float(value_list[2])
+            inner_lats.append(lat)
+            inner_longs.append(long)
+            inner_weight.append(w)
+        inner_y, inner_x = m(inner_longs,inner_lats)
+        for j in range(0,len(inner_lats)):
+            m.drawgreatcircle(longs[i],lats[i],inner_longs[j],inner_lats[j], linewidth=1,color="r")
+            plt.text((ypt[i]+inner_y[j])/2,(xpt[i]+inner_x[j])/2,inner_weight[j])
 
-        xpt, ypt = m(vertexes[i].get("long"), vertexes[i].get["lat"])
-        m.plot(xpt, ypt, "bo")
-        plt.text(xpt + 1000, ypt + 1000)
-        # while len(vertexes[0].get("neighbors")) != "":
-        for neighbor in vertexes[i].get("neighbors"):
-            neighbor_element = neighbor.split("_")
-            for vertex in vertexes:
-                if vertex.get("name") != neighbor_element[i]:
-                    xptn, yptn = m(vertex.get("long"), vertex.get("lat"))
-                    m.drawgreatcircle(xpt, ypt, xptn, yptn, linewidth=1, color="r")
-                    plt.text((xpt+ypt)/2+1000, (xptn+yptn)/2+1000, neighbor_element[1])
 
     plt.show()
 
@@ -59,7 +81,7 @@ def general(input_file="input.csv"):
         for row in csv_reader:
             #print (float(row[0]))
             
-            x, y, w, n = float(row[0]),  float(row[1]), float(row[2]), row[3]
+            x, y, w, n = float(row[0]),  float(row[1]), row[2], row[3]
             lats.append(x)
             longs.append(y)
             weights.append(w)
@@ -71,17 +93,20 @@ def general(input_file="input.csv"):
                                urcrnrlat=49, projection='lcc', lat_1=33, lat_2=45,
                                lon_0=-95, resolution='c', area_thresh=10000)
     m.drawcoastlines()
-    m.drawmapboundary(color='aqua')
+    m.drawmapboundary(fill_color='aqua')
     m.drawcounties()
-    m.fillcontinents(color='coral', lake_color='aqua')
+    m.fillcontinents(color='green', lake_color='aqua')
     m.drawstates()
-    xpt, ypt = m(longs, lats)
-    m.plot(xpt, ypt, 'bo', markersize=10)
-    for x, y, name in zip(xpt,ypt,names):
-        plt.text(x+1000,y+1000,name)
+    ypt, xpt = m(longs, lats)
+    m.plot(ypt, xpt, 'bo', markersize=10)
+    for y, x, name in zip(ypt,xpt,names):
+        plt.text(y+1000,x+1000,name)
 
-    for i in range(0,len(xpt)-1):
+    for i in range(0,len(ypt)-1):
         m.drawgreatcircle(longs[i], lats[i], longs[i+1], lats[i+1], linewidth=1, color='r')
+    
+    for i in range(0,len(weights)-1):
+        plt.text(((ypt[i]+ypt[i+1])/2),((xpt[i]+xpt[i+1])/2),weights[i+1])
     
     plt.show()
     
