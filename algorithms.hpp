@@ -265,79 +265,16 @@ graph, unsigned long start_vertex) {
   }
 <<<<<<< HEAD
   */
-  return std::vector<std::pair<unsigned long, double>>(); // TODO remove
+  return std::vector<std::pair<unsigned long, double>>();
 }
 
-// BellFord
-/*std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
-unsigned long start_vertex, unsigned long end_vertex) {
-  validate_start_vertex(graph, start_vertex);
-
-
-  int num = graph.get_num_vertices();
-  std::vector<double> distance = std::vector<double>(num);
-  std::vector<unsigned long> predecessor = std::vector<unsigned long>(num);
-
-  //initalize values
-  for(int i = 1; i< num; i++) {
-    distance[i] = std::numeric_limits<double>::infinity();
-    predecessor[i] = -1; 
-  }
-  distance[start_vertex] = 0;
-
-  //compute optimal path
-  for(int index = 0; index < num; index++) {
-    for(int i = 0; i< num; i++) {
-    	std::vector<std::pair<unsigned long, double>> row = graph.list[i]; 
-      for(auto& pair: row) {
-        if(distance[i] + pair.second < distance[pair.first]) {
-          distance[pair.first] = distance[i] + pair.second;
-          predecessor[pair.first] = i;
-        }
-      }
-    }
-  }
-  //check for negative cycles
-  for(int i = 0; i < num; i++){
-    std::vector<std::pair<unsigned long, double>> rows = graph.list[i];
-    for(auto& pairs: rows) {
-      if(distance[i] + pairs.second < distance[pairs.first]) {
-        throw Algorithms_Exception("Contains Negative Cycles");
-      }
-    }
-  }
-
-	if(predecessor[end_vertex] == -1){
-		throw Algorithms_Exception("NOO PATH");
-	}
-
-  //construct path
-  std::vector<std::pair<unsigned long, double>> path;
-  unsigned long current = end_vertex;
-  path.push_back(std::pair<unsigned long, double>(current, distance[current]));
-  auto visited_check = std::vector<bool>(num); //make sure this is correct
-	visited_check[current] = true;
-	do {
-    current = predecessor[current];
-		if(visited_check[current] == true){
-			 throw Algorithms_Exception("No Pathx");
-		}
-
-    auto newpair = std::pair<unsigned long, double>(current, distance[current]);
-    path.push_back(newpair);
-	//	visited_check[current] = true;
-  } while(current != start_vertex);
-
-  std::reverse(path.begin(), path.end());
-
-  return path;
-}*/
 
 /*
-	BellFord, is an implementation of Bellman Ford's algorithm.
+	BellFord, is an implementation of Bellman-Ford's algorithm.
 	time complexity => O(|E|*|V|)
 	Finds the shortest path between two vertices in a graph. Although this algorithm 
-	is asymtotically slower than Dijkstras, this algorithm can account for negative weights. 
+	is asymtotically slower than Dijkstras, this algorithm works for graphs 
+	with negative weights. 
 
 	BellFord(Graph graph, start_vertex, end_vertex) = path = vector<pair<unsigned long, double>>
 
@@ -349,7 +286,6 @@ unsigned long start_vertex, unsigned long end_vertex) {
 	the edge from the previous vertex v_{i-1}	to the current vertex v_{i}. The total weight 
 	of the path is the sum of w_1 to w_n. w_0 is always 0 since there is no vertex to going
 	to the stating vertex.
-
 
 */
 
@@ -484,14 +420,14 @@ unsigned long>> backedge) {
 }
 	
 /* 
-		Tarjans algorithm to find articulation points.
+		Tarjan's algorithm to find articulation points.
 		Tarjans(Graph graph) = art_points = vector<unsigned long>
 
 		The algorithm's time complexity is O(|V| + |E|)
 
 		art_points = < v_0, v_1,..., v_n >
 
-		all v_i are articulation points of graph.
+		all v_i's of art_points are articulation points of 'graph'.
 
 
 */
@@ -555,6 +491,19 @@ bool Algorithms::is_undirected(Graph graph){
 	}
 	return true;
 }
+
+/*
+		Johnsons(Graph graph) = graph_matrix = vector<vector<pair<unsigned long, double>>>
+		Johnson's algorithm to find the shortest path between all pairs of vertices in a graph.
+		Johnson's algorithm accounts for graphs that has negative weights.
+
+		its time complexity is O(|V|^2 * log|V| + |V|*|E|). This time is slower than running Dijkstras 
+		for every pair of vertices but it is faster than running Bellman-Ford for every pair of vertices.
+
+		graph_matrix[0][100] == Bellman-Ford(graph,0,100)
+
+*/
+
 
 std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
  Algorithms::Johnsons(Graph graph){
