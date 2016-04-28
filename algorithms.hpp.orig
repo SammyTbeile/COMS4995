@@ -102,6 +102,7 @@ public:
     }
 };
 
+<<<<<<< Updated upstream
 /*
 	Dijkstra's algorithm to find the shortest path between two vertices in a graph.
 	Time complexity => O(|E| + |V|log|V|), this is asymtotically the fastest single
@@ -121,6 +122,9 @@ public:
 
 
 */
+=======
+// Dijkstras
+>>>>>>> Stashed changes
 std::vector<std::pair<unsigned long, double>> Algorithms::Dijkstras(Graph
 graph, unsigned long start_vertex, unsigned long end_vertex) {
 
@@ -261,28 +265,34 @@ graph, unsigned long start_vertex) {
     returnVector.push_back(inner_list);
     counter++;
   }
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+  */
+  return std::vector<std::pair<unsigned long, double>>();
+}
 
-  // std::cout<<"end"<<std::endl;
+=======
+  std::cout<<"end"<<std::endl;
   return returnVector; // TODO remove
 }
 
-// // BellFord
-// std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
-// unsigned long start_vertex, unsigned long end_vertex) {
-//   validate_start_vertex(graph, start_vertex);
+// BellFord
+std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
+unsigned long start_vertex, unsigned long end_vertex) {
+  validate_start_vertex(graph, start_vertex);
 
 
-//   int num = graph.get_num_vertices();
-//   std::vector<double> distance = std::vector<double>(num);
-//   std::vector<unsigned long> predecessor = std::vector<unsigned long>(num);
+  int num = graph.get_num_vertices();
+  std::vector<double> distance = std::vector<double>(num);
+  std::vector<unsigned long> predecessor = std::vector<unsigned long>(num);
 
-//   //initalize values
-//   for(int i = 1; i< num; i++) {
-//     distance[i] = std::numeric_limits<double>::infinity();
-//     predecessor[i] = -1; 
-//   }
-//   distance[start_vertex] = 0;
-// >>>>>>> Stashed changes
+  //initalize values
+  for(int i = 1; i< num; i++) {
+    distance[i] = std::numeric_limits<double>::infinity();
+    predecessor[i] = -1; 
+  }
+  distance[start_vertex] = 0;
+>>>>>>> Stashed changes
 
 /*
 	BellFord, is an implementation of Bellman-Ford's algorithm.
@@ -347,15 +357,19 @@ unsigned long start_vertex, unsigned long end_vertex) {
 		throw Algorithms_Exception("NOO PATH");
 	}
 
-
+=======
+>>>>>>> Stashed changes
   //construct path
   std::vector<std::pair<unsigned long, double>> path;
   unsigned long current = end_vertex;
   path.push_back(std::pair<unsigned long, double>(current, distance[current]));
   auto visited_check = std::vector<bool>(num); //make sure this is correct
 	visited_check[current] = true;
+<<<<<<< Updated upstream
 
 	
+=======
+>>>>>>> Stashed changes
 	do {
     current = predecessor[current];
 		if(visited_check[current] == true){
@@ -369,6 +383,7 @@ unsigned long start_vertex, unsigned long end_vertex) {
 
   std::reverse(path.begin(), path.end());
 
+<<<<<<< Updated upstream
 	double track = 0;
 	for(int i = 0 ; i < path.size(); i++){
 		auto pair = path[i];
@@ -377,6 +392,8 @@ unsigned long start_vertex, unsigned long end_vertex) {
 		path[i] = std::pair<unsigned long, double>(pair.first,editvalue);
 	}
 
+=======
+>>>>>>> Stashed changes
   return path;
 }
 // dfs - create spaning tree for bellmanford
@@ -435,6 +452,7 @@ unsigned long>> backedge) {
   return (unsigned long) value;
 }
 	
+<<<<<<< Updated upstream
 /* 
 		Tarjan's algorithm to find articulation points.
 		Tarjans(Graph graph) = art_points = vector<unsigned long>
@@ -462,10 +480,10 @@ std::vector<unsigned long> Algorithms::Tarjans(Graph graph) {
 		}
 	}
 
-// =======
-// // Tarjan
-// std::vector<unsigned long> Algorithms::Tarjan(Graph graph) {
-// >>>>>>> Stashed changes
+=======
+// Tarjan
+std::vector<unsigned long> Algorithms::Tarjan(Graph graph) {
+>>>>>>> Stashed changes
 	if(is_undirected(graph)==false){
 		 throw Algorithms_Exception("Graph is not undirected");
 	}
@@ -641,3 +659,4 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 
 	return final_weight;
 }
+#endif

@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
     auto lng      = gps_pair.second;
     auto weight   = e.second;
     cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
-      << defaultfloat << setw(4) << weight << ", " << code << '\n';
+      << 0.0 << setw(4) << weight << ", " << code << '\n';
   }
 
   cerr << "\nElapsed Time: " << stopwatch.elapsed() << endl;
