@@ -237,30 +237,41 @@ graph, unsigned long start_vertex) {
   
   //Construct the MST
   std::vector<std::vector<std::pair<unsigned long,double>>> returnVector = std::vector<std::vector<std::pair<unsigned long,double>>>();
-  // std::vector<std::pair<unsigned long, double>> start_list = std::vector<std::pair<unsigned long, double>>();
-  
-  // start_list.push_back(std::pair<unsigned long, double>(start_vertex,0));
-  // for(auto& vertex : graph.list[start_vertex]){
-  //   if(predecessor[vertex.first] == start_vertex){
-  //     start_list.push_back(std::pair<unsigned long, double>(vertex.first,distances[vertex.first]));
-  //   }
-  // }
-  // returnVector.push_back(start_list);
   int counter = 0;
-  // for(auto v : vertices){
-  while(counter<vertices.size()){
-    
-    std::cout<<counter<<std::endl;
-    std::vector<std::pair<unsigned long, double>> inner_list = std::vector<std::pair<unsigned long, double>>();
-    inner_list.push_back(std::pair<unsigned long,double>(vertices[counter],distances[vertices[counter]]));
-    for(auto& vertex : graph.list[vertices[counter]]){
-        if(predecessor[vertex.first]==vertices[counter]){
-          inner_list.push_back(std::pair<unsigned long, double>(vertex.first,distances[vertex.first]));
-        }
+  std::vector<unsigned long> added = std::vector<unsigned long>();
+  while(counter<200){
+  std::vector<std::pair<unsigned long, double>> start_list = std::vector<std::pair<unsigned long, double>>();
+  
+  start_list.push_back(std::pair<unsigned long, double>(start_vertex,0));
+  for(auto& vertex : graph.list[start_vertex]){
+    if(predecessor[vertex.first] == start_vertex){
+      start_list.push_back(std::pair<unsigned long, double>(vertex.first,distances[vertex.first]));
     }
-    returnVector.push_back(inner_list);
-    counter++;
   }
+  added.push_back(start_vertex);
+  returnVector.push_back(start_list);
+  counter++;
+  if(std::find(added.begin(), added.end(), vertices[start_vertex+1]) != added.end()) {
+    //do nothing
+  }else{
+    start_vertex = vertices[start_vertex+1];
+  }
+}
+  // for(auto v : vertices){
+  
+    
+  //   // std::cout<<counter<<std::endl;
+  //   std::vector<std::pair<unsigned long, double>> inner_list = std::vector<std::pair<unsigned long, double>>();
+  //   inner_list.push_back(std::pair<unsigned long,double>(vertices[counter],distances[vertices[counter]]));
+  //   for(auto& vertex : graph.list[vertices[counter]]){
+  //       if(predecessor[vertex.first]==vertices[counter]){
+          
+  //         inner_list.push_back(std::pair<unsigned long, double>(vertex.first,distances[vertex.first]));
+  //       }
+  //   }
+  //   returnVector.push_back(inner_list);
+  //   counter++;
+  // }
 
   // std::cout<<"end"<<std::endl;
   return returnVector; // TODO remove

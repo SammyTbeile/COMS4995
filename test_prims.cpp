@@ -80,19 +80,19 @@ int main(int argc, char **argv) {
       auto lat      = gps_pair.first;
       auto lng      = gps_pair.second;
       auto weight   = currentList[0].second;
-      cout<<currentList[0].first<<endl;
+      // cout<<currentList[0].first<<endl;
 
       cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
         << 0.0 << setw(4) << weight << ", " << code << ", "; //underscore delimits different neighbors
       for(auto j =1; j<currentList.size();j++){
           auto in_code     = index_code_vector[currentList[j].first];
-          auto in_gps_pair = code_gps_map[code];
+          auto in_gps_pair = code_gps_map[in_code];
           auto in_lat      = in_gps_pair.first;
           auto in_lng      = in_gps_pair.second;
           auto in_weight      = currentList[j].second;
 
           cout << fixed << setw(11) << in_lat << "; " <<setw(11) << in_lng << ";"
-            << 0.0 << setw(4) << in_weight << "; " << code << "; " << "_ ";
+            << 0.0 << setw(4) << in_weight << "; " << in_code << "; " << "_ ";
       }
     cout << endl;
   }
