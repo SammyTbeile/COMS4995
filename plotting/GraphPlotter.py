@@ -45,7 +45,10 @@ def johnsons(input_file="input.csv"):
                 if y>maxLong:
                     maxLong = y
             else:
-                path.append(lats,longs,weights,names)
+                path.append(lats)
+                path.append(longs)
+                path.append(weights)
+                path.append(names)
                 paths.append(path)
                 lats = []
                 longs = []
@@ -73,17 +76,17 @@ def johnsons(input_file="input.csv"):
     m.drawstates()
     
     for p in paths:
-        in_lats= p.lats;
-        in_longs =p.longs;
-        in_names = p.names;
-        in_weight = p.weight;
+        in_lats= p[0];
+        in_longs =p[1];
+        in_names = p[3];
+        in_weight = p[2];
         ypt, xpt = m(in_longs, in_lats)
         m.plot(ypt, xpt, 'bo', markersize=10)
         for y, x, name in zip(ypt,xpt,in_names):
             plt.text(y-1000,x+1000,name)
     
-        for i in range(0,len(ypt)-1):
-            m.drawgreatcircle(in_longs[i], in_lats[i], longs[i+1], lats[i+1], linewidth=1, color='r')
+        for i in range(0,len(in_lats)-1):
+            m.drawgreatcircle(in_longs[i], in_lats[i], in_longs[i+1], in_lats[i+1], linewidth=1, color='r')
         
         for i in range(0,len(in_weight)-1):
             plt.text(((ypt[i]+ypt[i+1])/2),((xpt[i]+xpt[i+1])/2),in_weight[i+1])
@@ -101,7 +104,7 @@ def tarjans(input_file= "input.csv"):
     with open(input_file) as input_csv:
         csv_reader = csv.reader(input_csv)
         for row in csv_reader:
-            x,y,n = float(row[0]), float(row[1]), row[2][3:]
+            x,y,n = float(row[0]), float(row[1]), row[2]
             lats.append(x)
             longs.append(y)
             names.append(n)
@@ -206,8 +209,9 @@ def prims(input_file= "input.csv"):
             if(neighbor==''):
                 continue
             value_list = neighbor.split(";")
+            
             if(len(value_list)>=2):
-                if(value_list[0] == " " and value_list[1] == " "):
+                if(value_list[0] != " " and value_list[1] != " "):
                     lat = float(value_list[0])
                     long = float(value_list[1])
                     w = value_list[2][3:]
@@ -220,10 +224,14 @@ def prims(input_file= "input.csv"):
                     inner_lats.append(lat)
                     inner_longs.append(long)
                     inner_weight.append(w[leading_zeroes:decimal_loc])
-        inner_y, inner_x = m(inner_longs,inner_lats)
-        for j in range(0,len(inner_lats)):
-            m.drawgreatcircle(longs[i],lats[i],inner_longs[j],inner_lats[j], linewidth=1,color="r")
-            plt.text((ypt[i]+inner_y[j])/2,(xpt[i]+inner_x[j])/2,inner_weight[j])
+        if(inner_longs!= []):
+            print(inner_longs)
+            in_ypt, in_xpt = m(inner_longs, inner_lats)
+            m.plot(in_ypt, in_xpt, 'bo', markersize=10)
+            inner_y, inner_x = m(inner_longs,inner_lats)
+            for j in range(0,len(inner_lats)):
+                m.drawgreatcircle(longs[i],lats[i],inner_longs[j],inner_lats[j], linewidth=1,color="r")
+                plt.text((ypt[i]+inner_y[j])/2,(xpt[i]+inner_x[j])/2,inner_weight[j])
 
 
     plt.show()
