@@ -101,8 +101,24 @@ public:
     }
 };
 
-/*Dijkstras  - O(|E| + |V|log|V|)
-	Finds the shortest path between two vertices in a graph. The graph cannot have negative weights. This is asymtotically the fastest single source shortest-path finding algorithm
+/*
+	Dijkstra's algorithm to find the shortest path between two vertices in a graph.
+	Time complexity => O(|E| + |V|log|V|), this is asymtotically the fastest single
+	source shortest-path finding algorithm. The algorithm cannot take graphs that
+	have negative weights. 
+
+	Dijkstras(Graph graph, start_vertex, end_vertex) = path = vector<pair<unsigned long, double>>
+
+	path = { pair<v_0,w_0> , pair<v_1,w_1> ,..., pair<v_n,w_n> }. 
+
+	the pairs of v_i and w_i represents the the vertex and weight along an edge in the path.
+
+	v_0 is the starting vertex and v_n is the end vertex. the weights w_i, is the weight of 
+	the edge from the previous vertex v_{i-1}	to the current vertex v_{i}. The total weight 
+	of the path is the sum of w_1 to w_n. w_0 is always 0 since there is no vertex to going
+	to the stating vertex.
+
+
 */
 std::vector<std::pair<unsigned long, double>> Algorithms::Dijkstras(Graph
 graph, unsigned long start_vertex, unsigned long end_vertex) {
@@ -317,11 +333,30 @@ unsigned long start_vertex, unsigned long end_vertex) {
   return path;
 }*/
 
+/*
+	BellFord, is an implementation of Bellman Ford's algorithm.
+	time complexity => O(|E|*|V|)
+	Finds the shortest path between two vertices in a graph. Although this algorithm 
+	is asymtotically slower than Dijkstras, this algorithm can account for negative weights. 
+
+	BellFord(Graph graph, start_vertex, end_vertex) = path = vector<pair<unsigned long, double>>
+
+	path = { pair<v_0,w_0> , pair<v_1,w_1> ,..., pair<v_n,w_n> }. 
+
+	the pairs of v_i and w_i represents the the vertex and weight along an edge in the path.
+
+	v_0 is the starting vertex and v_n is the end vertex. the weights w_i, is the weight of 
+	the edge from the previous vertex v_{i-1}	to the current vertex v_{i}. The total weight 
+	of the path is the sum of w_1 to w_n. w_0 is always 0 since there is no vertex to going
+	to the stating vertex.
+
+
+*/
+
 // BellFord
 std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
 unsigned long start_vertex, unsigned long end_vertex) {
   validate_start_vertex(graph, start_vertex);
-
 
   int num = graph.get_num_vertices();
   std::vector<double> distance = std::vector<double>(num);
@@ -371,7 +406,7 @@ unsigned long start_vertex, unsigned long end_vertex) {
 	do {
     current = predecessor[current];
 		if(visited_check[current] == true){
-			 throw Algorithms_Exception("No Path y");
+			 throw Algorithms_Exception("No Path");
 		}
 
     auto newpair = std::pair<unsigned long, double>(current, distance[current]);
@@ -388,7 +423,6 @@ unsigned long start_vertex, unsigned long end_vertex) {
 		track = pair.second;
 		path[i] = std::pair<unsigned long, double>(pair.first,editvalue);
 	}
-
 
   return path;
 }
@@ -449,7 +483,19 @@ unsigned long>> backedge) {
   return (unsigned long) value;
 }
 	
-// Tarjan
+/* 
+		Tarjans algorithm to find articulation points.
+		Tarjans(Graph graph) = art_points = vector<unsigned long>
+
+		The algorithm's time complexity is O(|V| + |E|)
+
+		art_points = < v_0, v_1,..., v_n >
+
+		all v_i are articulation points of graph.
+
+
+*/
+
 std::vector<unsigned long> Algorithms::Tarjans(Graph graph) {
 	for(int i = 0; i< graph.get_num_vertices(); i++){
 		for(int j = 0; j< graph.get_num_vertices(); j++){
