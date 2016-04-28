@@ -54,7 +54,7 @@ class Algorithms {
 
 		static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
 
-			static std::vector<unsigned long> Tarjan(Graph graph);	
+			static std::vector<unsigned long> Tarjans(Graph graph);	
 /*
 		static std::vector<std::pair<unsigned long, double>> 
 			traveling_salesman(Graph graph);*/
@@ -641,3 +641,5 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 
 	return final_weight;
 }
+
+#endif

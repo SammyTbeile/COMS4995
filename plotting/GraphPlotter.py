@@ -72,7 +72,7 @@ def johnsons(input_file="input.csv"):
         ypt, xpt = m(in_longs, in_lats)
         m.plot(ypt, xpt, 'bo', markersize=10)
         for y, x, name in zip(ypt,xpt,in_names):
-            plt.text(y+1000,x+1000,name)
+            plt.text(y-1000,x+1000,name)
     
         for i in range(0,len(ypt)-1):
             m.drawgreatcircle(in_longs[i], in_lats[i], longs[i+1], lats[i+1], linewidth=1, color='r')
@@ -259,7 +259,7 @@ def general(input_file="input.csv"):
     ypt, xpt = m(longs, lats)
     m.plot(ypt, xpt, 'bo', markersize=10)
     for y, x, name in zip(ypt,xpt,names):
-        plt.text(y+1000,x+1000,name)
+        plt.text(y-1000,x+1000,name)
 
     for i in range(0,len(ypt)-1):
         m.drawgreatcircle(longs[i], lats[i], longs[i+1], lats[i+1], linewidth=1, color='r')
