@@ -46,15 +46,14 @@ string& destin, unordered_map<string, unsigned long> code_index_map) {
   return make_pair(origin_index, destin_index);
 }
 
-
 int main(int argc, char **argv) {
 
+  // Handle Arguments
 	if(argc != 2) {
     cerr << "usage: " << argv[0] << " <origin> " << endl;
     exit(1);
   }
   string origin = argv[1];
-
 
   cerr << "Initializing..." << flush;
 
@@ -81,55 +80,24 @@ int main(int argc, char **argv) {
   stopwatch.start();
 
   // Algorithm
-	
 
   auto res = Algorithms::Johnsons(graph);
-	  stopwatch.stop();
-/*
-	for(auto& pair: res[20][200]){
-		cout << pair.first << " " << pair.second << endl;
-	}*/
-
-	for(auto& path: res[origin_index]){
-		for(auto& e: path){
-		
-			auto code     = index_code_vector[e.first];
-   	 auto gps_pair = code_gps_map[code];
-   	 auto lat      = gps_pair.first;
-    auto lng      = gps_pair.second;
-    auto weight   = e.second;
-    cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
-      << 0.0 << setw(4) << weight << ", " << code << '\n';
-
-			
-		
-		}
-
-		cout << "done" << endl;
-
-
-
-
-
-	}	
-
-	
-
-
+	stopwatch.stop();
 
   // Printing
-  /*
-  cout << setprecision(8);
-  for(auto& e : res) {
-    auto code     = index_code_vector[e.first];
-    auto gps_pair = code_gps_map[code];
-    auto lat      = gps_pair.first;
-    auto lng      = gps_pair.second;
-    auto weight   = e.second;
-    cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
-      << defaultfloat << setw(4) << weight << ", " << code << '\n';
-  }
-  */
+  cout << fixed;
+	for(auto& path: res[origin_index]) {
+    for(auto& e: path) {		
+      auto code     = index_code_vector[e.first];
+      auto gps_pair = code_gps_map[code];
+      auto lat      = gps_pair.first;
+      auto lng      = gps_pair.second;
+      auto weight   = e.second;
+      cout << setprecision(8) << setw(12) << lat << ", " << setw(13) << lng << ", "
+        << setprecision(0) << setw(6) << weight << ", " << code << '\n';
+		}
+		cout << "done" << endl;
+	}
 
   cerr << "\nElapsed Time: " << stopwatch.elapsed() << endl;
 

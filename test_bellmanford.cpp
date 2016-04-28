@@ -87,15 +87,15 @@ int main(int argc, char **argv) {
   stopwatch.stop();
 
   // Printing
-  cout << setprecision(8);
+  cout << fixed;
   for(auto& e : res) {
     auto code     = index_code_vector[e.first];
     auto gps_pair = code_gps_map[code];
     auto lat      = gps_pair.first;
     auto lng      = gps_pair.second;
     auto weight   = e.second;
-    cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
-      << 0.0 << setw(4) << weight << ", " << code << '\n';
+    cout << setprecision(8) << setw(12) << lat << ", " << setw(13) << lng << ", " 
+      << setprecision(0) << setw(6) << weight << ", " << code << '\n';
   }
 
   cerr << "\nElapsed Time: " << stopwatch.elapsed() << endl;

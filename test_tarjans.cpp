@@ -40,14 +40,14 @@ int main(int argc, char **argv) {
   stopwatch.stop();
 
   // Printing
-  cout << setprecision(8);
+  cout << setprecision(8) << fixed;
   for(auto& e : res) {
     auto code     = index_code_vector[e];
     auto gps_pair = code_gps_map[code];
     auto lat      = gps_pair.first;
     auto lng      = gps_pair.second;
-    cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
-      << 0.0 << setw(4) << ", " << code << '\n';
+    cout << setw(12) << lat << ", " << setw(13) << lng << ", " 
+      << code << ", " << code << '\n';
   }
 
   cerr << "\nElapsed Time: " << stopwatch.elapsed() << endl;
