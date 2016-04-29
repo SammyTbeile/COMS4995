@@ -1,0 +1,81 @@
+
+	Algorithms
+
+
+	Dijkstra's - 
+
+		Dijkstra's algorithm to find the shortest path between two vertices in a graph.
+		Time complexity => O(|E| + |V|log|V|), this is asymtotically the fastest single
+		source shortest-path finding algorithm. The algorithm cannot take graphs that
+		have negative weights. 
+
+		Dijkstras(Graph graph, start_vertex, end_vertex) = path = vector<pair<unsigned long, double>>
+
+		path = { pair<v_0,w_0> , pair<v_1,w_1> ,..., pair<v_n,w_n> }. 
+
+		the pairs of v_i and w_i represents the the vertex and weight along an edge in the path.
+
+		v_0 is the starting vertex and v_n is the end vertex. the weights w_i, is the weight of 
+		the edge from the previous vertex v_{i-1}	to the current vertex v_{i}. The total weight 
+		of the path is the sum of w_1 to w_n. w_0 is always 0 since there is no vertex to going
+		to the stating vertex.
+
+	BellFord - 
+
+		BellFord, is an implementation of Bellman-Ford's algorithm.
+		time complexity => O(|E|*|V|)
+		Finds the shortest path between two vertices in a graph. Although this algorithm 
+		is asymtotically slower than Dijkstras, this algorithm works for graphs 
+		with negative weights. 
+
+		BellFord(Graph graph, start_vertex, end_vertex) = path = vector<pair<unsigned long, double>>
+
+		path = { pair<v_0,w_0> , pair<v_1,w_1> ,..., pair<v_n,w_n> }. 
+
+		the pairs of v_i and w_i represents the the vertex and weight along an edge in the path.
+
+		v_0 is the starting vertex and v_n is the end vertex. the weights w_i, is the weight of 
+		the edge from the previous vertex v_{i-1}	to the current vertex v_{i}. The total weight 
+		of the path is the sum of w_1 to w_n. w_0 is always 0 since there is no vertex to going
+		to the stating vertex.
+
+
+	
+	Prim's - 
+	
+		Prim’s algorithm to compute a minimum spanning tree from a starting vertex in a graph.
+		Time complexity => O((|V| + |E|) log |V|) = O(|E| log |V|).
+
+		The algorithm uses Dikjstra’s algorithm with the distance condition relaxed to dw= min(dw,cv,w)
+
+		Prims(Graph graph, start_vertex)= returnVector=vector<list<pair<unsigned long, double>>>
+		returnVector = <list<pair<v_0,w_0>,pair<v_1,w_1>,…,pair<v_n,w_n>>,list<pair<v_1,w_1>, pair<v_2,w_2>>> 
+	
+		Each list in the vector contains a list of pairs which represent a vertex and its adjacent vertices.
+		The pairs of v_i and w_i represent the vertex and the weight along an edge in the path leading to it. 
+		The first pair is the starting vertex and the other ones are its connecting vertices.
+		The weight is the weight from the previous vertex to the current vertex. 
+
+	Tarjan's - 
+
+		Tarjan's algorithm to find articulation points.
+		Tarjans(Graph graph) = art_points = vector<unsigned long>
+
+		The algorithm's time complexity is O(|V| + |E|)
+
+		art_points = < v_0, v_1,..., v_n >
+
+		all v_i's of art_points are articulation points of 'graph'.
+
+	Johnson's - 
+
+		Johnsons(Graph graph) = graph_matrix = vector<vector<pair<unsigned long, double>>>
+		Johnson's algorithm to find the shortest path between all pairs of vertices in a graph.
+		Johnson's algorithm accounts for graphs that has negative weights.
+
+		its time complexity is O(|V|^2 * log|V| + |V|*|E|). This time is slower than running Dijkstras 
+		for every pair of vertices but it is faster than running Bellman-Ford for every pair of vertices.
+
+		graph_matrix[0][100] == Bellman-Ford(graph,0,100)
+
+

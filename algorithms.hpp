@@ -73,23 +73,6 @@ start_vertex) {
   }
 }
 
-// associate_vertex_node
-/*
-template<typename Node>
-std::vector<std::pair<Node, double>> associate_vertex_node(std::vector<
-std::pair<unsigned long, double>> path, std::vector<Node> associative_vector) {
-  auto mapped_vector = std::vector<std::pair<Node, double>>();
-  mapped_vector.reserve(path.size());
-  for(auto& long_double_pair : path) {
-    try {
-      mapped_vector.push_back(std::make_pair(associative_vector.at(
-        long_double_pair.first).first, long_double_pair.second);
-    } catch(std::out_of_range& e) {
-      throw Algorithm_Exception("Vertex not found in associative vector");
-    }
-  }
-  return mapped_vector;
-}*/
 
 class CompareDist
 {
@@ -217,7 +200,7 @@ graph, unsigned long start_vertex) {
   //Initialize vertices for algorithms
   for(int i=0;i<num;i++){
     distances[i]=std::numeric_limits<double>::infinity();
-    predecessor[i] = 0;
+    predecessor[i] = -1;
     known[i] = false;
   }
 
