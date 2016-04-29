@@ -55,9 +55,6 @@ class Algorithms {
 		static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph, unsigned long start_vertex, unsigned long end_vertex);
 
 			static std::vector<unsigned long> Tarjans(Graph graph);	
-/*
-		static std::vector<std::pair<unsigned long, double>> 
-			traveling_salesman(Graph graph);*/
 
 		static bool is_undirected(Graph graph);
 
@@ -189,7 +186,22 @@ graph, unsigned long start_vertex, unsigned long end_vertex) {
 
   return path; // TODO remove
 }
-
+/*
+	Prim’s algorithm to compute a minimum spanning tree from a starting vertex in a graph.
+	
+	Time complexity => O((|V| + |E|) log |V|) = O(|E| log |V|)
+	
+	The algorithm uses Dikjstra’s algorithm with the distance condition relaxed to dw= min(dw,cv,w)
+	
+	Prims(Graph graph, start_vertex)= returnVector=vector<list<pair<unsigned long, double>>>
+	returnVector = <list<pair<v_0,w_0>,pair<v_1,w_1>,…,pair<v_n,w_n>>,list<pair<v_1,w_1>, pair<v_2,w_2>>> 
+	
+	Each list in the vector contains a list of pairs which represent a vertex and its adjacent vertices. 
+	The pairs of v_i and w_i represent the vertex and the weight along an edge in the path leading to it. 
+	The first pair is the starting vertex and the other ones are its connecting vertices.
+	The weight is the weight from the previous vertex to the current vertex.
+	
+*/
 
 // Prim's
 std::vector<std::vector<std::pair<unsigned long, double>>> Algorithms::Prims(Graph
@@ -257,43 +269,8 @@ graph, unsigned long start_vertex) {
     start_vertex = vertices[start_vertex+1];
   }
 }
-  // for(auto v : vertices){
-  
-    
-  //   // std::cout<<counter<<std::endl;
-  //   std::vector<std::pair<unsigned long, double>> inner_list = std::vector<std::pair<unsigned long, double>>();
-  //   inner_list.push_back(std::pair<unsigned long,double>(vertices[counter],distances[vertices[counter]]));
-  //   for(auto& vertex : graph.list[vertices[counter]]){
-  //       if(predecessor[vertex.first]==vertices[counter]){
-          
-  //         inner_list.push_back(std::pair<unsigned long, double>(vertex.first,distances[vertex.first]));
-  //       }
-  //   }
-  //   returnVector.push_back(inner_list);
-  //   counter++;
-  // }
-
-  // std::cout<<"end"<<std::endl;
-  return returnVector; // TODO remove
+    return returnVector; // TODO remove
 }
-
-// // BellFord
-// std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
-// unsigned long start_vertex, unsigned long end_vertex) {
-//   validate_start_vertex(graph, start_vertex);
-
-
-//   int num = graph.get_num_vertices();
-//   std::vector<double> distance = std::vector<double>(num);
-//   std::vector<unsigned long> predecessor = std::vector<unsigned long>(num);
-
-//   //initalize values
-//   for(int i = 1; i< num; i++) {
-//     distance[i] = std::numeric_limits<double>::infinity();
-//     predecessor[i] = -1; 
-//   }
-//   distance[start_vertex] = 0;
-// >>>>>>> Stashed changes
 
 /*
 	BellFord, is an implementation of Bellman-Ford's algorithm.
@@ -304,7 +281,6 @@ graph, unsigned long start_vertex) {
 
 	BellFord(Graph graph, start_vertex, end_vertex) = path = vector<pair<unsigned long, double>>
 
-<<<<<<< Updated upstream
 	path = { pair<v_0,w_0> , pair<v_1,w_1> ,..., pair<v_n,w_n> }. 
 
 	the pairs of v_i and w_i represents the the vertex and weight along an edge in the path.
