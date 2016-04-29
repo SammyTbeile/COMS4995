@@ -56,7 +56,7 @@ class Graph {
     unsigned long get_num_edges();
     unsigned long get_num_vertices();
     double get_weight(unsigned long row, unsigned long col);
-		bool has_negative_weights();
+    bool has_negative_weights();
 
     /* Operators */
     Graph& operator=(const Graph& g);

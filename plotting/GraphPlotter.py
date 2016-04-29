@@ -71,7 +71,7 @@ def johnsons(input_file="input.csv"):
                                lon_0=-95, resolution='c', area_thresh=10000)
     m.drawcoastlines()
     m.drawmapboundary(fill_color='aqua')
-    m.drawcounties()
+    m.drawcountries()
     m.fillcontinents(color='green', lake_color='aqua')
     m.drawstates()
     
@@ -90,6 +90,7 @@ def johnsons(input_file="input.csv"):
         
         for i in range(0,len(in_weight)-1):
             plt.text(((ypt[i]+ypt[i+1])/2),((xpt[i]+xpt[i+1])/2),in_weight[i+1])
+    plt.show()
         
         
         
@@ -136,7 +137,7 @@ def tarjans(input_file= "input.csv"):
     
     ypt, xpt = m(longs, lats)
     for i in range(0,len(xpt)):
-        if counter > len(xpt):
+        if counter > len(colors) - 1:
             counter = 0
         used_colors.append(colors[counter])
         counter = counter +1
@@ -144,6 +145,7 @@ def tarjans(input_file= "input.csv"):
         m.plot(y,x, c, markersize=10)
     for y,x,name in zip(ypt,xpt,names):
         plt.text(y+1000,x+1000,name)
+    plt.show()
     
 
 def prims(input_file= "input.csv"):
@@ -200,7 +202,7 @@ def prims(input_file= "input.csv"):
     for y, x, name in zip(ypt,xpt,names):
         plt.text(y+1000,x+1000,name)    
         
-    for i in range(0,(len(neighbors)-1)):
+    for i in range(0,(len(longs))):
         neighbors_list = neighbors[i].split("_");
         inner_lats = []
         inner_longs = []
@@ -213,7 +215,7 @@ def prims(input_file= "input.csv"):
             if(len(value_list)>=2):
                 if(value_list[0] != " " and value_list[1] != " "):
                     lat = float(value_list[0])
-                    long = float(value_list[1])
+                    lng = float(value_list[1])
                     w = value_list[2][3:]
                     for i in range(0,len(w)):
                         if w[i] =="0":
@@ -222,14 +224,14 @@ def prims(input_file= "input.csv"):
                            decimal_loc = i
                            break
                     inner_lats.append(lat)
-                    inner_longs.append(long)
+                    inner_longs.append(lng)
                     inner_weight.append(w[leading_zeroes:decimal_loc])
         if(inner_longs!= []):
             print(inner_longs)
             in_ypt, in_xpt = m(inner_longs, inner_lats)
             m.plot(in_ypt, in_xpt, 'bo', markersize=10)
             inner_y, inner_x = m(inner_longs,inner_lats)
-            for j in range(0,len(inner_lats)):
+            for j in range(0,len(inner_longs) - 1):
                 m.drawgreatcircle(longs[i],lats[i],inner_longs[j],inner_lats[j], linewidth=1,color="r")
                 plt.text((ypt[i]+inner_y[j])/2,(xpt[i]+inner_x[j])/2,inner_weight[j])
 
@@ -283,7 +285,7 @@ def general(input_file="input.csv"):
                                lon_0=-95, resolution='c', area_thresh=10000)
     m.drawcoastlines()
     m.drawmapboundary(fill_color='aqua')
-    m.drawcounties()
+    m.drawcountries()
     m.fillcontinents(color='green', lake_color='aqua')
     m.drawstates()
     ypt, xpt = m(longs, lats)
