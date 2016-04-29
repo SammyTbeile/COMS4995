@@ -59,7 +59,7 @@ void connect_database() {
     connection->setAutoCommit(0);
     connection->setSchema(database);
     statement = connection->createStatement();
-  } catch (SQLException &e) {
+  } catch (SQLException& e) {
     // Termiante
     cout << "SQL Exception: " << e.what() << '\n' << e.getErrorCode() <<
       '\n' << e.getSQLState() << endl;
@@ -73,7 +73,7 @@ void disconnect_database() {
     delete statement;
     connection->close();
     delete connection;
-  } catch (SQLException &e) {
+  } catch (SQLException& e) {
     // Termiante
     cout << "SQL Exception: " << e.what() << '\n' << e.getErrorCode() <<
       '\n' << e.getSQLState() << endl;
@@ -99,7 +99,7 @@ unordered_map<string, pair<double, double>> make_code_gps_map() {
       }
     }
     delete result_set;
-  } catch (SQLException &e) {
+  } catch (SQLException& e) {
     // Termiante
     cout << "SQL Exception: " << e.what() << '\n' << e.getErrorCode() <<
       '\n' << e.getSQLState() << endl;
@@ -112,7 +112,6 @@ unordered_map<string, pair<double, double>> make_code_gps_map() {
 Graph_Helper<string> make_graph_helper(graph_t g) {
   auto graph_helper = Graph_Helper<string>(g);
   try {
-    // Query
     auto result_set = statement->executeQuery("SELECT * FROM WorldPaths"); // WorldPaths or Paths
     while(result_set->next()) {
       auto origin = result_set->getString("Origin");
@@ -121,7 +120,7 @@ Graph_Helper<string> make_graph_helper(graph_t g) {
       graph_helper.add_edge(origin, destin, dist);
     }
     delete result_set;
-  } catch (SQLException &e) {
+  } catch (SQLException& e) {
     // Termiante
     cout << "SQL Exception: " << e.what() << '\n' << e.getErrorCode() <<
       '\n' << e.getSQLState() << endl;
