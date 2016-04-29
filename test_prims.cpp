@@ -26,7 +26,7 @@ unordered_map<string, unsigned long> code_index_map) {
   }
 
   if(bad_origin ) {
-    cerr << "\nTerinating: The origin airport code provided was not found" << endl;
+    cerr << "\nTerimating: The origin airport code provided was not found" << endl;
     exit(1);
   }
   return origin_index;

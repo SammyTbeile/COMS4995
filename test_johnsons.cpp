@@ -36,10 +36,10 @@ string& destin, unordered_map<string, unsigned long> code_index_map) {
     cerr << "\nTerminating: The origin & destin airport codes provided were not found" << endl;
     exit(1);
   } else if(bad_origin) {
-    cerr << "\nTerinating: The origin airport code provided was not found" << endl;
+    cerr << "\nTerminating: The origin airport code provided was not found" << endl;
     exit(1);
   } else if(bad_destin) {
-    cerr << "\nTerinating: The destin airport code provided was not found" << endl;
+    cerr << "\nTerminating: The destin airport code provided was not found" << endl;
     exit(1);
   }
 

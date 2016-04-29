@@ -86,7 +86,7 @@ unordered_map<string, pair<double, double>> make_code_gps_map() {
   auto code_gps_map = unordered_map<string, pair<double, double>>();
   try {
     // Query
-    auto result_set = statement->executeQuery("SELECT * FROM Airports"); // WorldAirports or Airports
+    auto result_set = statement->executeQuery("SELECT * FROM WorldAirports"); // WorldAirports or Airports
     while(result_set->next()) {
       auto code  = result_set->getString("FAA");
       double lat = result_set->getDouble("Lat");
@@ -113,7 +113,7 @@ Graph_Helper<string> make_graph_helper(graph_t g) {
   auto graph_helper = Graph_Helper<string>(g);
   try {
     // Query
-    auto result_set = statement->executeQuery("SELECT * FROM Paths"); // WorldPaths or Paths
+    auto result_set = statement->executeQuery("SELECT * FROM WorldPaths"); // WorldPaths or Paths
     while(result_set->next()) {
       auto origin = result_set->getString("Origin");
       auto destin = result_set->getString("Destin");
