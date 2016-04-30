@@ -66,8 +66,8 @@ int main(int argc, char **argv) {
   // Graph Data Structures
   auto matrix_tuple      = graph_helper.get_matrix_tuple();
   auto matrix            = get<0>(matrix_tuple);
-  auto index_code_vector = get<1>(matrix_tuple);
-  auto code_index_map    = get<2>(matrix_tuple);
+  auto code_index_map    = get<1>(matrix_tuple);
+  auto index_code_vector = get<2>(matrix_tuple);
   auto graph             = Graph(matrix);
 
   cerr << "Running Johnsons..." << endl;

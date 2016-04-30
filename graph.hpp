@@ -6,7 +6,6 @@
  * UNI:      sjg2174
  */
 
-#include <exception>
 #include <iostream>
 #include <vector>
 #include <unordered_set>

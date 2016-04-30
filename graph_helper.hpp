@@ -6,7 +6,6 @@
  * UNI:      sjg2174
  */
 
-#include <exception>
 #include <vector>
 #include <unordered_map>
 
@@ -47,11 +46,11 @@ class Graph_Helper {
     /* Public Member Functions */
     void add_edge(Vertex origin, Vertex destin, double dist);
 
-    std::tuple<std::vector<std::vector<double>>, std::vector<Vertex>, std::
-    unordered_map<Vertex, unsigned long>> get_matrix_tuple();
+    std::tuple<std::vector<std::vector<double>>, std::unordered_map<Vertex,
+    unsigned long>, std::vector<Vertex>> get_matrix_tuple();
 
     std::tuple<std::vector<std::vector<std::pair<unsigned long, double>>>,
-    std::vector<Vertex>, std::unordered_map<Vertex, unsigned long>> get_list_tuple();
+    std::unordered_map<Vertex, unsigned long>, std::vector<Vertex>> get_list_tuple();
 
     /* Operators */
     Graph_Helper& operator=(const Graph_Helper& gh);
@@ -136,8 +135,11 @@ void Graph_Helper<Vertex>::add_edge(Vertex origin, Vertex destin, double dist) {
 
 // get_matrix_tuple
 template<typename Vertex>
-std::tuple<std::vector<std::vector<double>>, std::vector<Vertex>, std::
-unordered_map<Vertex, unsigned long>> Graph_Helper<Vertex>::get_matrix_tuple() {
+std::tuple<std::vector<std::vector<double>>, std::unordered_map<Vertex, 
+unsigned long>, std::vector<Vertex>> Graph_Helper<Vertex>::get_matrix_tuple() {
+  if(graph == LIST) {
+    throw Graph_Helper_Exception("Matrix is not being constructed");
+  }
   unsigned long num_vertices = matrix.size();
   for(unsigned long i = 0; i < num_vertices; ++i) {
     if(matrix[i].size() < num_vertices) {
@@ -146,15 +148,18 @@ unordered_map<Vertex, unsigned long>> Graph_Helper<Vertex>::get_matrix_tuple() {
       throw Graph_Helper_Exception("Internal Error");
     }
   }
-  return std::make_tuple(matrix, index_vertex_vector, vertex_index_map);
+  return std::make_tuple(matrix, vertex_index_map, index_vertex_vector);
 }
 
 // get_list_tuple
 template<typename Vertex>
 std::tuple<std::vector<std::vector<std::pair<unsigned long, double>>>,
-std::vector<Vertex>, std::unordered_map<Vertex, unsigned long>>
+std::unordered_map<Vertex, unsigned long>, std::vector<Vertex>>
 Graph_Helper<Vertex>::get_list_tuple() {
-  return std::make_tuple(list, index_vertex_vector, vertex_index_map);
+  if(graph == MATRIX) {
+    throw Graph_Helper_Exception("List is not being constructed");
+  }
+  return std::make_tuple(list, vertex_index_map, index_vertex_vector);
 }
 
 /* Operators ---------------------------------------------------------------- */

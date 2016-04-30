@@ -1,0 +1,211 @@
+################################################################################
+#                                                                              #
+#                                                                              #
+#                       Graph_Algos Library Documentation                      #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+# Algorithms #
+
+	BellFord
+
+		The Bellman-Ford algorithm finds the shortest path between two vertices in a
+    graph. The time complexity is O(|E|*|V|). Although slower than Dijkstra's,
+    this algorithm is able to work with negative weights. The function
+    interface is below:
+
+    vector<pair<unsigned long, double>>
+    BellFord(Graph graph, unsigned long start_index, end_index);
+
+    The returned vector of pairs has the following format:
+
+		{ pair<v_1, w_1>, ..., pair<v_n, w_n> }
+
+    Where v_i represents the vertex index and w_i represents the vertex weight.
+    The order of the pairs within the vector denote a path, with the path
+    beginning at vector index=0 and terminating at index=n-1. The weight w_i
+    denotes the weight between the vertices at index i and i-1. Since the
+    starting vertex has no previous vertex, the weight is set to zero.
+
+  Dijkstra's
+
+		Dijkstra's algorithm finds the shortest path between two vertices in a
+    graph. The time complexity is O(|E| + |V|log|V|). This is asymptotically the
+    fastest single source shortest-path finding algorithm. The only restriction
+    this algorithm has is that it cannot work with graphs that contain negative
+    weights. The function interface is below:
+
+		vector<pair<unsigned long, double>>
+    Dijkstras(Graph graph, unsigned long start_index, unsigned long end_index);
+
+    The returned vector of pairs has the following format:
+
+		{ pair<v_1, w_1>, ..., pair<v_n, w_n> }
+
+    Where v_i represents the vertex index and w_i represents the vertex weight.
+    The order of the pairs within the vector denote a path, with the path
+    beginning at vector index=0 and terminating at index=n-1. The weight w_i
+    denotes the weight between the vertices at index i and i-1. Since the
+    starting vertex has no previous vertex, the weight is set to zero.
+
+	Johnson's
+
+    Johnson's algorithm finds the shortest path between all pairs of vertices in
+    a graph. The time complexity is O(|V|^2 * log|V| + |V|*|E|). Although
+    slower than running Dijkstra's on every pair of vertices, it can account for
+    negative weights, and is faster than running Bellman-Ford on every pair of
+    vertices. The function interface is below:
+
+    vector<vector<vector<pair<unsigned long, double>>>>
+    Johnsons(Graph graph);
+
+    The return type may appear complicated, but it is simply a three-dimensional
+    vector. The left index denotes the starting vertex and the middle index
+    denotes the ending vertex. Accessing this returns a vector of pairs, which
+    has the exact representation of what is returned in Dijkstras and BellFord.
+    It is possible to iterate throughout the returned three dimensional vector
+    using the following subscripting:
+
+    your_variable_name_here[starting_vertex][ending_vertex][edge]
+
+    Accessing your_variable_name_here[starting_vertex][ending_vertex] returns a
+    vector of pairs which has the following format:
+
+		{ pair<v_1, w_1>, ..., pair<v_n, w_n> }
+
+    Where v_i represents the vertex index and w_i represents the vertex weight.
+    The order of the pairs within the vector denote a path, with the path
+    beginning at vector index=0 and terminating at index=n-1. The weight w_i
+    denotes the weight between the vertices at index i and i-1. Since the
+    starting vertex has no previous vertex, the weight is set to zero.
+
+	Prim's
+
+    Prim's algorithm computes a minimum spanning tree. In our implementation of
+    Prim's, instead of randomly choosing a starting vertex, we allow the user to
+    specify a starting vertex. The time complexity is O(|E| log |V|). Dijsktra's
+    is used within Prim's, however, the distance condition is relaxed to
+    dw = min(dw, cv, w). The function interface is below:
+
+    vector<vector<pair<unsigned long, double>>>
+    Prims(Graph graph, unsigned long start_index);
+
+    The returned vector of vector of doubles is an adjacency list, where the left
+    index corresponds to the starting vertex, the right index corresponds to
+    a vector of pairs, which has the following format:
+
+		{ pair<v_1, w_1>, ..., pair<v_n, w_n> }
+
+    Where v_i represents the vertex index and w_i represents the vertex weight.
+    The order of the pairs within the vector denote a path, with the path
+    beginning at vector index=0 and terminating at index=n-1. The weight w_i
+    denotes the weight between the vertices at index i and i-1. Since the
+    starting vertex has no previous vertex, the weight is set to zero.
+
+	Tarjan's
+
+		Tarjan's algorithms finds all the articulation points within a graph. The
+    time complexity is (|V| + |E|). The function interface is below:
+
+    vector<unsigned long>
+    Tarjans(Graph graph);
+    
+    The unsigned long values held in this vector at the indexes which correspond
+    to articulation vertices.
+
+# Graph Container #
+
+    The Graph container was designed to be used in our algorithms. It takes a
+    user representation of a graph, as a parameter, to its constructor, and
+    copies the representation into an internal data structure, all while
+    validating that that the provided representation is indeed a valid graph
+    representation. The user provided representation can be either an adjacency
+    matrix: Container<Container<double>>
+
+    or it can be a list: Container<Container<pair<unsigned long, double>>>
+
+    The user representation type is deduced from the inner Container's data
+    type. As mentioned previous, the Container checks to validate that the
+    user representation is a valid representation, and throws an exception if
+    this is not the case. There are only two exceptions thrown: one if the
+    user representation of a matrix is not square, and another if the user
+    representation of a list has more than one edge between two vertices in the
+    same direction.
+
+    The constructor will take any Container, so long as it implements a begin()
+    and end() iterator, as well as a size() function. The function interface is
+    below:
+
+    template<typename Container>
+    Graph(Container container);
+
+    The Graph container also has some functions that allow the user to retrieve
+    meaningful information from the graph.
+
+    unsigned long get_num_edges();
+    unsigned long get_num_vertices();
+    double get_weight(unsigned long row, unsigned long col);
+    bool has_negative_weights();
+
+    get_num_edges() returns the number of edges in the Graph.
+    get_num_vertices() returns the number of vertices in the Graph.
+    get_weight() returns the weight at the corresponding row and column
+    specified in the function's parameter.
+    has_negative_weights() returns true if the graph contains any negative
+    weights. This is a constant time operation, as the return value is computed
+    at object construction.
+
+    The Graph container also has some operators that allow the user to use the
+    container in meaningful ways.
+
+    Graph(const Graph& g);
+    operator=
+    operator<<
+
+    The copy constructor allows a new Graph object to be copied from the old.
+    The copy assignment operator allows a Graph object to be reassigned to
+    another Graph reference. The output stream allows for a graph to be printed
+    to the desired output stream, in matrix row/column format.
+
+# Graph Helper #
+
+    The Graph helper was designed to help users construct their graph
+    representations, in either adjacency list or adjacency matrix format.
+    After the user is finished constructing their graph, they can make a
+    function call to retrieve a tuple which contains the graph representation
+    they desire and two helper data structures, which aid the user in
+    associating vertices with indexes and indexes with vertices. The constructor
+    interface is below:
+
+    template<typename Vertex>
+    Graph_Helper<Vertex>(graph_t g);
+
+    Where graph_t is an enum, defined as either LIST or MATRIX. This parameter
+    defines the graph representation to be constructed. To add an edge to the
+    graph, the following function interface should be used:
+
+    void add_edge(Vertex origin, Vertex destin, double dist);
+
+    Note that the Graph_Helper does not check to verify if the edge already
+    exists, and will overwrite (in the case of a matrix) or duplicate (in the
+    case of a list) edges. Once the user is finished constructing the graph,
+    they can retrieve the representation, and helper data structures, by calling
+    one of the function interfaces below:
+
+    tuple<
+      vector<vector<double>,                // Matrix representation
+      unordered_map<Vertex, unsigned long>, // Vertex --> Index  Map
+      vector<Vertex>                        // Index  --> Vertex Map
+    > get_matrix_tuple();
+
+    tuple<
+      vector<vector<double>,                // List representation
+      unordered_map<Vertex, unsigned long>, // Vertex --> Index  Map
+      vector<Vertex>                        // Index  --> Vertex Map
+    > get_matrix_tuple();
+
+    get_matrix_tuple() can only be called if the Graph_Helper was constructed
+    with MATRIX as a parameter. Similarly, get_list_tuple can only be called if
+    the Graph_Helper was constructed with LIST as a parameter. Doing otherwise
+    will cause an exception to be thrown.
