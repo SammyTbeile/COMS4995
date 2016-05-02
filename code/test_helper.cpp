@@ -113,7 +113,9 @@ Graph_Helper<string> make_graph_helper(graph_t g) {
   auto graph_helper = Graph_Helper<string>(g);
   try {
     auto result_set = statement->executeQuery("SELECT * FROM WorldPaths"); // WorldPaths or Paths
-    while(result_set->next()) {
+    int counter =0;
+    while(result_set->next()&& counter <1000) {
+      counter++;
       auto origin = result_set->getString("Origin");
       auto destin = result_set->getString("Destin");
       double dist = result_set->getInt("Distance");

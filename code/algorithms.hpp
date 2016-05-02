@@ -49,7 +49,7 @@ class Algorithms {
       end_index);
 
     static std::vector<std::vector<std::pair<unsigned long, double>>>
-      Prims(Graph graph, unsigned long start_index);
+      Prims(Graph graph);
 
     static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph,
       unsigned long start_index, unsigned long end_index);
@@ -416,8 +416,8 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 
 // Prim's
 std::vector<std::vector<std::pair<unsigned long, double>>> Algorithms::Prims(
-Graph graph, unsigned long start_index) {
-  validate_start_index(graph, start_index);
+Graph graph) {
+  // validate_start_index(graph, start_index);
   //Initalize variables and containers
   int num = graph.get_num_vertices();
   std::vector<double> distances = std::vector<double>(num);
@@ -431,23 +431,23 @@ Graph graph, unsigned long start_index) {
     predecessor[i] = -1;
     known[i] = false;
   }
-
   // Get start value
-  distances[start_index] = 0;
+  distances[0] = 0;
   std::priority_queue<std::pair<double,unsigned long>,std::vector<std::pair<
     double,unsigned long>>,CompareDist> queue;
-  queue.push(std::pair<double,unsigned long>(0,start_index));
+  queue.push(std::pair<double,unsigned long>(0.0,0));
+
   //Perform Dijkstra's with the relaxed distance update
   while(!queue.empty()){
     //Get the smallest index
     std::pair<double,unsigned long> temp = queue.top();
-    vertices.push_back(queue.top().first);
     queue.pop();
 
     //Check to make sure that the index hasn't already been declared known
     if(!known[temp.second]){
        known[temp.second]=true;
        for(auto& index : graph.list[temp.second]){
+          vertices[index.first]=index.first;
           if(!known[index.first]){
             if(index.second < distances[index.first]){
               distances[index.first] = index.second;
@@ -459,33 +459,18 @@ Graph graph, unsigned long start_index) {
        }
     }
   }
-  
   //Construct the MST
   std::vector<std::vector<std::pair<unsigned long,double>>> returnVector =
     std::vector<std::vector<std::pair<unsigned long,double>>>();
-  int counter = 0;
-  std::vector<unsigned long> added = std::vector<unsigned long>();
-  while(counter<200){
-  std::vector<std::pair<unsigned long, double>> start_list = std::vector<
-    std::pair<unsigned long, double>>();
-  
-  start_list.push_back(std::pair<unsigned long, double>(start_index,0));
-  for(auto& index : graph.list[start_index]){
-    if(predecessor[index.first] == start_index){
-      start_list.push_back(std::pair<unsigned long, double>(index.first,
-            distances[index.first]));
+
+    for(auto i =0; i<vertices.size();i++ ){
+      std::vector<std::pair<unsigned long, double>> innerList = std::vector<std::pair<unsigned long, double>>();
+      innerList.push_back(std::pair<unsigned long, double>(vertices[i],distances[i]));
+      if(predecessor[i]!=-1){
+        innerList.push_back(std::pair<unsigned long, double>(predecessor[i],distances[predecessor[i]]));}
+      returnVector.push_back(innerList);
     }
-  }
-  added.push_back(start_index);
-  returnVector.push_back(start_list);
-  counter++;
-  if(std::find(added.begin(), added.end(), vertices[start_index+1]) != 
-    added.end()) {
-    //do nothing
-  }else{
-    start_index = vertices[start_index+1];
-  }
-}
+
     return returnVector;
 }
 

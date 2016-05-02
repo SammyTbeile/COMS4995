@@ -227,13 +227,12 @@ def prims(input_file= "input.csv"):
                     inner_longs.append(lng)
                     inner_weight.append(w[leading_zeroes:decimal_loc])
         if(inner_longs!= []):
-            print(inner_longs)
             in_ypt, in_xpt = m(inner_longs, inner_lats)
             m.plot(in_ypt, in_xpt, 'bo', markersize=10)
             inner_y, inner_x = m(inner_longs,inner_lats)
             for j in range(0,len(inner_longs) - 1):
                 m.drawgreatcircle(longs[i],lats[i],inner_longs[j],inner_lats[j], linewidth=1,color="r")
-                plt.text((ypt[i]+inner_y[j])/2,(xpt[i]+inner_x[j])/2,inner_weight[j])
+               # plt.text((ypt[i]+inner_y[j])/2,(xpt[i]+inner_x[j])/2,inner_weight[j])
 
 
     plt.show()

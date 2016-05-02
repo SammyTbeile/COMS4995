@@ -35,11 +35,11 @@ unordered_map<string, unsigned long> code_index_map) {
 int main(int argc, char **argv) {
 
   // Handle Arguments
-  if(argc != 2) {
-    cerr << "usage: " << argv[0] << " <origin> " << endl;
+  if(argc != 1) {
+    cerr << "usage: " << argv[0] << endl;
     exit(1);
   }
-  string origin = argv[1];
+  // string origin = argv[1];
 
   cerr << "Initializing..." << flush;
 
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
 
   // Get Index
   // auto code_indexes = get_code_indexes(origin, code_index_map);
-  auto origin_index = get_code_indexes(origin,code_index_map);
+  // auto origin_index = get_code_indexes(origin,code_index_map);
 
   cerr << "Running Prim's..." << endl;
 
@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
   stopwatch.start();
 
   // Algorithm
-  auto res = Algorithms::Prims(graph, origin_index); 
+  auto res = Algorithms::Prims(graph); 
   stopwatch.stop();
   cerr <<"Finished Prim's" <<endl;
   
@@ -83,16 +83,17 @@ int main(int argc, char **argv) {
       // cout<<currentList[0].first<<endl;
 
       cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
-        << 0.0 << setw(4) << weight << ", " << code << ", "; //underscore delimits different neighbors
-      for(auto j =1; j<currentList.size();j++){
-          auto in_code     = index_code_vector[currentList[j].first];
+        <<setprecision(0)<< setw(6) << weight << ", " << code << ", "; //underscore delimits different neighbors
+        if(currentList.size()>1){
+      // for(auto j =1; j<currentList.size();j++){
+          auto in_code     = index_code_vector[currentList[1].first];
           auto in_gps_pair = code_gps_map[in_code];
           auto in_lat      = in_gps_pair.first;
           auto in_lng      = in_gps_pair.second;
-          auto in_weight      = currentList[j].second;
+          auto in_weight      = currentList[1].second;
 
           cout << fixed << setw(11) << in_lat << "; " <<setw(11) << in_lng << ";"
-            << 0.0 << setw(4) << in_weight << "; " << in_code << "; " << "_ ";
+            <<setprecision(0)<< setw(6) << in_weight << "; " << in_code << "; " << "_ ";
       }
     cout << endl;
   }
