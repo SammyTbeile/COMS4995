@@ -433,14 +433,14 @@ Graph graph) {
     known[i] = false;
   }
   // Get random starting index
-  //std::random_device rd;
-  //unsigned long starting_index = rd() % graph.get_num_vertices();
+  std::random_device rd;
+  unsigned long starting_index = rd() % graph.get_num_vertices();
 
   // Get start value
-  distances[0] = 0;
+  distances[starting_index] = 0;
   std::priority_queue<std::pair<double,unsigned long>,std::vector<std::pair<
     double,unsigned long>>,CompareDist> queue;
-  queue.push(std::pair<double,unsigned long>(0.0,0));
+  queue.push(std::pair<double,unsigned long>(distances[starting_index],starting_index));
 
   //Perform Dijkstra's with the relaxed distance update
   while(!queue.empty()){
