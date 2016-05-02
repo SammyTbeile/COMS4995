@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <limits>
 #include <queue>
+#include <random>
 #include <utility>
 #include <vector>
 
@@ -431,6 +432,10 @@ Graph graph) {
     predecessor[i] = -1;
     known[i] = false;
   }
+  // Get random starting index
+  //std::random_device rd;
+  //unsigned long starting_index = rd() % graph.get_num_vertices();
+
   // Get start value
   distances[0] = 0;
   std::priority_queue<std::pair<double,unsigned long>,std::vector<std::pair<
