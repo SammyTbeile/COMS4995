@@ -481,17 +481,14 @@ Graph& graph) {
 
 // Tarjan's
 std::vector<unsigned long> Algorithms::Tarjans(Graph& graph) {
-/*
-	
 
-	//this portion should be uncommented, but our flight path graph is not an undirected graph.
+  // Tarjan's must run on an undirected graph, however, our flight data was not
+  // undirected. In order to make the algorithm work with our data, we added
+  // edges to the graph to make it undirected. It seems odd that there are no
+  // return flights from certain airports...but that could be attributed to
+  // a bad data set. The below double for loop implements this.
 
-  if(is_undirected(graph)==false){
-     throw Algorithms_Exception("Graph is not undirected");
-
-	//this code would add edges to one-way paths
-
-	for(int i = 0; i< graph.get_num_vertices(); i++){
+  for(int i = 0; i< graph.get_num_vertices(); i++){
     for(int j = 0; j< graph.get_num_vertices(); j++){
       if(graph.matrix[i][j] != graph.matrix[j][i]){
         if(graph.matrix[i][j] == 0){
@@ -504,7 +501,9 @@ std::vector<unsigned long> Algorithms::Tarjans(Graph& graph) {
     }
   }
 
-  }*/
+  if(is_undirected(graph)==false){
+     throw Algorithms_Exception("Graph is not undirected");
+  }
 
   //initlize values
   int size = graph.get_num_vertices();
