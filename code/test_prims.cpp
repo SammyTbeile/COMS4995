@@ -13,25 +13,6 @@
 
 using namespace std;
 
-/* get_code_indexes */
-unsigned long get_code_indexes(string& origin,
-unordered_map<string, unsigned long> code_index_map) {
-  bool bad_origin = false;
-  unsigned long origin_index;
-
-  try {
-    origin_index = code_index_map.at(origin);
-  } catch(out_of_range& e) {
-    bad_origin = true;
-  }
-
-  if(bad_origin ) {
-    cerr << "\nTerimating: The origin airport code provided was not found" << endl;
-    exit(1);
-  }
-  return origin_index;
-}
-
 int main(int argc, char **argv) {
 
   // Handle Arguments
@@ -39,7 +20,6 @@ int main(int argc, char **argv) {
     cerr << "usage: " << argv[0] << endl;
     exit(1);
   }
-  // string origin = argv[1];
 
   cerr << "Initializing..." << flush;
 
@@ -56,10 +36,6 @@ int main(int argc, char **argv) {
   auto index_code_vector = get<2>(matrix_tuple);
   auto graph             = Graph(matrix);
 
-  // Get Index
-  // auto code_indexes = get_code_indexes(origin, code_index_map);
-  // auto origin_index = get_code_indexes(origin,code_index_map);
-
   cerr << "Running Prim's..." << endl;
 
   // Stopwatch
@@ -72,28 +48,26 @@ int main(int argc, char **argv) {
   cerr <<"Finished Prim's" <<endl;
   
   // Printing
-  cout << setprecision(8);
-  for(auto i=0;i<res.size();i++ ) {
+  cout << fixed;
+  auto len = res.size();
+  for(auto i = 0; i < len; ++i) {
       auto currentList = res[i];
       auto code     = index_code_vector[currentList[0].first];
       auto gps_pair = code_gps_map[code];
       auto lat      = gps_pair.first;
       auto lng      = gps_pair.second;
       auto weight   = currentList[0].second;
-      // cout<<currentList[0].first<<endl;
+      cout << setprecision(8) << setw(12) << lat << ", " << setw(13) << lng << ", "
+        << setprecision(0) << setw(6) << weight << ", " << code << ", ";
+      if(currentList.size() > 1) {
+        auto in_code     = index_code_vector[currentList[1].first];
+        auto in_gps_pair = code_gps_map[in_code];
+        auto in_lat      = in_gps_pair.first;
+        auto in_lng      = in_gps_pair.second;
+        auto in_weight   = currentList[1].second;
 
-      cout << fixed << setw(11) << lat << ", " << setw(11) << lng << ", "
-        <<setprecision(0)<< setw(6) << weight << ", " << code << ", "; //underscore delimits different neighbors
-        if(currentList.size()>1){
-      // for(auto j =1; j<currentList.size();j++){
-          auto in_code     = index_code_vector[currentList[1].first];
-          auto in_gps_pair = code_gps_map[in_code];
-          auto in_lat      = in_gps_pair.first;
-          auto in_lng      = in_gps_pair.second;
-          auto in_weight      = currentList[1].second;
-
-          cout << fixed << setw(11) << in_lat << "; " <<setw(11) << in_lng << ";"
-            <<setprecision(0)<< setw(6) << in_weight << "; " << in_code << "; " << "_ ";
+        cout << setprecision(8) << setw(12) << in_lat << "; " << setw(13) << in_lng << "; "
+          << setprecision(0) << setw(6) << in_weight << "; " << in_code << "; _ ";
       }
     cout << endl;
   }
