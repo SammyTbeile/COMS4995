@@ -203,7 +203,7 @@
       vector<vector<double>,                // List representation
       unordered_map<Vertex, unsigned long>, // Vertex --> Index  Map
       vector<Vertex>                        // Index  --> Vertex Map
-    > get_matrix_tuple();
+    > get_list_tuple();
 
     get_matrix_tuple() can only be called if the Graph_Helper was constructed
     with MATRIX as a parameter. Similarly, get_list_tuple can only be called if
