@@ -4,7 +4,7 @@ Run plotting/GraphPlotter.py with python3 -- does not work with python2
 
 Developed on Ubuntu
 
-Dependencies for the Makefile (test\_\* programs):
+Dependencies for the Makefile (test programs):
   - libmysqlcppconn-dev
     http://packages.ubuntu.com/wily/libmysqlcppconn-dev
 
