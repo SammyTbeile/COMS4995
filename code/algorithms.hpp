@@ -30,7 +30,7 @@ public:
 class Algorithms {
   private:
     /* Private Member Functions */
-    static void validate_start_index(Graph graph, unsigned long start_index);
+    static void validate_start_index(Graph& graph, unsigned long start_index);
 
     static void dfs(Graph& graph, int& count, unsigned long index,
       std::vector<bool>& visited, std::vector<std::pair<unsigned long,
@@ -43,29 +43,29 @@ class Algorithms {
 
   public:
     /* Public Member Functions */
-    static bool is_undirected(Graph graph);
+    static bool is_undirected(Graph& graph);
 
     static std::vector<std::pair<unsigned long, double>>
-      Dijkstras(Graph graph, unsigned long start_index, unsigned long
+      Dijkstras(Graph& graph, unsigned long start_index, unsigned long
       end_index);
 
     static std::vector<std::vector<std::pair<unsigned long, double>>>
-      Prims(Graph graph);
+      Prims(Graph& graph);
 
-    static std::vector<std::pair<unsigned long, double>> BellFord(Graph graph,
+    static std::vector<std::pair<unsigned long, double>> BellFord(Graph& graph,
       unsigned long start_index, unsigned long end_index);
 
-    static std::vector<unsigned long> Tarjans(Graph graph);  
+    static std::vector<unsigned long> Tarjans(Graph& graph);  
 
     static std::vector<std::vector<std::vector<std::pair<unsigned long, 
-      double>>>> Johnsons(Graph graph);
+      double>>>> Johnsons(Graph& graph);
 
 };
 
 /* Private Member Functions ------------------------------------------------- */
 
 // validate_start_index
-void Algorithms::validate_start_index(Graph graph, unsigned long
+void Algorithms::validate_start_index(Graph& graph, unsigned long
 start_index) {
   if(start_index >= graph.get_num_vertices()) {
     throw Algorithms_Exception("Starting index is out of range");
@@ -140,7 +140,7 @@ public:
 /* Public Member Functions -------------------------------------------------- */
 
 // is_undirected
-bool Algorithms::is_undirected(Graph graph){
+bool Algorithms::is_undirected(Graph& graph){
   for(int i = 0; i< graph.get_num_vertices(); i++){
     for(int j = 0; j< graph.get_num_vertices(); j++){
       if(graph.matrix[i][j] != graph.matrix[j][i]){
@@ -152,7 +152,7 @@ bool Algorithms::is_undirected(Graph graph){
 }
 
 // BellFord
-std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph graph,
+std::vector<std::pair<unsigned long, double>> Algorithms::BellFord(Graph& graph,
 unsigned long start_index, unsigned long end_index) {
   validate_start_index(graph, start_index);
 
@@ -227,7 +227,7 @@ unsigned long start_index, unsigned long end_index) {
 }
 
 // Dijkstra's
-std::vector<std::pair<unsigned long, double>> Algorithms::Dijkstras(Graph
+std::vector<std::pair<unsigned long, double>> Algorithms::Dijkstras(Graph&
 graph, unsigned long start_index, unsigned long end_index) {
 
   validate_start_index(graph, start_index);
@@ -298,7 +298,7 @@ graph, unsigned long start_index, unsigned long end_index) {
 
 // Johnson's
 std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
- Algorithms::Johnsons(Graph graph){
+ Algorithms::Johnsons(Graph& graph){
   auto graphx = std::vector<std::vector<std::pair<unsigned long, double>>>();
   auto num = graph.get_num_vertices();
   auto vert = std::vector<std::pair<unsigned long, double>>();
@@ -417,7 +417,7 @@ std::vector<std::vector<std::vector<std::pair<unsigned long, double>>>>
 
 // Prim's
 std::vector<std::vector<std::pair<unsigned long, double>>> Algorithms::Prims(
-Graph graph) {
+Graph& graph) {
   // validate_start_index(graph, start_index);
   //Initalize variables and containers
   int num = graph.get_num_vertices();
@@ -480,7 +480,7 @@ Graph graph) {
 }
 
 // Tarjan's
-std::vector<unsigned long> Algorithms::Tarjans(Graph graph) {
+std::vector<unsigned long> Algorithms::Tarjans(Graph& graph) {
   for(int i = 0; i< graph.get_num_vertices(); i++){
     for(int j = 0; j< graph.get_num_vertices(); j++){
       if(graph.matrix[i][j] != graph.matrix[j][i]){
