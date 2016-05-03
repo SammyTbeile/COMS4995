@@ -481,6 +481,30 @@ Graph& graph) {
 
 // Tarjan's
 std::vector<unsigned long> Algorithms::Tarjans(Graph& graph) {
+/*
+	
+
+	//this portion should be uncommented, but our flight path graph is not an undirected graph.
+
+  if(is_undirected(graph)==false){
+     throw Algorithms_Exception("Graph is not undirected");
+
+	//this code would add edges to one-way paths
+
+	for(int i = 0; i< graph.get_num_vertices(); i++){
+    for(int j = 0; j< graph.get_num_vertices(); j++){
+      if(graph.matrix[i][j] != graph.matrix[j][i]){
+        if(graph.matrix[i][j] == 0){
+          graph.matrix[i][j] = graph.matrix[j][i];
+        }else if (graph.matrix[j][i]==0){
+          graph.matrix[j][i] = graph.matrix[i][j];
+        
+        }
+      }
+    }
+  }
+
+  }*/
 
   //initlize values
   int size = graph.get_num_vertices();
