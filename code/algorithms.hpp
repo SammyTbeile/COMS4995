@@ -481,22 +481,6 @@ Graph& graph) {
 
 // Tarjan's
 std::vector<unsigned long> Algorithms::Tarjans(Graph& graph) {
-  for(int i = 0; i< graph.get_num_vertices(); i++){
-    for(int j = 0; j< graph.get_num_vertices(); j++){
-      if(graph.matrix[i][j] != graph.matrix[j][i]){
-        if(graph.matrix[i][j] == 0){
-          graph.matrix[i][j] = graph.matrix[j][i];
-        }else if (graph.matrix[j][i]==0){
-          graph.matrix[j][i] = graph.matrix[i][j];
-        
-        }
-      }
-    }
-  }
-
-  if(is_undirected(graph)==false){
-     throw Algorithms_Exception("Graph is not undirected");
-  }
 
   //initlize values
   int size = graph.get_num_vertices();
