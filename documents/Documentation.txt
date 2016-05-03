@@ -10,7 +10,7 @@
 
 	BellFord
 
-		The Bellman-Ford algorithm finds the shortest path between two vertices in a
+    The Bellman-Ford algorithm finds the shortest path between two vertices in a
     graph. The time complexity is O(|E|*|V|). Although slower than Dijkstra's,
     this algorithm is able to work with negative weights. The function
     interface is below:
@@ -30,7 +30,7 @@
 
   Dijkstra's
 
-		Dijkstra's algorithm finds the shortest path between two vertices in a
+    Dijkstra's algorithm finds the shortest path between two vertices in a
     graph. The time complexity is O(|E| + |V|log|V|). This is asymptotically the
     fastest single source shortest-path finding algorithm. The only restriction
     this algorithm has is that it cannot work with graphs that contain negative
@@ -105,7 +105,7 @@
 
 	Tarjan's
 
-		Tarjan's algorithms finds all the articulation points within a graph. The
+    Tarjan's algorithms finds all the articulation points within a graph. The
     time complexity is (|V| + |E|). The function interface is below:
 
     vector<unsigned long>
