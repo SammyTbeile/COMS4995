@@ -39,16 +39,16 @@ class Graph {
     void construct_list();
     void construct_matrix();
     template<typename Container>
-    void copy_rep(Container container, std::pair<unsigned long, double> unused);
+    void copy_rep(Container& container, std::pair<unsigned long, double> unused);
     template<typename Container>
-    void copy_rep(Container container, double unused);
+    void copy_rep(Container& container, double unused);
     std::vector<std::pair<unsigned long, double>>& get_neighbors(unsigned long
       row);
 
   public:
     /* Constructors */
     template<typename Container>
-    Graph(Container container);
+    Graph(Container& container);
     Graph(const Graph& g);
 
     /* Public Member Functions */
@@ -96,7 +96,7 @@ void Graph::construct_matrix() {
 
 // copy_rep (list)
 template<typename Container>
-void Graph::copy_rep(Container container, std::pair<unsigned long,
+void Graph::copy_rep(Container& container, std::pair<unsigned long,
 double> unused) {
   list = std::vector<std::vector<std::pair<unsigned long, double>>>();
   num_vertices = container.size();
@@ -123,7 +123,7 @@ double> unused) {
 
 // copy_rep (matrix)
 template<typename Container>
-void Graph::copy_rep(Container container, double unused) {
+void Graph::copy_rep(Container& container, double unused) {
   matrix = std::vector<std::vector<double>>();
   num_vertices = container.size();
   matrix.reserve(num_vertices);
@@ -158,7 +158,7 @@ std::vector<std::pair<unsigned long, double>>& Graph::get_neighbors(unsigned
 
 // Constructor
 template<typename Container>
-Graph::Graph(Container container) {
+Graph::Graph(Container& container) {
   has_positive_weights = true; // positive edges until otherwise;
   copy_rep(container, *(container.begin()->begin()));
 }
