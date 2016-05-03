@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
         auto in_weight   = currentList[1].second;
 
         cout << setprecision(8) << setw(12) << in_lat << "; " << setw(13) << in_lng << "; "
-          << setprecision(0) << setw(6) << in_weight << "; " << in_code << "; _ ";
+          << setprecision(0) << setw(6) << in_weight << "; " << in_code;
       }
     cout << endl;
   }

@@ -19,22 +19,16 @@ def johnsons(input_file="input.csv"):
     minLong = 180;
     maxLat = -90
     maxLong =-180
-    leading_zeroes =0
-    decimal_loc =0
+
     with open(input_file) as input_csv:
         csv_reader = csv.reader(input_csv)
         for row in csv_reader:
             if row[0] != "done":    
-                x, y, w, n = float(row[0]),  float(row[1]), row[2][3:], row[3]
-                for i in range(0,len(w)):
-                    if w[i] =="0":
-                        leading_zeroes = leading_zeroes +1
-                    elif w[i] == ".":
-                        decimal_loc = i
-                        break
+                x, y, w, n = float(row[0]),  float(row[1]), row[2], row[3]
+
                 lats.append(x)
                 longs.append(y)
-                weights.append(w[leading_zeroes:decimal_loc])
+                weights.append(w)
                 names.append(n)
                 if x<minLat:
                     minLat=x
@@ -154,22 +148,15 @@ def prims(input_file= "input.csv"):
     weights = []
     names = []
     neighbors = []
-    leading_zeroes =0
-    decimal_loc=0
+
 
     with open(input_file) as input_csv:
         csv_reader = csv.reader(input_csv)
         for row in csv_reader:
-            x,y,w,n,ne = float(row[0]), float(row[1]), row[2][3:], row[3], row[4]
-            for i in range(0,len(w)):
-                if w[i] =="0":
-                    leading_zeroes = leading_zeroes +1
-                elif w[i] == ".":
-                   decimal_loc = i
-                   break            
+            x,y,w,n,ne = float(row[0]), float(row[1]), row[2], row[3], row[4]        
             lats.append(x)
             longs.append(y)
-            weights.append(w[leading_zeroes:decimal_loc])
+            weights.append(w)
             names.append(n)
             neighbors.append(ne)
     
@@ -210,29 +197,22 @@ def prims(input_file= "input.csv"):
         for neighbor in neighbors_list:
             if(neighbor==''):
                 continue
-            value_list = neighbor.split(";")
-            
-            if(len(value_list)>=2):
+            value_list = neighbor.split(";")            
+            if(len(value_list)>=2):                
                 if(value_list[0] != " " and value_list[1] != " "):
                     lat = float(value_list[0])
                     lng = float(value_list[1])
-                    w = value_list[2][3:]
-                    for i in range(0,len(w)):
-                        if w[i] =="0":
-                            leading_zeroes = leading_zeroes +1
-                        elif w[i] == ".":
-                           decimal_loc = i
-                           break
+                    w = float(value_list[2])
                     inner_lats.append(lat)
                     inner_longs.append(lng)
-                    inner_weight.append(w[leading_zeroes:decimal_loc])
+                    inner_weight.append(w)
         if(inner_longs!= []):
+            
             in_ypt, in_xpt = m(inner_longs, inner_lats)
             m.plot(in_ypt, in_xpt, 'bo', markersize=10)
-            inner_y, inner_x = m(inner_longs,inner_lats)
-            for j in range(0,len(inner_longs) - 1):
+            for j in range(0,len(inner_longs)):
                 m.drawgreatcircle(longs[i],lats[i],inner_longs[j],inner_lats[j], linewidth=1,color="r")
-               # plt.text((ypt[i]+inner_y[j])/2,(xpt[i]+inner_x[j])/2,inner_weight[j])
+                plt.text((ypt[i]+inner_y[j])/2,(xpt[i]+inner_x[j])/2,inner_weight[j])
 
 
     plt.show()
@@ -251,18 +231,10 @@ def general(input_file="input.csv"):
         for row in csv_reader:
             #print (float(row[0]))
             
-            x, y, w, n = float(row[0]),  float(row[1]), row[2][3:], row[3]
-            leading_zeroes = 0;
-            decimal_loc = 0;
-            for i in range(0,len(w)):
-                if w[i] =="0":
-                    leading_zeroes = leading_zeroes +1
-                elif w[i] == ".":
-                   decimal_loc = i
-                   break
+            x, y, w, n = float(row[0]),  float(row[1]), row[2], row[3]
             lats.append(x)
             longs.append(y)
-            weights.append(w[leading_zeroes:decimal_loc])
+            weights.append(w)
             names.append(n)
 
 
